@@ -1,98 +1,107 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { foods } from "@/utility/data";
+import { Ionicons } from '@expo/vector-icons';
+import React from "react";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import FoodCard from "../Component/card/FoodCard";
+import { router } from "expo-router";
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+export default function Index() {
 
-export default function HomeScreen() {
+  const [activeTab, setActiveTab] = React.useState('All')
+
+  const filteredFoods = React.useMemo(() => {
+    if (activeTab === 'All') return foods;
+    if (activeTab === 'Rice') return foods.filter(item => item.title.includes('Rice'));
+    if (activeTab === 'Drinks') return foods.filter(item => ['Bottle Water', 'Coke', 'Yoghurt'].includes(item.title));
+    if (activeTab === 'Okele') return foods.filter(item => ['Fufu', 'Semo'].includes(item.title));
+    return foods;
+  }, [activeTab]);
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <SafeAreaView className="flex-1 bg-white">
+      <View>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+        {/* FIXED HEADER */}
+        <View className="px-4 pt-4 pb-3 flex-row justify-between items-center">
+
+          <View className="flex-row items-center gap-2">
+            <Ionicons name="restaurant" size={22} color="#2D5A27" />
+
+            <Text className="font-bold text-lg uppercase ">
+              Ramat Pickup
+            </Text>
+          </View>
+
+          <View className="flex-row items-center gap-2">
+            <View className="flex-row items-center gap-2 bg-gray-100 px-4 py-2 rounded-md">
+              <Ionicons name="location-outline" size={22} color="#2D5A27" />
+
+              <Text>Saki west...</Text>
+            </View>
+
+            <Ionicons name="scan-circle-outline" size={22} color="#2D5A27" />
+
+            <TouchableOpacity
+              onPress={() => router.push('/pages/Cart')}
+              activeOpacity={0.8}
+            >
+              <Ionicons name="bag-outline" size={22} color="#2D5A27" />
+            </TouchableOpacity>
+          </View>
+
+        </View>
+
+
+        {/* Welcome */}
+        <View className="px-4 py-2">
+          <Text className="text-2xl font-bold">
+            Welcome, Salahudeen
+          </Text>
+
+          <Text className="text-gray-500">
+            What would you like to eat today?
+          </Text>
+        </View>
+
+        <View>
+
+        </View>
+
+        {/* Tabs */}
+        <View className="px-4 py-2">
+          <View className="flex-row">
+            {['All', 'Rice', 'Drinks', 'Swallow'].map((tab) => (
+              <TouchableOpacity
+                key={tab}
+                onPress={() => setActiveTab(tab)}
+                className={`px-4 py-2 rounded-md mr-2 ${activeTab === tab ? 'bg-[#2D5A27] text-white' : 'bg-gray-100'
+                  }`}
+              >
+                <Text className={activeTab === tab ? 'text-white' : 'text-black'}>{tab}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
+      </View>
+
+      {/* SCROLLABLE CONTENT */}
+      <FlatList
+        data={filteredFoods}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <FoodCard {...item} />
+        )}
+
+        ListHeaderComponent={
+          <View>
+            {/* Banner */}
+            <View className="bg-primary/20 mt-4 mx-4 h-52 mb-6 rounded-md" />
+          </View>
+        }
+        contentContainerStyle={{ paddingBottom: 24 }}
+      />
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
