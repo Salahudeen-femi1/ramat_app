@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import OngoingOrder from "../pages/OngoingOrder";
 import CompleteOrder from "../pages/CompleteOrder";
+import OngoingOrder from "../pages/OngoingOrder";
 
 export default function TaskTabs() {
   const [status, setStatus] = useState<'ongoing' | 'completed'>('ongoing');
