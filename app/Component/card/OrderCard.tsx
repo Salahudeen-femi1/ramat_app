@@ -31,14 +31,14 @@ export default function OrderCard({ image, title, description, price }: any) {
               onPress={() => setCount((prev) => Math.max(1, prev - 1))}
               activeOpacity={0.8}
             >
-              <Ionicons name='remove-outline' size={20} className='font-bold' />
+              <Ionicons name='remove' size={20} className='font-bold' />
             </TouchableOpacity>
             <Text className='text-base font-semibold'>{count}</Text>
             <TouchableOpacity
               onPress={() => setCount((prev) => Math.min(6, prev + 1))}
               activeOpacity={0.8}
             >
-              <Ionicons name='add-outline' size={20} className='font-bold'/>
+              <Ionicons name='add' size={20} className='font-bold'/>
             </TouchableOpacity>
           </View>
 

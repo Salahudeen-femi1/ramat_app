@@ -15,7 +15,7 @@ export default function FoodCard({ title, description, price, image }: cardType)
 
             <View className="flex-row justify-between mx-5 border-b border-gray-100 px-4 py-4">
                 <View className="flex-1 pr-4">
-                    <Text className="font-semibold text-[18px] ">{title}</Text>
+                    <Text className="font-semibold text-[16px] ">{title}</Text>
                     <Text className="text-gray-500 mt-1">{description}</Text>
 
                     <Text className="font-bold text-primary mt-3">

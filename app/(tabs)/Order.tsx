@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import CompleteOrder from "../pages/CompleteOrder";
+import CompletedOrder from "../pages/CompletedOrder";
 import OngoingOrder from "../pages/OngoingOrder";
 
 type StatusType = "ongoing" | "completed";
@@ -11,16 +11,15 @@ export default function TaskTabs() {
   const [status, setStatus] = useState<StatusType>("ongoing");
 
   const tabs: { label: string; value: StatusType }[] = [
-    { label: "Ongoing", value: "ongoing" },
-    { label: "Completed", value: "completed" },
+    { label: "Ongoing Order", value: "ongoing" },
+    { label: "Completed Order", value: "completed" },
   ];
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="mt-8 mr-8">
 
         {/* Tabs */}
-        <View className="bg-gray-300 rounded-md m-5 px-2 py-5 flex-row items-center justify-center">
+        <View className="bg-gray-300 rounded-md m-4 px-2 py-5 flex-row items-center justify-center gap-3">
           {tabs.map((tab, index) => {
             const active = status === tab.value;
 
@@ -28,7 +27,7 @@ export default function TaskTabs() {
               <Pressable
                 key={index}
                 onPress={() => setStatus(tab.value)}
-                className={`px-6 w-48 py-5 flex-1 text-center rounded-md mr-5 ${active ? "bg-primary" : "bg-transparent"
+                className={` w-48 py-5 text-center rounded-md ${active ? "bg-primary" : "bg-transparent"
                   }`}
               >
                 <Text
@@ -43,12 +42,10 @@ export default function TaskTabs() {
         </View>
 
         {/* Content */}
-        <View className="mt-6">
+        <View className="flex-1">
           {status === "ongoing" && <OngoingOrder />}
-          {status === "completed" && <CompleteOrder />}
+          {status === "completed" && <CompletedOrder />}
         </View>
-
-      </View>
 
     </SafeAreaView>
   );

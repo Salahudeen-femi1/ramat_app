@@ -22,7 +22,7 @@ const Minimart = () => {
         <View className="flex-row items-center gap-2">
           <Ionicons name="restaurant" size={22} color="#2D5A27" />
 
-          <Text className="font-bold text-lg uppercase ">
+          <Text className="font-bold text-base uppercase ">
             Ramat Pickup
           </Text>
         </View>

@@ -28,7 +28,7 @@ export default function Index() {
           <View className="flex-row items-center gap-2">
             <Ionicons name="restaurant" size={22} color="#2D5A27" />
 
-            <Text className="font-bold text-lg uppercase ">
+            <Text className="font-bold text-base uppercase ">
               Ramat Pickup
             </Text>
           </View>
@@ -37,7 +37,7 @@ export default function Index() {
             <View className="flex-row items-center gap-2 bg-gray-100 px-4 py-2 rounded-md">
               <Ionicons name="location-outline" size={22} color="#2D5A27" />
 
-              <Text>Saki west...</Text>
+              <Text className="text-sm">Saki west...</Text>
             </View>
 
             <Ionicons name="scan-circle-outline" size={22} color="#2D5A27" />
@@ -55,11 +55,11 @@ export default function Index() {
 
         {/* Welcome */}
         <View className="px-4 py-2">
-          <Text className="text-2xl font-bold">
+          <Text className="text-xl font-bold">
             Welcome, Salahudeen
           </Text>
 
-          <Text className="text-gray-500">
+          <Text className="text-sm text-gray-500">
             What would you like to eat today?
           </Text>
         </View>
