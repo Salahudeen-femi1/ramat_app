@@ -1,9 +1,9 @@
+import { router } from 'expo-router'
 import React from 'react'
 import { FlatList, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import OrderCard from '../Component/card/OrderCard'
 import { image } from '../constants/image'
-import { router } from 'expo-router'
 
 const Cart = () => {
 
@@ -31,6 +31,11 @@ const Cart = () => {
     },
   ];
 
+  const subtotal = cart.reduce((sum, item) => {
+    return sum + Number(String(item.price).replace(/,/g, ''))
+  }, 0)
+  const formattedSubtotal = subtotal.toLocaleString()
+
   return (
     <SafeAreaView className='flex-1 bg-white'>
       <>
@@ -54,7 +59,7 @@ const Cart = () => {
         <View className='flex-row items-center justify-between'>
           <View className='flex-row items-center'>
             <Text className='text-gray-500 text-lg'>SubTotal ({cart.length}) items: </Text>
-            <Text className='font-bold text-xl'>6,400 </Text>
+            <Text className='font-bold text-xl'>₦{formattedSubtotal}</Text>
           </View>
 
           <Text className='text-red-500 text-xl'>Clear cart</Text>

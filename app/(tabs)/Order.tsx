@@ -19,7 +19,7 @@ export default function TaskTabs() {
     <SafeAreaView className="flex-1 bg-white">
 
         {/* Tabs */}
-        <View className="bg-gray-300 rounded-md m-4 px-2 py-5 flex-row items-center justify-center gap-3">
+        <View className="bg-gray-100 rounded-md m-4 px-2 py-4 flex-row items-center justify-center gap-3">
           {tabs.map((tab, index) => {
             const active = status === tab.value;
 
@@ -27,7 +27,7 @@ export default function TaskTabs() {
               <Pressable
                 key={index}
                 onPress={() => setStatus(tab.value)}
-                className={` w-48 py-5 text-center rounded-md ${active ? "bg-primary" : "bg-transparent"
+                className={` w-40 py-5 text-center rounded-md ${active ? "bg-primary" : "bg-transparent"
                   }`}
               >
                 <Text

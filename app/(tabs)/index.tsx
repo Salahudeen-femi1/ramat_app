@@ -34,7 +34,7 @@ export default function Index() {
           </View>
 
           <View className="flex-row items-center gap-2">
-            <View className="flex-row items-center gap-2 bg-gray-100 px-4 py-2 rounded-md">
+            <View className="flex-row items-center gap-1 bg-gray-100 px-4 py-2 rounded-md">
               <Ionicons name="location-outline" size={22} color="#2D5A27" />
 
               <Text className="text-sm">Saki west...</Text>
