@@ -138,7 +138,7 @@ export default function ProfileScreen() {
                   </View>
 
                   {/* Title */}
-                  <Text className="text-[20px] text-black font-medium">
+                  <Text className="text-18px] text-black font-medium">
                     {item.title}
                   </Text>
                 </View>
@@ -172,7 +172,7 @@ export default function ProfileScreen() {
               />
             </View>
 
-            <Text className="text-[#C62828] text-[20px] font-semibold">
+            <Text className="text-[#C62828] text-[18px] font-semibold">
               Logout
             </Text>
           </TouchableOpacity>
@@ -189,7 +189,7 @@ export default function ProfileScreen() {
         onConfirm={() => {
           // perform logout actions here
           setOpenModal(false)
-          Toast.show({ type: 'success', text1: 'Logged Out', text2: 'See you again soon 👋' })
+          Toast.show({ type: 'success', text1: 'Logged Out', text2: 'See you again soon' })
         }}
         isLoading={false}
       />

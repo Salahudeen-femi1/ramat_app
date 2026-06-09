@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import CompletedOrder from "../pages/CompletedOrder";
-import OngoingOrder from "../pages/OngoingOrder";
+import CompletedOrder from "../(pages)/CompletedOrder";
+import OngoingOrder from "../(pages)/OngoingOrder";
 
 type StatusType = "ongoing" | "completed";
 

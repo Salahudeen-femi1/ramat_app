@@ -62,7 +62,10 @@ const ConfirmDialog = ({
 
   return (
     <Modal onClose={onCancel} customMode visible={isOpen}>
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", width: "100%" }} >
+      <View style={{
+        flex: 1, justifyContent: "center",
+        width: "100%"
+      }} >
         <Animated.View
           style={{
             width: "90%",
@@ -74,15 +77,15 @@ const ConfirmDialog = ({
             transform: [{ scale }],
           }}
         >
-          <Text className="text-xl font-semibold mb-4">{title}</Text>
+          <Text className="text-xl font-semibold mb-4 text-center">{title}</Text>
           <View className="mb-6">
             {typeof message === "string" ? (
-              <Text className="text-pryClr">{message}</Text>
+              <Text className="text-pryClr text-center">{message}</Text>
             ) : (
               message
             )}
           </View>
-          <View className="flex flex-col md:flex-row gap-4 justify-center items-center">
+          <View className="flex flex-col md:flex-row gap-4 justify-center items-center text-center">
             {cancelText && (
               <TouchableOpacity
                 onPress={onCancel}
@@ -107,5 +110,5 @@ const ConfirmDialog = ({
     </Modal>
   );
 };
-             
+
 export default ConfirmDialog;

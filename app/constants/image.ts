@@ -13,5 +13,6 @@ export const image = {
     icecream: require('../assets/images/icecream.png'),
     apple: require('../assets/images/apple.png'),
     strawberry: require('../assets/images/strawberry.png'),
+    image: require('../assets/images/image.png'),
     
 }

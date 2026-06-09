@@ -46,7 +46,7 @@ export default function FoodCard({ title, description, price, image }: cardType)
 
     const handleAddtoCart = () => {
         setOpenModal(false)
-        router.push('/pages/Cart')
+        router.push('/Cart')
     }
 
     return (

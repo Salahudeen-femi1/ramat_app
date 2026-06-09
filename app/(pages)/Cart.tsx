@@ -67,7 +67,7 @@ const Cart = () => {
         </View>
 
         <TouchableOpacity
-          onPress={() => router.push('/pages/Checkout')}
+          onPress={() => router.push('/Checkout')}
           activeOpacity={0.8}
           className='flex bg-primary rounded-md items-center justify-center text-white font-semibold h-14 mt-6'>
           <Text className='text-white text-lg font-semibold text-center'>proceed to checkout</Text>

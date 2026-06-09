@@ -25,13 +25,15 @@ export default function Index() {
         {/* FIXED HEADER */}
         <View className="px-4 pt-4 pb-3 flex-row justify-between items-center">
 
-          <View className="flex-row items-center gap-2">
+          <TouchableOpacity
+          onPress={() => router.push('/register')}
+           className="flex-row items-center gap-2">
             <Ionicons name="restaurant" size={22} color="#2D5A27" />
 
             <Text className="font-bold text-base uppercase ">
               Ramat Pickup
             </Text>
-          </View>
+          </TouchableOpacity>
 
           <View className="flex-row items-center gap-2">
             <View className="flex-row items-center gap-1 bg-gray-100 px-4 py-2 rounded-md">
@@ -43,7 +45,7 @@ export default function Index() {
             <Ionicons name="scan-circle-outline" size={22} color="#2D5A27" />
 
             <TouchableOpacity
-              onPress={() => router.push('/pages/Cart')}
+              onPress={() => router.push('/Cart')}
               activeOpacity={0.8}
             >
               <Ionicons name="bag-outline" size={22} color="#2D5A27" />
