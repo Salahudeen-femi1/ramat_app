@@ -1,0 +1,120 @@
+import { View, Text, KeyboardAvoidingView, ScrollView, Pressable } from 'react-native'
+import React, { useRef } from 'react'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import { useLocalSearchParams } from 'expo-router'
+import ActionButton from '@/app/Component/button/ActionButton'
+import { TextInput } from 'react-native'
+import { Platform } from 'react-native'
+import { AppText } from '@/app/Component/AppText'
+import { router } from 'expo-router'
+import { SafeAreaView } from 'react-native-safe-area-context'
+
+const PhoneVerification = () => {
+
+    const { phone } = useLocalSearchParams<{ phone: string }>()
+    const inputRef = useRef<TextInput>(null)
+
+    const formik = useFormik({
+        initialValues: {
+            code: ""
+        },
+        validationSchema: Yup.object({
+            code: Yup.string().required("Verification code is required").length(4, "Code must be 4 didgits")
+        }),
+        onSubmit: (value) => {
+            if (phone) {
+                console.log({ phone, code: value.code })
+            }
+        }
+    })
+
+    const codeArray = formik.values.code.split("");
+
+    return (
+        <SafeAreaView className='flex-1  bg-white px-6'>
+            <ScrollView showsHorizontalScrollIndicator={false}>
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                    className="flex-1"
+                >
+                    <ScrollView showsVerticalScrollIndicator={false}>
+                        <View className="flex flex-col gap-8 pt-2">
+                            <View className="flex flex-col gap-3">
+                                <AppText className="text-2xl font-quickBold text-black">
+                                    Verification Code
+                                </AppText>
+                                <AppText className="text-base text-black/70 leading-6">
+                                    Enter the 4-digit code sent to your number {phone}.
+                                </AppText>
+                            </View>
+
+                            <View className="flex flex-col gap-6">
+                                <View className="flex flex-col gap-2">
+                                    <AppText className="text-sm font-semibold text-black">
+                                        Code
+                                    </AppText>
+
+                                    {/* Visual PIN boxes */}
+                                    <Pressable
+                                        onPress={() => inputRef.current?.focus()}
+                                        className="flex-row justify-between gap-4 w-full mt-2"
+                                    >
+                                        {[0, 1, 2, 3].map((index) => (
+                                            <View
+                                                key={index}
+                                                className={`w-[52px] h-[52px] border rounded-xl items-center justify-center bg-[#F9FAF7] ${formik.values.code.length === index
+                                                    ? "border-primary border-2"
+                                                    : "border-primary/30"
+                                                    }`}
+                                            >
+                                                <AppText className="text-xl font-quickBold text-black">
+                                                    {codeArray[index] || ""}
+                                                </AppText>
+                                            </View>
+                                        ))}
+                                    </Pressable>
+
+                                    {/* Hidden TextInput */}
+                                    <TextInput
+                                        ref={inputRef}
+                                        style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }}
+                                        value={formik.values.code}
+                                        onChangeText={formik.handleChange("code")}
+                                        onBlur={formik.handleBlur("code")}
+                                        keyboardType="number-pad"
+                                        maxLength={6}
+                                        autoFocus={true}
+                                    />
+
+                                    {formik.touched.code && formik.errors.code && (
+                                        <AppText className="text-xs text-red-600 mt-1">
+                                            {formik.errors.code}
+                                        </AppText>
+                                    )}
+                                </View>
+                            </View>
+                        </View>
+
+                        <View className="flex flex-col gap-4 py-8">
+                            <ActionButton
+                                name="Verify Code"
+                                action={() => formik.handleSubmit()}
+                            // disabled={mutation.isPending}
+                            />
+
+                            <ActionButton
+                                name="Back"
+                                hasBG={false}
+                                action={() => router.back()}
+                            // disabled={mutation.isPending}
+                            />
+                        </View>
+                    </ScrollView>
+                </KeyboardAvoidingView>
+            </ScrollView>
+        </SafeAreaView>
+    )
+}
+
+export default PhoneVerification;

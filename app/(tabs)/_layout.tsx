@@ -92,7 +92,7 @@ const _layout = () => {
                     tabBarIcon: ({ focused }) => (
                         <TabIcon
                             focused={focused}
-                            icon= 'person'
+                            icon='person'
                             title="Profile"
                         />
                     )
@@ -102,4 +102,4 @@ const _layout = () => {
     )
 }
 
-export default _layout
+export default _layout;

@@ -1,14 +1,13 @@
-import { View, Text, ScrollView, TextInput } from 'react-native'
+import { useRegister } from '@/context/RegisterContext'
+import { router } from 'expo-router'
+import { useFormik } from 'formik'
 import React from 'react'
+import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import * as Yup from 'yup'
-import { router } from 'expo-router'
-import { useRegister } from '@/app/context/RegisterContext'
-import { useFormik } from 'formik'
-import { AppText } from '@/app/Component/AppText'
-import { TouchableOpacity } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
+
 import ActionButton from '@/app/Component/button/ActionButton'
+import { Ionicons } from '@expo/vector-icons'
 
 export default function Register() {
 
@@ -31,7 +30,13 @@ export default function Register() {
     }),
     onSubmit: (values) => {
       updateRegisterData(values);
-      router.push("/(auth)/register/stepTwo")
+      router.push({        
+        pathname: "/(auth)/verify_phone",
+        params: {
+          phone: registerData.phone
+        }
+      
+      })
     }
   })
   return (

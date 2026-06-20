@@ -81,7 +81,7 @@ export default function FoodCard({ title, description, price, image }: cardType)
                 </View>
             </View>
 
-            <Modal visible={openModal} onClose={() => setOpenModal(false)}>
+            <Modal visible={openModal} onClose={() => setOpenModal(false)} customModet>
                 <Image
                     source={image}
                     resizeMode="cover"

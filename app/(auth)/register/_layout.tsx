@@ -1,4 +1,4 @@
-import { RegisterProvider } from "@/app/context/RegisterContext";
+import { RegisterProvider } from "@/context/RegisterContext";
 import { Stack } from "expo-router";
 import React from "react";
 

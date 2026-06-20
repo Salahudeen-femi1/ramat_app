@@ -4,7 +4,6 @@ import {
   MaterialCommunityIcons
 } from "@expo/vector-icons";
 import { router } from "expo-router";
-// import { router } from "expo-router";
 import React from "react";
 import {
   Image,
@@ -15,6 +14,7 @@ import {
 } from "react-native";
 import Toast from "react-native-toast-message";
 import ConfirmDialog from "../Component/modal/ConfirmDialog";
+import { useAuth } from "@/context/AuthContext";
 
 const menuItems = [
   {
@@ -32,8 +32,8 @@ const menuItems = [
 ];
 
 export default function ProfileScreen() {
-
-  const [openModal, setOpenModal] = React.useState(false)
+  const { user, signOut } = useAuth();
+  const [openModal, setOpenModal] = React.useState(false);
 
   const handleMenuPress = (route: string) => {
     Toast.show({
@@ -46,13 +46,7 @@ export default function ProfileScreen() {
   };
 
   const handleLogout = () => {
-    Toast.show({
-      type: "success",
-      text1: "Logged Out",
-      text2: "See you again soon 👋",
-    });
-
-  setOpenModal(true);
+    setOpenModal(true);
   };
 
   const handleEditProfile = () => {
@@ -62,6 +56,21 @@ export default function ProfileScreen() {
       text2: "Profile editing coming soon",
     });
   };
+
+  const handleConfirmLogout = async () => {
+    try {
+      await signOut();
+      setOpenModal(false);
+      Toast.show({ type: 'success', text1: 'Logged Out', text2: 'See you again soon' });
+      // Navigation will be handled by the root layout based on auth state
+    } catch (error) {
+      console.error("Logout failed:", error);
+      Toast.show({ type: 'error', text1: 'Error', text2: 'Failed to logout' });
+    }
+  };
+
+  const displayName = user ? `${user.first_name} ${user.last_name}` : "User";
+  const displayEmail = user?.email || "user@example.com";
 
   return (
     <View className="flex-1 ">
@@ -102,12 +111,12 @@ export default function ProfileScreen() {
 
           {/* Name */}
           <Text className="text-primary text-[30px] font-semibold mt-6">
-            Zinhle Mkhize
+            {displayName}
           </Text>
 
           {/* Email */}
           <Text className="text-[#787878] text-[18px] mt-2 font-medium">
-            zinhle.m@kula.app
+            {displayEmail}
           </Text>
         </View>
 
@@ -186,11 +195,7 @@ export default function ProfileScreen() {
         confirmText="Yes, Confirm"
         cancelText="Cancel"
         onCancel={() => setOpenModal(false)}
-        onConfirm={() => {
-          // perform logout actions here
-          setOpenModal(false)
-          Toast.show({ type: 'success', text1: 'Logged Out', text2: 'See you again soon' })
-        }}
+        onConfirm={handleConfirmLogout}
         isLoading={false}
       />
 
