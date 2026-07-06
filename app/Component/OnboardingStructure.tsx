@@ -1,6 +1,6 @@
-import { View, Text, Image, StyleSheet, ImageSourcePropType } from 'react-native'
-import React from 'react'
-import { TouchableOpacity } from 'react-native';
+import React from 'react';
+import { Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
 import { router } from 'expo-router';
 import ActionButton from './button/ActionButton';
 

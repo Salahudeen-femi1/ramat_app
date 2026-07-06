@@ -1,4 +1,3 @@
-import { useRegister } from '@/context/RegisterContext'
 import { router } from 'expo-router'
 import { useFormik } from 'formik'
 import React from 'react'
@@ -7,38 +6,53 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import * as Yup from 'yup'
 
 import ActionButton from '@/app/Component/button/ActionButton'
+import { showSuccessToast } from '@/helper/toast'
+import { registerService } from '@/services/authServices'
 import { Ionicons } from '@expo/vector-icons'
+import { useMutation } from '@tanstack/react-query'
+
+interface RegisterFormValues {
+  phone: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  gender: string;
+}
 
 export default function Register() {
-
-  const { registerData, updateRegisterData } = useRegister()
+  
   const [marketing, setMarketing] = React.useState(true);
   const [gender, setGender] = React.useState<"male" | "female" | "">("");
 
-  const formik = useFormik({
+  const mutation = useMutation({
+    mutationFn: registerService,
+    onSuccess: (data) => {
+      showSuccessToast(
+        data.message || "Registration successful. Please verify your email."
+      );
+      router.push('/(auth)/verify_phone');
+    },
+  });
+
+  const formik = useFormik<RegisterFormValues>({
     initialValues: {
-      phone: registerData.phone,
-      email: registerData.email,
-      first_name: registerData.first_name,
-      last_name: registerData.last_name,
+      phone: '',
+      email: '',
+      first_name: '',
+      last_name: '',
+      gender: '',
     },
     validationSchema: Yup.object({
-      phone: Yup.string().required("Phone number is required"),
-      email: Yup.string().email("Invalid email").required("Email is required"),
-      first_name: Yup.string().required("First name is required"),
-      last_name: Yup.string().required("Last name is required"),
+      phone: Yup.string().required('Phone number is required'),
+      email: Yup.string().email('Invalid email').required('Email is required'),
+      first_name: Yup.string().required('First name is required'),
+      last_name: Yup.string().required('Last name is required'),
+      gender: Yup.string().required('Gender is required'),
     }),
     onSubmit: (values) => {
-      updateRegisterData(values);
-      router.push({        
-        pathname: "/(auth)/verify_phone",
-        params: {
-          phone: registerData.phone
-        }
-      
-      })
-    }
-  })
+      mutation.mutate(values);
+    },
+  });
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -205,9 +219,9 @@ export default function Register() {
 
           {/* Continue Button */}
           <ActionButton
-            name="Countinue"
+            name="Continue"
             action={() => formik.handleSubmit()}
-            disabled={!formik.isValid}
+            disabled={mutation.isPending || !formik.isValid}
           />
 
           {/* Footer */}

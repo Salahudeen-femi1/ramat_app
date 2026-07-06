@@ -24,15 +24,15 @@ export const logoutService = async (): Promise<void> => {
 /**
  * Login with phone number (OTP/verification flow)
  */
-export const loginService = async (phone: string): Promise<{ data: { token: string; user: UserProps; role: string } }> => {
-  const response = await api.post("/login", { phone });
+export const loginService = async (phone: string): Promise<{ token: string; user: UserProps; role: string }> => {
+  const response = await api.post("/auth/login", { phone });
   return response.data;
 };
 
 /**
  * Verify OTP
  */
-export const verifyOtpService = async (phone: string, otp: string): Promise<{ data: { token: string; user: UserProps; role: string } }> => {
+export const verifyOtpService = async (phone: string, otp: string): Promise<{ token: string; user: UserProps; role: string }> => {
   const response = await api.post("/verify-otp", { phone, otp });
   return response.data;
 };
@@ -45,8 +45,12 @@ export const registerService = async (data: {
   last_name: string;
   phone: string;
   email: string;
-  password: string;
-}): Promise<{ data: { token: string; user: UserProps; role: string } }> => {
-  const response = await api.post("/register", data);
+}): Promise<{
+  message?: string;
+  token?: string;
+  user?: UserProps;
+  role?: string;
+}> => {
+  const response = await api.post("/auth/register", data);
   return response.data;
 };
