@@ -20,10 +20,10 @@ export default function OrderCard({ image, title, description, price }: any) {
 
       <View className='flex-1'>
         <View className='flex-row items-center justify-between'>
-          <Text className="font-semibold text-[18px] ">{title}</Text>
-          <Ionicons name='trash-outline' size={22} />
+          <Text className="font-semibold text-[14px] ">{title}</Text>
+          <Ionicons name='trash-outline' size={18} />
         </View>
-        <Text className="text-gray-500 mt-1">{description}</Text>
+        <Text className="text-gray-500 mt-1 text-sm">{description}</Text>
 
         <View className='flex-row justify-between items-center mt-3'>
           <View className='flex-row bg-button rounded-md px-4 py-2 items-center gap-3'>

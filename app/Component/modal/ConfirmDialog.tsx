@@ -63,7 +63,7 @@ const ConfirmDialog = ({
   return (
     <Modal onClose={onCancel} customMode visible={isOpen}>
       <View style={{
-        flex: 1, justifyContent: "center",
+        flex: 1, justifyContent: "center", alignItems: "center",
         width: "100%"
       }} >
         <Animated.View

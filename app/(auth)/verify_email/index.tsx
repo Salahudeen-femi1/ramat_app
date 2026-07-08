@@ -1,35 +1,50 @@
-import { View, Text, KeyboardAvoidingView, ScrollView, Pressable } from 'react-native'
-import React, { useRef } from 'react'
-import { useFormik } from 'formik'
-import * as Yup from 'yup'
-import { useLocalSearchParams } from 'expo-router'
 import ActionButton from '@/app/Component/button/ActionButton'
-import { TextInput } from 'react-native'
-import { Platform } from 'react-native'
+import { router, useLocalSearchParams } from 'expo-router'
+import { useFormik } from 'formik'
+import React, { useRef } from 'react'
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, TextInput, View } from 'react-native'
+import * as Yup from 'yup'
+
 import { AppText } from '@/app/Component/AppText'
-import { router } from 'expo-router'
+import { showErrorToast, showSuccessToast } from '@/helper/toast'
+import { verificationEmailService } from '@/services/authServices'
+import { useMutation } from '@tanstack/react-query'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-const PhoneVerification = () => {
+const EmailVerification = () => {
 
-    const { phone } = useLocalSearchParams<{ phone: string }>()
+    const { email } = useLocalSearchParams<{ email: string }>()
     const inputRef = useRef<TextInput>(null)
+
+    const mutation = useMutation({
+        mutationFn: verificationEmailService,
+        onSuccess: (data) => {
+            console.log(data)
+            showSuccessToast(data.message || "Email verified successfully. Please login.");
+            router.replace("/(auth)/login");
+        },
+        onError: (error: any) => {
+            showErrorToast(error.response?.data?.message || "Verification failed. Invalid code.");
+        },
+    });
 
     const formik = useFormik({
         initialValues: {
-            code: ""
+            otp: ""
         },
         validationSchema: Yup.object({
-            code: Yup.string().required("Verification code is required").length(4, "Code must be 4 didgits")
+            otp: Yup.string().required("Verification code is required").length(4, "Code must be 4 digits")
         }),
         onSubmit: (value) => {
-            if (phone) {
-                console.log({ phone, code: value.code })
+            if (!email) {
+                showErrorToast("Email is missing. Please return to the registration page.");
+                return;
             }
+            mutation.mutate({ email, otp: value.otp })
         }
     })
 
-    const codeArray = formik.values.code.split("");
+    const codeArray = formik.values.otp.split("");
 
     return (
         <SafeAreaView className='flex-1  bg-white px-6'>
@@ -45,7 +60,7 @@ const PhoneVerification = () => {
                                     Verification Code
                                 </AppText>
                                 <AppText className="text-base text-black/70 leading-6">
-                                    Enter the 4-digit code sent to your number {phone}.
+                                    Enter the 4-digit code sent to your email {email}.
                                 </AppText>
                             </View>
 
@@ -63,7 +78,7 @@ const PhoneVerification = () => {
                                         {[0, 1, 2, 3].map((index) => (
                                             <View
                                                 key={index}
-                                                className={`w-[52px] h-[52px] border rounded-xl items-center justify-center bg-[#F9FAF7] ${formik.values.code.length === index
+                                                className={`w-[52px] h-[52px] border rounded-xl items-center justify-center bg-[#F9FAF7] ${formik.values.otp.length === index
                                                     ? "border-primary border-2"
                                                     : "border-primary/30"
                                                     }`}
@@ -79,11 +94,11 @@ const PhoneVerification = () => {
                                     <TextInput
                                         ref={inputRef}
                                         style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }}
-                                        value={formik.values.code}
-                                        onChangeText={formik.handleChange("code")}
-                                        onBlur={formik.handleBlur("code")}
+                                        value={formik.values.otp}
+                                        onChangeText={formik.handleChange("otp")}
+                                        onBlur={formik.handleBlur("otp")}
                                         keyboardType="number-pad"
-                                        maxLength={6}
+                                        maxLength={4}
                                         autoFocus={true}
                                     />
 
@@ -100,14 +115,13 @@ const PhoneVerification = () => {
                             <ActionButton
                                 name="Verify Code"
                                 action={() => formik.handleSubmit()}
-                            // disabled={mutation.isPending}
+                                disabled={!email || mutation.isPending}
+                                loading={mutation.isPending}
                             />
-
                             <ActionButton
                                 name="Back"
                                 hasBG={false}
                                 action={() => router.back()}
-                            // disabled={mutation.isPending}
                             />
                         </View>
                     </ScrollView>
@@ -117,4 +131,4 @@ const PhoneVerification = () => {
     )
 }
 
-export default PhoneVerification;
+export default EmailVerification;

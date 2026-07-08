@@ -6,8 +6,9 @@ import { useMutation } from '@tanstack/react-query'
 import { Link, router } from 'expo-router'
 import { useFormik } from 'formik'
 import React from 'react'
-import { ScrollView, Text, TextInput, View } from 'react-native'
+import { ScrollView, Text, TextInput, View, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { Ionicons } from "@expo/vector-icons";
 import * as Yup from 'yup'
 
 export default function Login() {
@@ -27,7 +28,7 @@ export default function Login() {
       if (response?.user?.role === "user") {
         await signIn(response.user as any, response.token, response.user.role);
         await completeOnboarding();
-        router.push("/(auth)/verify_phone");
+        router.push("/(auth)/verify_email");
       } else {
         showErrorToast("Try to log in via web");
       }
@@ -41,39 +42,55 @@ export default function Login() {
 
   const formik = useFormik({
     initialValues: {
-      phone: ""
+      email: ""
     },
     validationSchema: Yup.object({
-      phone: Yup.string().required("Phone number is required for loig.")
+      email: Yup.string().email("Invalid email address").required("Email is required for login")
     }),
     onSubmit: (value) => {
-      mutation.mutate(value.phone)
+      mutation.mutate(value.email)
     }
 
   })
   return (
-    <SafeAreaView className='flex-1 p-5'>
+    <SafeAreaView className='flex-1 p-5 bg-white'>
       <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}>
         <View>
-          <Text className="font-semibold text-black mb-2">
-            Phone number
+          <TouchableOpacity onPress={() => router.back()}>
+            <Ionicons
+              name="arrow-back-circle-outline"
+              size={30}
+              color="black"
+            />
+          </TouchableOpacity>
+
+          <View className="flex flex-col items-center text-center mt-6">
+            <Text className="font-semibold text-[35px] text-black mb-2">
+              Welcome Back!
+            </Text>
+            <Text className='text-md'>You can log back in to your account using your Email.</Text>
+          </View>
+        </View>
+        <View>
+          <Text className="font-semibold text-[20px] text-black mb-2">
+            Email
           </Text>
 
           <View className="flex-row items-center bg-gray-100 rounded-xl px-4 h-16">
 
             <TextInput
-              value={formik.values.phone}
-              onChangeText={formik.handleChange("phone")}
-              onBlur={formik.handleBlur("phone")}
-              placeholder="08000000000"
-              keyboardType="phone-pad"
+              value={formik.values.email}
+              onChangeText={formik.handleChange("email")}
+              onBlur={formik.handleBlur("email")}
+              placeholder="you@example.com"
+              keyboardType="email-address"
               className="flex-1 text-base"
             />
           </View>
 
-          {formik.touched.phone && formik.errors.phone && (
+          {formik.touched.email && formik.errors.email && (
             <Text className="text-red-500 mt-1">
-              {formik.errors.phone}
+              {formik.errors.email}
             </Text>
           )}
         </View>
@@ -81,11 +98,10 @@ export default function Login() {
         <View>
           <ActionButton
             name="Login"
-            action={() => formik.handleSubmit()}
+            action={formik.handleSubmit}
+            loading={formik.isSubmitting}
+
           />
-          <Text className='text-center mt-3'>Don&apos;t have an account? 
-            <Link href="/(auth)/register" className='text-[#2D5A27] font-semibold'> Register</Link>
-          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -187,17 +187,18 @@ export default function ProfileScreen() {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      
+        <ConfirmDialog
+          isOpen={openModal}
+          title="Are you sure?"
+          message="This action cannot be undone."
+          confirmText="Yes, Confirm"
+          cancelText="Cancel"
+          onCancel={() => setOpenModal(false)}
+          onConfirm={handleConfirmLogout}
+          isLoading={false}
+        />
 
-      <ConfirmDialog
-        isOpen={openModal}
-        title="Are you sure?"
-        message="This action cannot be undone."
-        confirmText="Yes, Confirm"
-        cancelText="Cancel"
-        onCancel={() => setOpenModal(false)}
-        onConfirm={handleConfirmLogout}
-        isLoading={false}
-      />
 
     </View>
   );

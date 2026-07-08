@@ -1,10 +1,9 @@
 
-import { getUserService, logoutService } from "@/services/authServices";
-import { setupInterceptors } from "@/helper/axios";
 import { globals } from "@/lib/constants";
+import { UserProps } from "@/lib/interfaces";
+import { getUserService, logoutService } from "@/services/authServices";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { UserProps } from "@/lib/interfaces";
 import React, {
   createContext,
   useCallback,
@@ -53,7 +52,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   console.log("token", token);
-  const user = userResponse?.data;
+  const user = userResponse?.data ?? null;
   console.log("user:", user);
 
   // Bootstrap: Restore auth state from AsyncStorage on app start

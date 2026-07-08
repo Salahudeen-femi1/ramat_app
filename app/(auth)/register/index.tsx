@@ -1,4 +1,4 @@
-import { router } from 'expo-router'
+import { Link, router } from 'expo-router'
 import { useFormik } from 'formik'
 import React from 'react'
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
@@ -6,7 +6,8 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import * as Yup from 'yup'
 
 import ActionButton from '@/app/Component/button/ActionButton'
-import { showSuccessToast } from '@/helper/toast'
+import { showErrorToast, showSuccessToast } from '@/helper/toast'
+import { UserProps } from '@/lib/interfaces'
 import { registerService } from '@/services/authServices'
 import { Ionicons } from '@expo/vector-icons'
 import { useMutation } from '@tanstack/react-query'
@@ -17,20 +18,29 @@ interface RegisterFormValues {
   first_name: string;
   last_name: string;
   gender: string;
+  marketing?: boolean;
 }
 
 export default function Register() {
   
   const [marketing, setMarketing] = React.useState(true);
-  const [gender, setGender] = React.useState<"male" | "female" | "">("");
 
-  const mutation = useMutation({
+  const mutation = useMutation<
+    { message?: string; token?: string; user?: UserProps; role?: string },
+    any,
+    RegisterFormValues
+  >({
     mutationFn: registerService,
-    onSuccess: (data) => {
+    onSuccess: (data, variables) => {
       showSuccessToast(
         data.message || "Registration successful. Please verify your email."
       );
-      router.push('/(auth)/verify_phone');
+      console.log("register response", data);
+      router.push({ pathname: "/(auth)/verify_email", params: { email: variables.email } });
+    },
+    onError: (err: any) => {
+      const errMessage = err.response?.data?.message || err.message || 'Registration failed. Please try again.';
+      showErrorToast(errMessage);
     },
   });
 
@@ -50,7 +60,7 @@ export default function Register() {
       gender: Yup.string().required('Gender is required'),
     }),
     onSubmit: (values) => {
-      mutation.mutate(values);
+      mutation.mutate({ ...values, marketing });
     },
   });
   return (
@@ -162,14 +172,18 @@ export default function Register() {
             <View className="flex-row gap-3">
               {/* Male */}
               <TouchableOpacity
-                onPress={() => setGender("male")}
-                className={`flex-1 h-14 rounded-xl border justify-center items-center ${gender === "male"
+                onPress={() => {
+                  formik.setFieldValue('gender', 'male');
+                  formik.setFieldTouched('gender', true);
+                }}
+                activeOpacity={0.8}
+                className={`flex-1 h-14 rounded-xl border justify-center items-center ${formik.values.gender === "male"
                     ? "bg-[#154A22] border-[#154A22]"
                     : "bg-white border-gray-300"
                   }`}
               >
                 <Text
-                  className={`font-medium ${gender === "male" ? "text-white" : "text-black"
+                  className={`font-medium ${formik.values.gender === "male" ? "text-white" : "text-black"
                     }`}
                 >
                   Male
@@ -178,20 +192,29 @@ export default function Register() {
 
               {/* Female */}
               <TouchableOpacity
-                onPress={() => setGender("female")}
-                className={`flex-1 h-14 rounded-xl border justify-center items-center ${gender === "female"
+                onPress={() => {
+                  formik.setFieldValue('gender', 'female');
+                  formik.setFieldTouched('gender', true);
+                }}
+                activeOpacity={0.8}
+                className={`flex-1 h-14 rounded-xl border justify-center items-center ${formik.values.gender === "female"
                     ? "bg-[#154A22] border-[#154A22]"
                     : "bg-white border-gray-300"
                   }`}
               >
                 <Text
-                  className={`font-medium ${gender === "female" ? "text-white" : "text-black"
+                  className={`font-medium ${formik.values.gender === "female" ? "text-white" : "text-black"
                     }`}
                 >
                   Female
                 </Text>
               </TouchableOpacity>
             </View>
+            {formik.touched.gender && formik.errors.gender && (
+              <Text className="text-red-500 mt-1">
+                {formik.errors.gender}
+              </Text>
+            )}
           </View>
 
           {/* Checkbox */}
@@ -222,6 +245,7 @@ export default function Register() {
             name="Continue"
             action={() => formik.handleSubmit()}
             disabled={mutation.isPending || !formik.isValid}
+            loading={mutation.isPending}
           />
 
           {/* Footer */}
@@ -236,6 +260,7 @@ export default function Register() {
               Privacy Policy
             </Text>
           </Text>
+          <Link href="/login" className='text-[#2D5A27] font-semibold text-center mb-10'>Already have an account? Login</Link>
 
         </View>
 

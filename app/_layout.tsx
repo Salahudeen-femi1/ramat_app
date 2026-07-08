@@ -1,10 +1,12 @@
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { setupInterceptors } from "@/helper/axios";
+import { toastConfig } from "@/helper/toast";
 import { Feather } from "@expo/vector-icons";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { router, Stack } from "expo-router";
 import { useEffect } from "react";
-import { Pressable } from "react-native";
+import { Pressable, StatusBar } from "react-native";
+import Toast from "react-native-toast-message";
 import './globals.css';
 
 const queryClient = new QueryClient();
@@ -18,20 +20,17 @@ function RootLayoutContent() {
   }, [signOut]);
 
   // Handle routing based on auth state
-  useEffect(() => {
-    if (isLoading) return;
+useEffect(() => {
+  if (isLoading) return;
 
-    if (!isLoggedIn) {
-      // Redirect to login if not authenticated
-      router.replace("/(auth)/login");
-    } else if (isLoggedIn && onboardingStatus === "incomplete") {
-      // Redirect to onboarding if not completed
-      router.replace("/(onboarding)/stepOne");
-    } else if (isLoggedIn && onboardingStatus === "complete") {
-      // Redirect to main app if authenticated and onboarded
-      router.replace("/(tabs)");
-    }
-  }, [isLoggedIn, isLoading, onboardingStatus]);
+  if (onboardingStatus === "incomplete") {
+    router.replace("/(onboarding)/stepOne");
+  } else if (!isLoggedIn) {
+    router.replace("/register");
+  } else {
+    router.replace("/(tabs)");
+  }
+}, [isLoading, isLoggedIn, onboardingStatus]);
 
   return (
     <Stack>
@@ -138,7 +137,13 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
+        <StatusBar
+          backgroundColor={"transparent"}
+          translucent={true}
+          animated={true}
+        />
         <RootLayoutContent />
+        <Toast config={toastConfig} />
       </AuthProvider>
     </QueryClientProvider>
   );

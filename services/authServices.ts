@@ -9,6 +9,11 @@ export const getUserService = async (): Promise<{ data: UserProps }> => {
   return response.data;
 };
 
+export const verificationEmailService = async (data: { email: string; otp: string }) => {
+  const response = await api.post("/auth/verify-email", data);
+  return response.data;
+};
+
 /**
  * Logout the user (call backend to invalidate token)
  */
@@ -24,8 +29,8 @@ export const logoutService = async (): Promise<void> => {
 /**
  * Login with phone number (OTP/verification flow)
  */
-export const loginService = async (phone: string): Promise<{ token: string; user: UserProps; role: string }> => {
-  const response = await api.post("/auth/login", { phone });
+export const loginService = async (email: string): Promise<{ token: string; user: UserProps; role: string }> => {
+  const response = await api.post("/auth/login", { email });
   return response.data;
 };
 
@@ -45,6 +50,8 @@ export const registerService = async (data: {
   last_name: string;
   phone: string;
   email: string;
+  gender: string;
+  marketing?: boolean;
 }): Promise<{
   message?: string;
   token?: string;
