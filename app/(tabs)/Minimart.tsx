@@ -27,18 +27,18 @@ const Minimart = () => {
           </Text>
         </View>
 
-        <View className="flex-row items-center gap-2">
-          <View className="items-center gap- bg-gray-100 py-2 rounded-md">
+        <View className="flex-row items-center gap-4">
+          {/* <View className="items-center gap- bg-gray-100 py-2 rounded-md">
             <Ionicons name="search" size={22} color="#2D5A27" />
-          </View>
+          </View> */}
 
-          <Ionicons name="scan-circle-outline" size={22} color="#2D5A27" />
+          <Ionicons name="scan-outline" size={26} color="#2D5A27" />
 
           <TouchableOpacity
-            onPress={() => router.push('/pages/Cart')}
+            onPress={() => router.push('/Cart')}
             activeOpacity={0.8}
           >
-            <Ionicons name="bag-outline" size={22} color="#2D5A27" />
+            <Ionicons name="cart-outline" size={26} color="#2D5A27" />
           </TouchableOpacity>
         </View>
       </View>

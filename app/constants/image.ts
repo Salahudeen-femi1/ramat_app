@@ -14,5 +14,6 @@ export const image = {
     apple: require('../assets/images/apple.png'),
     strawberry: require('../assets/images/strawberry.png'),
     image: require('../assets/images/image.png'),
+    emptybox: require('../assets/images/emptybox.png')
     
 }

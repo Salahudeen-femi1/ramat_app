@@ -36,7 +36,8 @@ export default function Register() {
         data.message || "Registration successful. Please verify your email."
       );
       console.log("register response", data);
-      router.push({ pathname: "/(auth)/verify_email", params: { email: variables.email } });
+      // router.push({ pathname: "/(auth)/verify_email", params: { email: variables.email } });
+      router.push('/(tabs)')
     },
     onError: (err: any) => {
       const errMessage = err.response?.data?.message || err.message || 'Registration failed. Please try again.';

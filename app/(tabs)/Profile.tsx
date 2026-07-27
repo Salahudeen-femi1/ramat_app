@@ -88,10 +88,8 @@ export default function ProfileScreen() {
 
             <View className="w-[170px] h-[170px] rounded-full border-[10px] border-[#E8E8E8] items-center justify-center overflow-hidden">
               <Image
-                source={{
-                  uri: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400",
-                }}
-                className="w-full h-full"
+                src={`https://api.dicebear.com/9.x/initials/svg?seed=${displayName}`}
+                alt={user?.first_name}
               />
             </View>
 
@@ -187,17 +185,17 @@ export default function ProfileScreen() {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      
-        <ConfirmDialog
-          isOpen={openModal}
-          title="Are you sure?"
-          message="This action cannot be undone."
-          confirmText="Yes, Confirm"
-          cancelText="Cancel"
-          onCancel={() => setOpenModal(false)}
-          onConfirm={handleConfirmLogout}
-          isLoading={false}
-        />
+
+      <ConfirmDialog
+        isOpen={openModal}
+        title="Are you sure?"
+        message="This action cannot be undone."
+        confirmText="Yes, Confirm"
+        cancelText="Cancel"
+        onCancel={() => setOpenModal(false)}
+        onConfirm={handleConfirmLogout}
+        isLoading={false}
+      />
 
 
     </View>

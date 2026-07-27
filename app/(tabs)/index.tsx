@@ -1,14 +1,19 @@
+import { useAuth } from "@/context/AuthContext";
+import { useCart } from "@/context/CartContext";
 import { foods } from "@/utility/data";
 import { Ionicons } from '@expo/vector-icons';
+import { router } from "expo-router";
 import React from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FoodCard from "../Component/card/FoodCard";
-import { router } from "expo-router";
+import EmptyStateCard from "../Component/card/EmptyStateCard";
 
 export default function Index() {
 
   const [activeTab, setActiveTab] = React.useState('All')
+  const { user } = useAuth()
+  const { cartCount } = useCart()
 
   const filteredFoods = React.useMemo(() => {
     if (activeTab === 'All') return foods;
@@ -19,35 +24,33 @@ export default function Index() {
   }, [activeTab]);
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-white relative">
       <View>
 
         {/* FIXED HEADER */}
         <View className="px-4 pt-4 pb-3 flex-row justify-between items-center">
+          <View className="flex-row items-center gap-1 bg-gray-100 w-40 px-4 py-2 rounded-md">
+            <Ionicons name="location-outline" size={22} color="#2D5A27" />
 
-          <View
-            className="flex-row items-center gap-2">
-            <Ionicons name="restaurant" size={22} color="#2D5A27" />
-
-            <Text className="font-bold text-base uppercase ">
-              Ramat Pickup
-            </Text>
+            <Text className="text-sm">Saki west...</Text>
           </View>
 
-          <View className="flex-row items-center gap-2">
-            <View className="flex-row items-center gap-1 bg-gray-100 px-4 py-2 rounded-md">
-              <Ionicons name="location-outline" size={22} color="#2D5A27" />
+          <View className="flex-row items-center gap-4">
 
-              <Text className="text-sm">Saki west...</Text>
-            </View>
-
-            <Ionicons name="scan-circle-outline" size={22} color="#2D5A27" />
+            <Ionicons name="scan-outline" size={26} color="#2D5A27" />
 
             <TouchableOpacity
               onPress={() => router.push('/Cart')}
               activeOpacity={0.8}
             >
-              <Ionicons name="bag-outline" size={22} color="#2D5A27" />
+              <View className="relative">
+                <Ionicons name="cart-outline" size={26} color="#2D5A27" />
+                {cartCount > 0 && (
+                  <View className="absolute -top-2 -right-2 min-w-5 h-5 rounded-full bg-red-500 items-center justify-center px-1">
+                    <Text className="text-[10px] text-white font-bold">{cartCount}</Text>
+                  </View>
+                )}
+              </View>
             </TouchableOpacity>
           </View>
 
@@ -57,7 +60,7 @@ export default function Index() {
         {/* Welcome */}
         <View className="px-4 py-2">
           <Text className="text-xl font-bold">
-            Welcome, Salahudeen
+            Welcome, {user?.first_name}
           </Text>
 
           <Text className="text-sm text-gray-500">
@@ -101,8 +104,30 @@ export default function Index() {
             <View className="bg-primary/20 mt-4 mx-4 h-52 mb-6 rounded-md" />
           </View>
         }
-        contentContainerStyle={{ paddingBottom: 24 }}
+        ListEmptyComponent={
+          <EmptyStateCard
+            title="No items added"
+            description="Try adding food contenet from the admin side"
+          />
+        }
+        contentContainerStyle={{ paddingBottom: 120 }}
       />
+
+      {cartCount > 0 && (
+        <TouchableOpacity
+          onPress={() => router.push('/Cart')}
+          activeOpacity={0.85}
+          className="absolute bottom-4 left-4 right-4 mx-4 rounded-xl bg-primary px-4 py-3 flex-row items-center justify-between"
+        >
+          <View>
+            <Text className="text-white font-semibold">Proceed to order</Text>
+            <Text className="text-white/90 text-sm">
+              {cartCount} {cartCount === 1 ? 'item' : 'items'}
+            </Text>
+          </View>
+          <Text className="text-white font-semibold">View cart</Text>
+        </TouchableOpacity>
+      )}
     </SafeAreaView>
   );
 }

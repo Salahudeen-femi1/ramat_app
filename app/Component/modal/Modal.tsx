@@ -29,10 +29,6 @@ const Modal = ({
       visible={visible}
       animationType="slide"
       onRequestClose={onClose}
-      style={{
-        borderWidth: 3,
-        borderColor: "yellow"
-      }}
     >
       {/* Overlay */}
       <View style={styles.overlay}>
@@ -68,12 +64,13 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    backgroundColor: "#fff",
-    width: "100%",
-    maxWidth: 600, // approximates lg:w-1/2
+    backgroundColor: "#ffffff",
+    // maxWidth: 800, // approximates lg:w-1/2
     borderTopRightRadius: 40,
     borderTopLeftRadius: 40,
-    height: "90%",
+    maxHeight: "90%",
+    width: "100%",
+    flex: 1
   },
 
   closeBtn: {

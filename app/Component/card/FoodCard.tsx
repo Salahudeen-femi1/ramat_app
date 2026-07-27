@@ -1,17 +1,17 @@
-import { extras } from '@/utility/data'
+import { useCart } from '@/context/CartContext'
 import { cardType } from '@/utility/interface'
 import { Ionicons } from '@expo/vector-icons'
-import { router } from 'expo-router'
 import React from 'react'
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import Modal from '../modal/Modal'
 
-export default function FoodCard({ title, description, price, image }: cardType) {
+export default function FoodCard({ id, title, description, price, image, extras = [] }: cardType) {
 
     const [openModal, setOpenModal] = React.useState(false)
     const [showExtras, setShowExtras] = React.useState(false)
     const [extrasCount, setExtrasCount] = React.useState<Record<string, number>>({})
-    const [quantity, setQuantity] = React.useState(1)
+    const [quantity] = React.useState(1)
+    const { addToCart } = useCart()
 
     const basePrice = Number(String(price).replace(/,/g, '')) || 0
     const extrasTotal = Object.entries(extrasCount).reduce((sum, [extraId, cnt]) => {
@@ -44,13 +44,33 @@ export default function FoodCard({ title, description, price, image }: cardType)
         })
     }
 
-    const handleAddtoCart = () => {
+    const handleAddtoCart = async () => {
+        const selectedExtras = Object.entries(extrasCount).flatMap(([extraId, count]) => {
+            const extra = extras.find((item) => item.id === extraId)
+            if (!extra || count <= 0) return []
+            return Array.from({ length: count }, () => ({
+                id: extra.id,
+                label: extra.label,
+                price: extra.price,
+            }))
+        })
+
+        await addToCart({
+            id,
+            title,
+            description,
+            price,
+            image,
+            quantity,
+            extras: selectedExtras,
+        })
+
         setOpenModal(false)
-        router.push('/Cart')
+        setExtrasCount({})
     }
 
     return (
-        <>
+        <View>
 
             <View className="flex-row justify-between mx-5 border-b border-gray-100 px-4 py-4">
                 <View className="flex-1 pr-4">
@@ -81,101 +101,115 @@ export default function FoodCard({ title, description, price, image }: cardType)
                 </View>
             </View>
 
-            <Modal visible={openModal} onClose={() => setOpenModal(false)} customMode>
-                <Image
-                    source={image}
-                    resizeMode="cover"
-                    className="w-full h-[200px] rounded-t-[20px]  "
-                />
-                <View className='relative flex-1'>
-                    <ScrollView className='flex-1 pb-28 bg-white'>
-                        <View className="p-4">
-                            <Text className="font-semibold text-[18px]">{title}</Text>
-                            <Text className="text-gray-500 mt-1">{description}</Text>
+            <Modal visible={openModal} onClose={() => setOpenModal(false)}>
+                <View className="flex-1">
+                    <Image
+                        source={image}
+                        resizeMode="cover"
+                        className="w-full h-[200px] rounded-t-[20px]"
+                    />
+                    <View className='relative flex-1 w-full'>
+                        <ScrollView className='flex-1 pb-28 bg-white'
+                            showsVerticalScrollIndicator={false}
+                        >
+                            <View className="p-4">
+                                <Text className="font-semibold text-[18px]">{title}</Text>
+                                <Text className="text-gray-500 mt-1">{description}</Text>
 
-                            <Text className="font-bold text-primary mt-3">
-                                ₦{price}
-                            </Text>
-                        </View>
+                                <Text className="font-bold text-primary mt-3">
+                                    ₦{price}
+                                </Text>
+                            </View>
 
-                        <View className='bg-gray-200 p-4'>
-                            <TouchableOpacity
-                                onPress={() => setShowExtras(!showExtras)}
-                                className='flex-row items-center justify-between'
-                                activeOpacity={0.8}
-                            >
-                                <Text className='text-2xl font-semibold'>Extras</Text>
-                                <Ionicons
-                                    name={showExtras ? 'chevron-up-circle-outline' : 'chevron-down-circle-outline'}
-                                    size={24}
-                                    color='#2D5A27'
-                                />
-                            </TouchableOpacity>
-                        </View>
-                        <View>
-                            {showExtras && (
-                                <View className='mt-4 space-y-3'>
-                                    {extras.map((extra) => {
-                                        const count = extrasCount[extra.id] || 0
-                                        return (
-                                            <View
-                                                key={extra.id}
-                                                className={`flex-row items-center justify-between border-b border-gray-100 p-4 rounded-xl`}
-                                            >
-                                                <View className=''>
-                                                    <Text className='text-base font-semibold'>{extra.label}</Text>
-                                                    <Text className="text-gray-500 mt-1">+ ₦{extra.price}</Text>
-                                                </View>
-                                                <View className='flex-row items-center'>
-                                                    {count > 0 ? (
-                                                        <View className='flex-row items-center gap-4 space-x-6'>
-                                                            <TouchableOpacity
-                                                                onPress={() => decrementExtra(extra.id)}
-                                                                activeOpacity={0.8}
-                                                                className='rounded-full p-2 bg-gray-100'
-                                                            >
-                                                                <Ionicons name='remove' size={20} color='black' />
-                                                            </TouchableOpacity>
-                                                            <Text className='text-base font-semibold'>{count}</Text>
+                            <View>
+                                {
+                                    extras.length > 0 && (
+                                        <>
+                                            <View className='bg-gray-200 p-4'>
+                                                <TouchableOpacity
+                                                    onPress={() => setShowExtras(!showExtras)}
+                                                    className='flex-row items-center justify-between'
+                                                    activeOpacity={0.8}
+                                                >
+                                                    <Text className='text-2xl font-semibold'>Extras</Text>
+                                                    <Ionicons
+                                                        name={showExtras ? 'chevron-up-circle-outline' : 'chevron-down-circle-outline'}
+                                                        size={24}
+                                                        color='#2D5A27'
+                                                    />
+                                                </TouchableOpacity>
+                                            </View>
+                                        </>
+                                    )
+                                }
+                                {showExtras && (
+                                    <View className='mt-4 space-y-3 mb-7'>
+                                        {extras.map((extra) => {
+                                            const count = extrasCount[extra.id] || 0
+                                            return (
+                                                <View
+                                                    key={extra.id}
+                                                    className={`flex-row items-center justify-between border-b border-gray-100 p-4 rounded-xl`}
+                                                >
+                                                    <View className=''>
+                                                        <Text className='text-base font-semibold'>{extra.label}</Text>
+                                                        <Text className="text-gray-500 mt-1">+ ₦{extra.price}</Text>
+                                                    </View>
+                                                    <View className='flex-row items-center'>
+                                                        {count > 0 ? (
+                                                            <View className='flex-row items-center gap-4 space-x-6'>
+                                                                <TouchableOpacity
+                                                                    onPress={() => decrementExtra(extra.id)}
+                                                                    activeOpacity={0.8}
+                                                                    className='rounded-full p-2 bg-gray-100'
+                                                                >
+                                                                    <Ionicons name='remove' size={20} color='black' />
+                                                                </TouchableOpacity>
+                                                                <Text className='text-base font-semibold'>{count}</Text>
+                                                                <TouchableOpacity
+                                                                    onPress={() => incrementExtra(extra.id)}
+                                                                    activeOpacity={0.8}
+                                                                    className='rounded-full p-2 bg-gray-100'
+                                                                >
+                                                                    <Ionicons name='add' size={20} color='black' />
+                                                                </TouchableOpacity>
+                                                            </View>
+                                                        ) : (
                                                             <TouchableOpacity
                                                                 onPress={() => incrementExtra(extra.id)}
                                                                 activeOpacity={0.8}
-                                                                className='rounded-full p-2 bg-gray-100'
                                                             >
-                                                                <Ionicons name='add' size={20} color='black' />
+                                                                <Ionicons name='add-circle-outline' size={22} color='#2D5A27' />
                                                             </TouchableOpacity>
-                                                        </View>
-                                                    ) : (
-                                                        <TouchableOpacity
-                                                            onPress={() => incrementExtra(extra.id)}
-                                                            activeOpacity={0.8}
-                                                        >
-                                                            <Ionicons name='add-circle-outline' size={22} color='#2D5A27' />
-                                                        </TouchableOpacity>
-                                                    )}
+                                                        )}
+                                                    </View>
                                                 </View>
-                                            </View>
-                                        )
-                                    })}
-                                </View>
-                            )}
+                                            )
+                                        })}
+                                    </View>
+                                )}
+                            </View>
+
+                        </ScrollView>
+                        {/* sticky footer */}
+                        <View className="absolute bottom-0 left-0 right-0 bg-white p-4 border-t mb-6 border-gray-100">
+                            <View className='flex-row items-center justify-between mb-3'>
+                                <Text className='text-base font-semibold'>Selected items</Text>
+                                <Text className='text-primary font-semibold'>{quantity + Object.keys(extrasCount).reduce((sum, item) => sum + (extrasCount[item] || 0), 0)} items</Text>
+                            </View>
+
+                            <TouchableOpacity
+                                onPress={handleAddtoCart}
+                                activeOpacity={0.8}
+                                className="border border-primary rounded-md h-[50px] flex-row items-center justify-between p-4 mb-2 bg-primary"
+                            >
+                                <Text className='text-white font-semibold text-lg'>Add to cart</Text>
+                                <Text className='text-white font-semibold text-lg'>₦{formattedTotal}</Text>
+                            </TouchableOpacity>
                         </View>
-
-                    </ScrollView>
-                    {/* ✅ STICKY FOOTER */}
-                    <View className="absolute bottom-0 left-0 right-0 bg-white p-4 border-t border-gray-100">
-
-                        <TouchableOpacity
-                            onPress={handleAddtoCart}
-                            activeOpacity={0.8}
-                            className="border border-primary rounded-md h-[50px] flex-row items-center justify-between p-4 mb-5 bg-primary"
-                        >
-                            <Text className='text-white font-semibold text-lg'>Proceed to order {quantity} </Text>
-                            <Text className='text-white font-semibold text-lg'> ₦{formattedTotal}</Text>
-                        </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
-        </>
+        </View>
     )
-}
+}   

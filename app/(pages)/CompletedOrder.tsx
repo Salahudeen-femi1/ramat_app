@@ -1,6 +1,7 @@
 import { CompletedorderProps } from '@/utility/interface'
 import React from 'react'
 import { ActivityIndicator, FlatList, Text, View } from 'react-native'
+import EmptyStateCard from '../Component/card/EmptyStateCard'
 
 const CompletedOrder = () => {
 
@@ -98,15 +99,10 @@ const CompletedOrder = () => {
             </View>
           )}
           ListEmptyComponent={
-            <View className="items-center justify-center py-10">
-              <Text className="text-lg font-medium text-center">
-                You have no completed order yet.
-              </Text>
-
-              <Text className="text-sm text-gray-500 text-center mt-2">
-                Your order histories will appear here.
-              </Text>
-            </View>
+            <EmptyStateCard
+              title='You have no completed order yet'
+              description='Your order history will appear here.'
+            />
           }
           showsVerticalScrollIndicator={false}
         />

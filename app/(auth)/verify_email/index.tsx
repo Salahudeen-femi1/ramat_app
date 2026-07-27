@@ -102,9 +102,9 @@ const EmailVerification = () => {
                                         autoFocus={true}
                                     />
 
-                                    {formik.touched.code && formik.errors.code && (
+                                    {formik.touched.otp && formik.errors.otp && (
                                         <AppText className="text-xs text-red-600 mt-1">
-                                            {formik.errors.code}
+                                            {formik.errors.otp}
                                         </AppText>
                                     )}
                                 </View>

@@ -6,6 +6,33 @@ export const foods = [
     title: 'A plate of Rice with Chicken',
     description: "1 plate of jollof rice, plantain and chicken",
     price: '3,200',
+    extras: [
+      {
+        id: '1',
+        label: 'Extra Beef',
+        price: '500'
+      },
+      {
+        id: '2',
+        label: 'Extra plantain',
+        price: '500'
+      },
+      {
+        id: '3',
+        label: 'Extra Rice',
+        price: '500'
+      },
+      {
+        id: '4',
+        label: 'Extra Chicken',
+        price: '500'
+      },
+      {
+        id: '5',
+        label: 'Extra Fish',
+        price: '500'
+      },
+    ],
     image: image.jollof,
   },
   {
@@ -13,6 +40,33 @@ export const foods = [
     title: 'A plate of Rice with Beef',
     description: "1 plate of jollof rice, plantain and beef",
     price: '2,200',
+    extras: [
+      {
+        id: '1',
+        label: 'Extra Beef',
+        price: '500'
+      },
+      {
+        id: '2',
+        label: 'Extra plantain',
+        price: '500'
+      },
+      {
+        id: '3',
+        label: 'Extra Rice',
+        price: '500'
+      },
+      {
+        id: '4',
+        label: 'Extra Chicken',
+        price: '500'
+      },
+      {
+        id: '5',
+        label: 'Extra Fish',
+        price: '500'
+      },
+    ],
     image: image.jollof,
   },
   {
@@ -20,6 +74,13 @@ export const foods = [
     title: 'Chicken Shawarma',
     description: "1 chicken shawarma",
     price: '2,200',
+    extras: [
+      {
+        id: '1',
+        label: 'Extra chicken',
+        price: '500'
+      }
+    ],
     image: image.shawarma,
   },
   {
@@ -28,6 +89,18 @@ export const foods = [
     description: "1 Cicken shawarma",
     price: '2,200',
     image: image.chips,
+    extras: [
+      {
+        id: '1',
+        label: 'Extra chips',
+        price: '500'
+      },
+      {
+        id: '2',
+        label: 'Extra chicken',
+        price: '500'
+      },
+    ]
   },
   {
     id: '5',
@@ -66,40 +139,19 @@ export const foods = [
   },
 ];
 
-export const extras = [
-  {
-    id: '1',
-    label: 'Extra Beef',
-    price: '500'
-  },
-  {
-    id: '2',
-    label: 'Extra plantain',
-    price: '500'
-  },
-  {
-    id: '3',
-    label: 'Extra Rice',
-    price: '500'
-  },
-  {
-    id: '4',
-    label: 'Extra Chicken',
-    price: '500'
-  },
-  {
-    id: '5',
-    label: 'Extra Fish',
-    price: '500'
-  },
-]
-
 export const martItems = [
   {
     id: '1',
     title: 'Chicken Shawarma',
     description: "1 chicken shawarma",
     price: '2,200',
+    extras: [
+      {
+        id: '1',
+        label: 'Extra chicken',
+        price: '500'
+      }
+    ],
     image: image.shawarma,
   },
   {
@@ -107,6 +159,18 @@ export const martItems = [
     title: 'Chicken and Chips',
     description: "1 Cicken shawarma",
     price: '2,200',
+    extras: [
+      {
+        id: '1',
+        label: 'Extra chips',
+        price: '500'
+      },
+      {
+        id: '2',
+        label: 'Extra chicken',
+        price: '500'
+      },
+    ],
     image: image.chips,
   },
   {
@@ -118,14 +182,14 @@ export const martItems = [
   },
   {
     id: '4',
-    title:'Parfait',
+    title: 'Parfait',
     description: "1 Cup of parfait",
     price: '2,200',
     image: image.parfait,
   },
   {
     id: '5',
-    title:'Ice cream',
+    title: 'Ice cream',
     description: "1 Cup of ice cream",
     price: '2,200',
     image: image.icecream,

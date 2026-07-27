@@ -1,4 +1,5 @@
 import { AuthProvider, useAuth } from "@/context/AuthContext";
+import { CartProvider } from "@/context/CartContext";
 import { setupInterceptors } from "@/helper/axios";
 import { toastConfig } from "@/helper/toast";
 import { Feather } from "@expo/vector-icons";
@@ -137,13 +138,15 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <StatusBar
-          backgroundColor={"transparent"}
-          translucent={true}
-          animated={true}
-        />
-        <RootLayoutContent />
-        <Toast config={toastConfig} />
+        <CartProvider>
+          <StatusBar
+            backgroundColor={"transparent"}
+            translucent={true}
+            animated={true}
+          />
+          <RootLayoutContent />
+          <Toast config={toastConfig} />
+        </CartProvider>
       </AuthProvider>
     </QueryClientProvider>
   );
