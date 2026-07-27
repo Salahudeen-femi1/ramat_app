@@ -5,6 +5,23 @@ import { Ionicons } from '@expo/vector-icons'
 import { router } from 'expo-router'
 import { martItems } from '@/utility/data'
 import FoodCard from '../Component/card/FoodCard'
+import PromoCarousel from '../Component/banner/PromoCarousel'
+import { image } from '../constants/image'
+
+const promoImages = [
+  {
+    id: "1",
+    image: image.banner3,
+  },
+  {
+    id: "2",
+    image: image.banner4,
+  },
+  {
+    id: "3",
+    image: image.banner6,
+  },
+];
 
 const Minimart = () => {
 
@@ -70,7 +87,7 @@ const Minimart = () => {
         ListHeaderComponent={
           <View>
             {/* Banner */}
-            <View className="bg-primary/20 mt-4 mx-4 h-52 mb-6 rounded-md" />
+            <PromoCarousel images={promoImages}/>
           </View>
         }
         contentContainerStyle={{ paddingBottom: 24 }}

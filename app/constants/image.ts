@@ -14,6 +14,13 @@ export const image = {
     apple: require('../assets/images/apple.png'),
     strawberry: require('../assets/images/strawberry.png'),
     image: require('../assets/images/image.png'),
-    emptybox: require('../assets/images/emptybox.png')
+    emptybox: require('../assets/images/emptybox.png'),
+    banner1: require('../assets/images/banner1.png'),
+    banner2: require('../assets/images/banner2.png'),
+    banner3: require('../assets/images/banner3.png'),
+    banner4: require('../assets/images/banner4.png'),
+    banner5: require('../assets/images/banner5.png'),
+    banner6: require('../assets/images/banner6.png'),
+    banner7: require('../assets/images/banner7.png'),
     
 }

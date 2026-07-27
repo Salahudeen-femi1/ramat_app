@@ -6,8 +6,25 @@ import { router } from "expo-router";
 import React from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import FoodCard from "../Component/card/FoodCard";
+import PromoCarousel from "../Component/banner/PromoCarousel";
 import EmptyStateCard from "../Component/card/EmptyStateCard";
+import FoodCard from "../Component/card/FoodCard";
+import { image } from "../constants/image";
+
+const promoImages = [
+  {
+    id: "1",
+    image: image.banner1,
+  },
+  {
+    id: "2",
+    image: image.banner2,
+  },
+  {
+    id: "3",
+    image: image.banner5,
+  },
+];
 
 export default function Index() {
 
@@ -100,8 +117,7 @@ export default function Index() {
 
         ListHeaderComponent={
           <View>
-            {/* Banner */}
-            <View className="bg-primary/20 mt-4 mx-4 h-52 mb-6 rounded-md" />
+            <PromoCarousel images={promoImages} />
           </View>
         }
         ListEmptyComponent={
