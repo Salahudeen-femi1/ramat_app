@@ -37,7 +37,6 @@ export default function Register() {
       );
       console.log("register response", data);
       router.push({ pathname: "/(auth)/verify_email", params: { email: variables.email } });
-      router.push('/(tabs)')
     },
     onError: (err: any) => {
       const errMessage = err.response?.data?.message || err.message || 'Registration failed. Please try again.';
