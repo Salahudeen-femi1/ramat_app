@@ -38,7 +38,7 @@ export const loginService = async (email: string): Promise<{ token: string; user
  * Verify OTP
  */
 export const verifyOtpService = async (phone: string, otp: string): Promise<{ token: string; user: UserProps; role: string }> => {
-  const response = await api.post("/verify-otp", { phone, otp });
+  const response = await api.post("auth/verify-otp", { phone, otp });
   return response.data;
 };
 
