@@ -48,7 +48,7 @@ const EmailVerification = () => {
 
     return (
         <SafeAreaView className='flex-1  bg-white px-6'>
-            <ScrollView showsHorizontalScrollIndicator={false}>
+            <ScrollView showsHorizontalScrollIndicator={false}  contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}>
                 <KeyboardAvoidingView
                     behavior={Platform.OS === "ios" ? "padding" : "height"}
                     className="flex-1"
