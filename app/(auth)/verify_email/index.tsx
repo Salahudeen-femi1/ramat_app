@@ -33,7 +33,7 @@ const EmailVerification = () => {
             otp: ""
         },
         validationSchema: Yup.object({
-            otp: Yup.string().required("Verification code is required").length(4, "Code must be 4 digits")
+            otp: Yup.string().required("Verification code is required").length(6, "Code must be 4 digits")
         }),
         onSubmit: (value) => {
             if (!email) {
