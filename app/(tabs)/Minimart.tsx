@@ -3,10 +3,13 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons'
 import { router } from 'expo-router'
-import { martItems } from '@/utility/data'
 import FoodCard from '../Component/card/FoodCard'
 import PromoCarousel from '../Component/banner/PromoCarousel'
 import { image } from '../constants/image'
+import { useQuery } from '@tanstack/react-query'
+import { miniMarketService } from '@/services/authServices'
+import { martItem } from '@/utility/interface'
+import { ActivityIndicator } from 'react-native'
 
 const promoImages = [
   {
@@ -27,11 +30,31 @@ const Minimart = () => {
 
   const [activeTab, setActiveTab] = React.useState('All')
 
+  const { data: martItems = [], isLoading, isError } = useQuery<martItem[]>({
+    queryKey: ["item"],
+    queryFn: miniMarketService
+  })
+
   const filteredFoods = React.useMemo(() => {
-    if (activeTab === 'All') return martItems;
-    if (activeTab === 'Fruit') return martItems.filter(item => ['Apple', 'Smoothies', 'Strawberry'].includes(item.title));
-    return martItems;
-  }, [activeTab]);
+    if (activeTab === 'All') {
+      return martItems
+    }
+
+    return martItems.filter(
+      (item) => item.category === activeTab
+    )
+
+  }, [activeTab, martItems]);
+
+
+  if (isLoading) {
+    return (<ActivityIndicator size="large" />)
+  }
+
+  if (isError) {
+    return <Text>Something went wrong. Please try again.</Text>
+  }
+
   return (
     <SafeAreaView className='flex-1 bg-white'>
       <View className="px-4 pt-4 pb-3 flex-row justify-between items-center">
@@ -87,7 +110,7 @@ const Minimart = () => {
         ListHeaderComponent={
           <View>
             {/* Banner */}
-            <PromoCarousel images={promoImages}/>
+            <PromoCarousel images={promoImages} />
           </View>
         }
         contentContainerStyle={{ paddingBottom: 24 }}

@@ -42,6 +42,7 @@ export const setupInterceptors = (logout: () => void) => {
         (res) => res,
         async (error) => {
             Sentry.captureException(error);
+            console.log(error);
             if (error.code === "ERR_NETWORK") {
                 console.error("No internet or server down");
             } else if (error.response?.status === 401) {

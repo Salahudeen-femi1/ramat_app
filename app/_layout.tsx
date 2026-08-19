@@ -27,7 +27,7 @@ useEffect(() => {
   if (onboardingStatus === "incomplete") {
     router.replace("/(onboarding)/stepOne");
   } else if (!isLoggedIn) {
-    router.replace("/register");
+    router.replace("/(auth)/register");
   } else {
     router.replace("/(tabs)");
   }

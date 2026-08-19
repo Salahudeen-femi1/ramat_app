@@ -19,10 +19,11 @@ interface RegisterFormValues {
   last_name: string;
   gender: string;
   marketing?: boolean;
+  pin: string;
 }
 
 export default function Register() {
-  
+
   const [marketing, setMarketing] = React.useState(true);
 
   const mutation = useMutation<
@@ -32,13 +33,15 @@ export default function Register() {
   >({
     mutationFn: registerService,
     onSuccess: (data, variables) => {
+      console.log("full data", data)
       showSuccessToast(
-        data.message || "Registration successful. Please verify your email."
+        data.message || `${<p className='text-xs'>Registration successful. Please verify your email.</p>}`
       );
       console.log("register response", data);
-      router.push({ pathname: "/(auth)/verify_email", params: { email: variables.email } });
+      router.push("/(auth)/login");
     },
     onError: (err: any) => {
+      console.log("full err", err)
       const errMessage = err.response?.data?.message || err.message || 'Registration failed. Please try again.';
       showErrorToast(errMessage);
     },
@@ -51,6 +54,7 @@ export default function Register() {
       first_name: '',
       last_name: '',
       gender: '',
+      pin: ''
     },
     validationSchema: Yup.object({
       phone: Yup.string().required('Phone number is required'),
@@ -58,6 +62,7 @@ export default function Register() {
       first_name: Yup.string().required('First name is required'),
       last_name: Yup.string().required('Last name is required'),
       gender: Yup.string().required('Gender is required'),
+      pin: Yup.string().required('Please provide your 4 digit pin')
     }),
     onSubmit: (values) => {
       mutation.mutate({ ...values, marketing });
@@ -115,29 +120,56 @@ export default function Register() {
             </View>
           </View>
 
-          <View className="flex-1">
-            <Text className="font-semibold text-black mb-2">
-              Phone number <Text className="text-red-500">*</Text>
-            </Text>
+          <View className="flex-row gap-3">
+            <View className="flex-1">
+              <Text className="font-semibold text-black mb-2">
+                Phone number <Text className="text-red-500">*</Text>
+              </Text>
 
-            <View className="flex-row items-center bg-gray-100 rounded-xl px-4 h-16">
+              <View className="flex-row items-center bg-gray-100 rounded-xl px-4 h-16">
 
-              <TextInput
-                value={formik.values.phone}
-                onChangeText={formik.handleChange("phone")}
-                onBlur={formik.handleBlur("phone")}
-                placeholder="08000000000"
-                keyboardType="phone-pad"
-                className="flex-1 text-base"
-              />
+                <TextInput
+                  value={formik.values.phone}
+                  onChangeText={formik.handleChange("phone")}
+                  onBlur={formik.handleBlur("phone")}
+                  placeholder="08000000000"
+                  keyboardType="phone-pad"
+                  className="flex-1 text-base"
+                />
+              </View>
+
+              {formik.touched.phone && formik.errors.phone && (
+                <Text className="text-red-500 mt-1">
+                  {formik.errors.phone}
+                </Text>
+              )}
             </View>
 
-            {formik.touched.phone && formik.errors.phone && (
-              <Text className="text-red-500 mt-1">
-                {formik.errors.phone}
+            <View className="flex-1">
+              <Text className="font-semibold text-black mb-2">
+                Pin <Text className="text-red-500">*</Text>
               </Text>
-            )}
+
+              <View className="flex-row items-center bg-gray-100 rounded-xl px-4 h-16">
+
+                <TextInput
+                  value={formik.values.pin}
+                  onChangeText={formik.handleChange("pin")}
+                  onBlur={formik.handleBlur("pin")}
+                  placeholder="0000"
+                  keyboardType="phone-pad"
+                  className="flex-1 text-base"
+                />
+              </View>
+
+              {formik.touched.pin && formik.errors.pin && (
+                <Text className="text-red-500 mt-1">
+                  {formik.errors.pin}
+                </Text>
+              )}
+            </View>
           </View>
+
 
           {/* Email */}
 
@@ -161,7 +193,7 @@ export default function Register() {
               </Text>
             )}
           </View>
-          
+
           {/* Gender */}
 
           <View className="mb-6">
@@ -178,8 +210,8 @@ export default function Register() {
                 }}
                 activeOpacity={0.8}
                 className={`flex-1 h-14 rounded-xl border justify-center items-center ${formik.values.gender === "male"
-                    ? "bg-[#154A22] border-[#154A22]"
-                    : "bg-white border-gray-300"
+                  ? "bg-[#154A22] border-[#154A22]"
+                  : "bg-white border-gray-300"
                   }`}
               >
                 <Text
@@ -198,8 +230,8 @@ export default function Register() {
                 }}
                 activeOpacity={0.8}
                 className={`flex-1 h-14 rounded-xl border justify-center items-center ${formik.values.gender === "female"
-                    ? "bg-[#154A22] border-[#154A22]"
-                    : "bg-white border-gray-300"
+                  ? "bg-[#154A22] border-[#154A22]"
+                  : "bg-white border-gray-300"
                   }`}
               >
                 <Text
@@ -260,7 +292,7 @@ export default function Register() {
               Privacy Policy
             </Text>
           </Text>
-          <Link href="/login" className='text-[#2D5A27] font-semibold text-center mb-10'>Already have an account? Login</Link>
+          <Link href="/(auth)/login" className='text-[#2D5A27] font-semibold text-center mb-10'>Already have an account? Login</Link>
 
         </View>
 

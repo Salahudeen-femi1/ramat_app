@@ -105,23 +105,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     [queryClient]
   );
 
-  const signOut = useCallback(async () => {
-    try {
-      // Call logout service to invalidate token on backend
-      await logoutService();
-    } catch (e) {
-      console.error("Logout service failed", e);
-    } finally {
-      // Clear local state regardless of backend response
-      await Promise.all([
-        AsyncStorage.removeItem(globals.AUTH_TOKEN_KEY),
-        AsyncStorage.removeItem(globals.CURRENT_ROLE_KEY),
-      ]);
-      setToken(null);
-      setRole(null);
-      queryClient.clear();
-    }
-  }, [queryClient]);
+  // const signOut = useCallback(async () => {
+  //   try {
+  //     // Call logout service to invalidate token on backend
+  //     await logoutService();
+  //   } catch (e) {
+  //     console.error("Logout service failed", e);
+  //   } finally {
+  //     // Clear local state regardless of backend response
+  //     await Promise.all([
+  //       AsyncStorage.removeItem(globals.AUTH_TOKEN_KEY),
+  //       AsyncStorage.removeItem(globals.CURRENT_ROLE_KEY),
+  //     ]);
+  //     setToken(null);
+  //     setRole(null);
+  //     queryClient.clear();
+  //   }
+  // }, [queryClient]);
 
   const refreshUser = useCallback(async () => {
     await refetch();
@@ -147,7 +147,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       isLoggedIn: !!user && !!token,
       onboardingStatus,
       signIn,
-      signOut,
+      // signOut,
       refreshUser,
       completeOnboarding,
     }),
@@ -158,7 +158,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       isLoading,
       onboardingStatus,
       signIn,
-      signOut,
+      // signOut,
       refreshUser,
       completeOnboarding,
     ],

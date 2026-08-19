@@ -33,7 +33,7 @@ const EmailVerification = () => {
             otp: ""
         },
         validationSchema: Yup.object({
-            otp: Yup.string().required("Verification code is required").length(6, "Code must be 4 digits")
+            otp: Yup.string().required("Verification code is required").length(4, "Code must be 4 digits")
         }),
         onSubmit: (value) => {
             if (!email) {
@@ -75,7 +75,7 @@ const EmailVerification = () => {
                                         onPress={() => inputRef.current?.focus()}
                                         className="flex-row justify-between gap-4 w-full mt-2"
                                     >
-                                        {[0, 1, 2, 3, 4, 5].map((index) => (
+                                        {[0, 1, 2, 3].map((index) => (
                                             <View
                                                 key={index}
                                                 className={`w-[52px] h-[52px] border rounded-xl items-center justify-center bg-[#F9FAF7] ${formik.values.otp.length === index

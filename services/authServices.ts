@@ -1,12 +1,33 @@
 import api from "@/helper/axios";
 import { UserProps } from "@/lib/interfaces";
+import { FoodProps, martItem } from "@/utility/interface";
 
 /**
  * Fetch the current authenticated user
  */
-export const getUserService = async (): Promise<{ data: UserProps }> => {
+export const getUserService = async (): Promise<{ data: UserProps; token: string; }> => {
   const response = await api.get("/user");
   return response.data;
+};
+
+// fetch user order
+
+export const getOrderService = async () => {
+  const response = await api.get('/order')
+  return response.data.data;
+}
+
+// fetch mini market data
+
+export const miniMarketService = async (): Promise<martItem[]> => {
+  const response = await api.get('');
+  return response.data?.items;
+};
+
+export const getMenuService = async (category: string): Promise<FoodProps[]> => {
+  const endpoint = category === "All" ? ("/meu") : (`/menu/category/${encodeURIComponent(category)}`)
+  const response = await api.get(endpoint);
+  return response.data?.items;
 };
 
 export const verificationEmailService = async (data: { email: string; otp: string }) => {
@@ -27,10 +48,10 @@ export const logoutService = async (): Promise<void> => {
 };
 
 /**
- * Login with phone number (OTP/verification flow)
+ * Login with email and PIN
  */
-export const loginService = async (email: string): Promise<{ token: string; user: UserProps; role: string }> => {
-  const response = await api.post("/auth/login", { email });
+export const loginService = async (data: { email: string; pin: string }): Promise<{ token: string; user: UserProps; role: string }> => {
+  const response = await api.post("/auth/login", data);
   return response.data;
 };
 
@@ -57,6 +78,7 @@ export const registerService = async (data: {
   token?: string;
   user?: UserProps;
   role?: string;
+  pin: string;
 }> => {
   const response = await api.post("/auth/register", data);
   return response.data;

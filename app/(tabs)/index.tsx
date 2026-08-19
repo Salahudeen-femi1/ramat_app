@@ -1,15 +1,17 @@
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
-import { foods } from "@/utility/data";
 import { Ionicons } from '@expo/vector-icons';
 import { router } from "expo-router";
 import React from "react";
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PromoCarousel from "../Component/banner/PromoCarousel";
 import EmptyStateCard from "../Component/card/EmptyStateCard";
 import FoodCard from "../Component/card/FoodCard";
 import { image } from "../constants/image";
+import { useQuery } from "@tanstack/react-query";
+import { getMenuService } from "@/services/authServices";
+import { FoodProps } from "@/utility/interface";
 
 const promoImages = [
   {
@@ -32,13 +34,29 @@ export default function Index() {
   const { user } = useAuth()
   const { cartCount } = useCart()
 
+  const { data: foods = [], isLoading, isError } = useQuery<FoodProps[]>({
+    queryKey: ["foods", activeTab],
+    queryFn: () => getMenuService(activeTab),
+  });
+
   const filteredFoods = React.useMemo(() => {
-    if (activeTab === 'All') return foods;
-    if (activeTab === 'Rice') return foods.filter(item => item.title.includes('Rice'));
-    if (activeTab === 'Drinks') return foods.filter(item => ['Bottle Water', 'Coke', 'Yoghurt'].includes(item.title));
-    if (activeTab === 'Okele') return foods.filter(item => ['Fufu', 'Semo'].includes(item.title));
-    return foods;
-  }, [activeTab]);
+    if (activeTab === 'All') {
+      return foods
+    }
+
+    return foods.filter(
+      (item) => item.category === activeTab
+    )
+
+  }, [activeTab, foods]);
+
+  if (isLoading) {
+    return (<ActivityIndicator size="large" />)
+  }
+
+  if (isError) {
+    return <Text>Something went wrong. Please try again.</Text>
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-white relative">
