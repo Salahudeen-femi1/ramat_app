@@ -52,7 +52,11 @@ const Minimart = () => {
   }
 
   if (isError) {
-    return <Text>Something went wrong. Please try again.</Text>
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Text className="font-medium">Something went wrong. Please try again.</Text>
+      </View>
+    )
   }
 
   return (

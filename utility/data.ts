@@ -1,4 +1,5 @@
 import { image } from "@/app/constants/image";
+import { CompletedorderProps } from "./interface";
 
 export const foods = [
   {
@@ -210,3 +211,69 @@ export const martItems = [
   },
 
 ]
+
+export const orderslist: CompletedorderProps[] = [
+    {
+      id: 1,
+      label: 'Ramat Kitchen',
+      ordertag: '333004784',
+      date: '21st April, 2024',
+      time: '12:30 PM',
+    },
+    {
+      id: 2,
+      label: 'Ramat Kitchen',
+      ordertag: '333004784',
+      date: '21st April, 2024',
+      time: '12:30 PM',
+    },
+    {
+      id: 3,
+      label: 'Ramat Kitchen',
+      ordertag: '333004784',
+      date: '21st April, 2024',
+      time: '12:30 PM',
+    },
+    {
+      id: 4,
+      label: 'Ramat Kitchen',
+      ordertag: '333004784',
+      date: '21st April, 2024',
+      time: '12:30 PM',
+    },
+    {
+      id: 5,
+      label: 'Ramat Kitchen',
+      ordertag: '333004784',
+      date: '21st April, 2024',
+      time: '12:30 PM',
+    },
+    {
+      id: 6,
+      label: 'Ramat Kitchen',
+      ordertag: '333004784',
+      date: '21st April, 2024',
+      time: '12:30 PM',
+    },
+    {
+      id: 7,
+      label: 'Ramat Kitchen',
+      ordertag: '333004784',
+      date: '21st April, 2024',
+      time: '12:30 PM',
+    },
+    {
+      id: 8,
+      label: 'Ramat Kitchen',
+      ordertag: '333004784',
+      date: '21st April, 2024',
+      time: '12:30 PM',
+    },
+    {
+      id: 9,
+      label: 'Ramat Kitchen',
+      ordertag: '333004784',
+      date: '21st April, 2024',
+      time: '12:30 PM',
+    },
+  ]

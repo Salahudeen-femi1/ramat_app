@@ -41,13 +41,15 @@ export default function Index() {
 
   const filteredFoods = React.useMemo(() => {
     if (activeTab === 'All') {
-      return foods
+      return foods;
     }
 
-    return foods.filter(
-      (item) => item.category === activeTab
-    )
+    const normalizedTab = activeTab.toLowerCase();
 
+    return foods.filter((item) => {
+      const normalizedCategory = String(item.category ?? '').toLowerCase();
+      return normalizedCategory === normalizedTab;
+    });
   }, [activeTab, foods]);
 
   if (isLoading) {
@@ -55,7 +57,11 @@ export default function Index() {
   }
 
   if (isError) {
-    return <Text>Something went wrong. Please try again.</Text>
+    return (
+      <View className="flex-1 justify-center items-center">
+        <Text className="font-medium">Something went wrong. Please try again.</Text>
+      </View>
+    )
   }
 
   return (

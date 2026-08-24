@@ -43,6 +43,12 @@ export type ResponseProps = {
   items: FoodProps[]
 }
 
+export interface OngoingOrderProps {
+  status: string;
+  orderName: string;
+  amount: string;
+}
+
 export interface martItem {
   id: string;
   title: string;
@@ -51,4 +57,14 @@ export interface martItem {
   category: string;
   image: ImageSourcePropType;
   extras?: Extras[]
+}
+
+export interface RegisterFormValues {
+  phone: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  gender: string;
+  marketing?: boolean;
+  pin: string;
 }

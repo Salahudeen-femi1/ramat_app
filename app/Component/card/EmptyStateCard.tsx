@@ -15,7 +15,7 @@ export default function EmptyStateCard({
   description,
 }: EmptyStateCardProps) {
   return (
-    <View className="items-center justify-center px-5">
+    <View className="items-center justify-center px-5 mt-10">
       <Image source={image.emptybox} className="" style={{ width: 200, height: 170 }} resizeMode="cover" />
       
 

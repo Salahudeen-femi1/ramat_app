@@ -11,16 +11,7 @@ import { UserProps } from '@/lib/interfaces'
 import { registerService } from '@/services/authServices'
 import { Ionicons } from '@expo/vector-icons'
 import { useMutation } from '@tanstack/react-query'
-
-interface RegisterFormValues {
-  phone: string;
-  email: string;
-  first_name: string;
-  last_name: string;
-  gender: string;
-  marketing?: boolean;
-  pin: string;
-}
+import { RegisterFormValues } from '@/utility/interface'
 
 export default function Register() {
 
@@ -39,7 +30,7 @@ export default function Register() {
       );
       console.log("register response", data);
       router.push("/(auth)/login");
-    },
+    },                                        
     onError: (err: any) => {
       console.log("full err", err)
       const errMessage = err.response?.data?.message || err.message || 'Registration failed. Please try again.';
