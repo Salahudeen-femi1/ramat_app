@@ -4,7 +4,7 @@ import { Image, Text, TouchableOpacity, View } from 'react-native'
 
 interface OrderCardProps {
   image: any
-  title: string
+  name: string
   description: string
   price: string | number
   quantity?: number
@@ -14,7 +14,7 @@ interface OrderCardProps {
 
 export default function OrderCard({
   image,
-  title,
+  name,
   description,
   price,
   quantity = 1,
@@ -35,7 +35,7 @@ export default function OrderCard({
 
       <View className='flex-1'>
         <View className='flex-row items-center justify-between'>
-          <Text className="font-semibold text-[14px] ">{title}</Text>
+          <Text className="font-semibold text-[14px] ">{name}</Text>
           <TouchableOpacity onPress={onRemove} activeOpacity={0.8}>
             <Ionicons name='trash-outline' size={18} />
           </TouchableOpacity>

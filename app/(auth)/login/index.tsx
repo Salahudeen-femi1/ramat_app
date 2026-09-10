@@ -4,7 +4,7 @@ import { showErrorToast, showSuccessToast } from '@/helper/toast'
 import { loginService } from '@/services/authServices'
 import { Ionicons } from "@expo/vector-icons"
 import { useMutation } from '@tanstack/react-query'
-import { router } from 'expo-router'
+import { Link, router } from 'expo-router'
 import { useFormik } from 'formik'
 import React from 'react'
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
@@ -60,7 +60,7 @@ export default function Login() {
 
         <View className='flex flex-col gap-8'>
           <View>
-            <TouchableOpacity onPress={() => router.back()}>
+            <TouchableOpacity onPress={() => router.push('/register')}>
               <Ionicons
                 name="arrow-back-circle-outline"
                 size={30}
@@ -73,6 +73,7 @@ export default function Login() {
                 Welcome Back!
               </Text>
               <Text className='text-sm'>You can log back in to your account using your Email.</Text>
+               <Link href="/register" className='text-[#2D5A27] font-semibold text-center mb-10'>Already have an account? Login</Link>
             </View>
           </View>
           <View>

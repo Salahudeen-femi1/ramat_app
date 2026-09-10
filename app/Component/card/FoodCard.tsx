@@ -2,10 +2,10 @@ import { useCart } from '@/context/CartContext'
 import { cardType } from '@/utility/interface'
 import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ImageSourcePropType, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import Modal from '../modal/Modal'
 
-export default function FoodCard({ id, title, description, price, image, extras = [] }: cardType) {
+export default function FoodCard({ id, name, description, price, image, extras = [] }: cardType) {
 
     const [openModal, setOpenModal] = React.useState(false)
     const [showExtras, setShowExtras] = React.useState(false)
@@ -57,7 +57,7 @@ export default function FoodCard({ id, title, description, price, image, extras 
 
         await addToCart({
             id,
-            title,
+            name,
             description,
             price,
             image,
@@ -74,7 +74,7 @@ export default function FoodCard({ id, title, description, price, image, extras 
 
             <View className="flex-row justify-between mx-5 border-b border-gray-100 px-4 py-4">
                 <View className="flex-1 pr-4">
-                    <Text className="font-semibold text-[16px] ">{title}</Text>
+                    <Text className="font-semibold text-[16px] ">{name}</Text>
                     <Text className="text-gray-500 mt-1">{description}</Text>
 
                     <Text className="font-bold text-primary mt-3">
@@ -85,9 +85,10 @@ export default function FoodCard({ id, title, description, price, image, extras 
                 <View>
 
                     <Image
-                        source={image}
+                        // source={image}
+                        source={{ uri: image as ImageSourcePropType }}
                         resizeMode="cover"
-                        className="w-[100px] h-[90px] rounded-t-md  "
+                        className="w-[100px] h-[90px] rounded-t-md"
                     />
                     <TouchableOpacity
                         onPress={() => setOpenModal(true)}
@@ -104,7 +105,7 @@ export default function FoodCard({ id, title, description, price, image, extras 
             <Modal visible={openModal} onClose={() => setOpenModal(false)}>
                 <View className="flex-1">
                     <Image
-                        source={image}
+                        source={{ uri: image as ImageSourcePropType }}
                         resizeMode="cover"
                         className="w-full h-[200px] rounded-t-[20px]"
                     />
@@ -113,7 +114,7 @@ export default function FoodCard({ id, title, description, price, image, extras 
                             showsVerticalScrollIndicator={false}
                         >
                             <View className="p-4">
-                                <Text className="font-semibold text-[18px]">{title}</Text>
+                                <Text className="font-semibold text-[18px]">{name}</Text>
                                 <Text className="text-gray-500 mt-1">{description}</Text>
 
                                 <Text className="font-bold text-primary mt-3">

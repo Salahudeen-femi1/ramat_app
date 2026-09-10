@@ -73,7 +73,7 @@ export default function ProfileScreen() {
   const displayEmail = user?.email || "user@example.com";
 
   return (
-    <View className="flex-1 ">
+    <View className="flex-1 bg-white ">
 
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -84,31 +84,19 @@ export default function ProfileScreen() {
         <View className="items-center pt-28">
 
           {/* Avatar */}
-          <View className="relative">
-
-            <View className="w-[170px] h-[170px] rounded-full border-[10px] border-[#E8E8E8] items-center justify-center overflow-hidden">
-              <Image
-                src={`https://api.dicebear.com/9.x/initials/svg?seed=${displayName}`}
-                alt={user?.first_name}
-              />
-            </View>
-
-            {/* Edit Button */}
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={handleEditProfile}
-              className="absolute bottom-3 right-2 bg-primary w-14 h-14 rounded-full items-center justify-center"
-            >
-              <Feather
-                name="edit-2"
-                size={22}
-                color="white"
-              />
-            </TouchableOpacity>
+          <View className="w-[170px] h-[170px] rounded-full border-[10px] border-[#E8E8E8] items-center justify-center overflow-hidden">
+            <Image
+              source={{
+                uri: "https://i.pinimg.com/736x/b8/d4/9b/b8d49b88ebb79c9187d82cc8f0fe4e3a.jpg",
+              }}
+              style={{ width: 250, height:250 }}
+              alt={user?.first_name}
+            />
           </View>
 
           {/* Name */}
-          <Text className="text-primary text-[30px] font-semibold mt-6">
+          <Text className="text-primary text-[30px] font-medium uppercase mt-6"
+          >
             {displayName}
           </Text>
 
@@ -119,7 +107,7 @@ export default function ProfileScreen() {
         </View>
 
         {/* White Main Content */}
-        <View className="bg-[#F8F8F4] mt-10 px-5 pt-7 pb-10">
+        <View className="mt-10 px-5 pt-7 pb-10">
 
           {menuItems.map((item, index) => (
             <View key={item.id}>

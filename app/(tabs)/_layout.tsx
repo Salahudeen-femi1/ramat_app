@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text } from 'react-native'
 import React from 'react'
 import { Tabs } from 'expo-router'
 // import { icon } from '@/app/constants/icon'
@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons'
 
 const TabIcon = ({ focused, icon, title }: any) => {
     return (
-        <View className="size-full justify-center items-center">
+        <View style={{ width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center' }}>
             <Ionicons
                 name={icon}
                 size={26}
@@ -14,10 +14,11 @@ const TabIcon = ({ focused, icon, title }: any) => {
             />
 
             <Text
-                className={`font-semibold ${focused
-                    ? "text-sm text-primary"
-                    : "text-sm text-neutral"
-                    }`}
+                style={{
+                    fontSize: 12,
+                    fontWeight: '600',
+                    color: focused ? '#2D5A27' : '#757872'
+                }}
             >
                 {title}
             </Text>
@@ -35,11 +36,17 @@ const _layout = () => {
                     height: '100%',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    marginVertical: 15
+                    paddingVertical: 4,
                 },
                 tabBarStyle: {
-                    backgroundColor: "white"
-                }
+                    backgroundColor: "white",
+                    height: 78,
+                    borderTopWidth: 0,
+                    elevation: 0,
+                    shadowOpacity: 0,
+                },
+                tabBarActiveTintColor: '#2D5A27',
+                tabBarInactiveTintColor: '#757872',
             }}
         >
             <Tabs.Screen
@@ -64,8 +71,8 @@ const _layout = () => {
                     tabBarIcon: ({ focused }) => (
                         <TabIcon
                             focused={focused}
-                            icon='basket-outline'
-                            title="Minimart"
+                            icon='storefront-sharp'
+                            title="Minim"
                         />
                     )
                 }}
@@ -93,7 +100,7 @@ const _layout = () => {
                         <TabIcon
                             focused={focused}
                             icon='person'
-                            title="Profile"
+                            title="Profil"
                         />
                     )
                 }}

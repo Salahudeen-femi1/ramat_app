@@ -24,17 +24,28 @@ function RootLayoutContent() {
 useEffect(() => {
   if (isLoading) return;
 
-  if (onboardingStatus === "incomplete") {
-    router.replace("/(onboarding)/stepOne");
-  } else if (!isLoggedIn) {
-    router.replace("/(auth)/register");
+  // if logged in -> onboarding status
+  if (isLoggedIn) {
+    if (onboardingStatus === "complete") {
+      router.replace("/(tabs)")
+    } else {
+      router.replace("/(onboarding)/stepOne");
+    }
   } else {
-    router.replace("/(tabs)");
+    router.replace("/(auth)/login")
   }
+
+  // if (onboardingStatus === "incomplete") {
+  //   router.replace("/(onboarding)/stepOne");
+  // } else if (!isLoggedIn) {
+  //   router.replace("/(auth)/register");
+  // } else {
+  //   router.replace("/(tabs)");
+  // }
 }, [isLoading, isLoggedIn, onboardingStatus]);
 
   return (
-    <Stack>
+    <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name="(tabs)"
         options={{ headerShown: false }}
@@ -58,39 +69,9 @@ useEffect(() => {
       />
 
       <Stack.Screen
-        name="pages/Cart"
+        name="(pages)/(cart)/Cart"
         options={{
-          headerShown: true,
-          title: 'My Order',
-
-          // Normal React Native styles
-          headerStyle: {
-            backgroundColor: '#fff',
-          },
-
-          headerTitleStyle: {
-            fontSize: 18,
-            fontWeight: '300',
-            color: '#000',
-          },
-
-          headerShadowVisible: false,
-
-          headerTitleAlign: 'center',
-
-          // Tailwind works here
-          headerLeft: () => (
-            <Pressable
-              onPress={() => router.back()}
-              className="ml-2 p-2 rounded-full bg-gray-100 active:opacity-70"
-            >
-              <Feather
-                name="chevron-left"
-                size={24}
-                color="black"
-              />
-            </Pressable>
-          ),
+          headerShown: false,
         }}
       />
       <Stack.Screen
@@ -144,7 +125,7 @@ export default function RootLayout() {
             translucent={true}
             animated={true}
           />
-          <RootLayoutContent />
+          <RootLayoutContent />;
           <Toast config={toastConfig} />
         </CartProvider>
       </AuthProvider>

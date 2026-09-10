@@ -8,7 +8,7 @@ export interface Extra {
 
 export interface cardType {
   id: string;
-  title: string;
+  name: string;
   description: string;
   price: number | string;
   image: ImageSourcePropType;
@@ -42,6 +42,12 @@ export interface FoodProps {
 export type ResponseProps = {
   items: FoodProps[]
 }
+
+// export interface SearchProps {
+//   id: number;
+//   title:string;
+  
+// }
 
 export interface OngoingOrderProps {
   status: string;

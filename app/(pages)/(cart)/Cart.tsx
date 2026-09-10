@@ -1,10 +1,9 @@
 import { useCart } from '@/context/CartContext'
 import { router } from 'expo-router'
-import React from 'react'
 import { FlatList, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import OrderCard from '../Component/card/OrderCard'
-import EmptyStateCard from '../Component/card/EmptyStateCard'
+import OrderCard from '../../Component/card/OrderCard'
+import EmptyStateCard from '../../Component/card/EmptyStateCard'
 
 const Cart = () => {
   const { cartItems, clearCart, updateQuantity, removeFromCart } = useCart()

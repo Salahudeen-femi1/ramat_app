@@ -1,5 +1,5 @@
-import { ActivityIndicator, Pressable, TextStyle, ViewStyle } from "react-native";
 import React from "react";
+import { ActivityIndicator, Pressable, TextStyle, ViewStyle } from "react-native";
 import { AppText } from "../AppText";
 
 type IconElement = React.ReactElement<{ size?: number }>;
@@ -49,7 +49,7 @@ const ActionButton = ({ action, icon, name, optStyle, optStyle2, disabled, loadi
         adjustsFontSizeToFit
         minimumFontScale={0.85}
       >{name}</AppText>
-      {loading && <ActivityIndicator size={"small"} color={hasBG ? "#F4F6F1" : "#154A22"} />}
+      {loading && <ActivityIndicator size={"small"} color={hasBG ? "#2D5A27" : "#2D5A27"} />}
     </Pressable>
   )
 }

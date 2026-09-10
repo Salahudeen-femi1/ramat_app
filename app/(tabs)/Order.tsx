@@ -7,8 +7,11 @@ import { useQuery } from "@tanstack/react-query";
 import { getOrderService } from "@/services/authServices";
 
 type StatusType = "ongoing" | "completed";
+type Props ={
+  order_id: string
+}
 
-export default function TaskTabs() {
+export default function TaskTabs({ order_id}: Props) {
 
   const [status, setStatus] = useState<StatusType>("ongoing");
 
@@ -18,8 +21,11 @@ export default function TaskTabs() {
   ];
 
   const { data: orders = [], isLoading, isError } = useQuery({
-    queryKey: ['orders', status],
-    queryFn: () => getOrderService(status)
+    queryKey: ['orders', status, order_id],
+    queryFn: () => getOrderService(
+      status, order_id
+    ),
+    enabled: !order_id
   })
 
   return (

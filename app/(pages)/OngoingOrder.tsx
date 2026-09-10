@@ -14,7 +14,8 @@ export default function OngoingOrder({ orders, isLoading, isError }: onGoingProp
   if (isError) {
     return (
       <View className="flex-1 justify-center items-center">
-        <Text className="font-medium">Something went wrong. Please try again.</Text>
+        <Text className="font-medium">Something went wrong. Please try again.
+        </Text>
       </View>
     )
   }
@@ -24,8 +25,8 @@ export default function OngoingOrder({ orders, isLoading, isError }: onGoingProp
       {isLoading ? (
         <ActivityIndicator
           size="large"
-          color="#0000ff"
-          className="my-3 self-center"
+          color="#2D5A27"
+          className="my-auto self-center"
         />
       ) : (
         <EmptyStateCard

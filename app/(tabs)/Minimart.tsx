@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, TouchableOpacity, FlatList, Pressable } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons'
@@ -10,6 +10,9 @@ import { useQuery } from '@tanstack/react-query'
 import { miniMarketService } from '@/services/authServices'
 import { martItem } from '@/utility/interface'
 import { ActivityIndicator } from 'react-native'
+import EmptyStateCard from '../Component/card/EmptyStateCard'
+import SearchBar from '../Component/search/SearchBar'
+import { RefreshControl } from 'react-native'
 
 const promoImages = [
   {
@@ -29,10 +32,14 @@ const promoImages = [
 const Minimart = () => {
 
   const [activeTab, setActiveTab] = React.useState('All')
+  const [searchModal, setSearchModal] = React.useState(false)
+  const [martSearch, setMartSearch] = React.useState('')
 
-  const { data: martItems = [], isLoading, isError } = useQuery<martItem[]>({
-    queryKey: ["item"],
-    queryFn: miniMarketService
+  const { data: martItems = [], isLoading, isError, refetch: refreshMartItems } = useQuery<martItem[]>({
+    queryKey: ["item", martSearch],
+    queryFn: () => miniMarketService({
+      query: martSearch
+    })
   })
 
   const filteredFoods = React.useMemo(() => {
@@ -46,9 +53,14 @@ const Minimart = () => {
 
   }, [activeTab, martItems]);
 
-
   if (isLoading) {
-    return (<ActivityIndicator size="large" />)
+    return (
+      <ActivityIndicator
+        color="2D5A27"
+        size="large"
+        className="my-auto self-cenetr"
+      />
+    )
   }
 
   if (isError) {
@@ -72,9 +84,11 @@ const Minimart = () => {
         </View>
 
         <View className="flex-row items-center gap-4">
-          {/* <View className="items-center gap- bg-gray-100 py-2 rounded-md">
-            <Ionicons name="search" size={22} color="#2D5A27" />
-          </View> */}
+          <Pressable
+            onPress={() => setSearchModal(true)}
+            className="mr-2">
+            <Ionicons name="search-outline" size={24} color="#2D5A27" />
+          </Pressable>
 
           <Ionicons name="scan-outline" size={26} color="#2D5A27" />
 
@@ -110,6 +124,12 @@ const Minimart = () => {
         renderItem={({ item }) => (
           <FoodCard {...item} />
         )}
+        refreshControl={
+          <RefreshControl
+            onRefresh={refreshMartItems}
+            refreshing={isLoading}
+          />
+        }
 
         ListHeaderComponent={
           <View>
@@ -117,8 +137,17 @@ const Minimart = () => {
             <PromoCarousel images={promoImages} />
           </View>
         }
+        ListEmptyComponent={
+          <EmptyStateCard
+            title="No items added"
+            description="Try adding some mini mart items from the admin side"
+          />
+        }
         contentContainerStyle={{ paddingBottom: 24 }}
       />
+
+      {/* Search modal component (controlled via props) */}
+      <SearchBar searchModal={searchModal} setSearchModal={setSearchModal} position="top" />
     </SafeAreaView>
   )
 }

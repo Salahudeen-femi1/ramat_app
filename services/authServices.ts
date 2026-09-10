@@ -14,30 +14,44 @@ export const getUserService = async (): Promise<{ data: UserProps; token: string
 
 type StatusType = "ongoing" | "completed"
 
-export const getOrderService = async (status: StatusType) => {
+export const getOrderService = async (status: StatusType, order_id: string) => {
   const endpoint =
     status === "ongoing"
-      ? "/order/ongoing"
-      : "/order/completed";
+      ? `/orders/${order_id}/tracking`
+      : "/orders";
 
   const response = await api.get(endpoint);
 
-  return response.data.items;
+  return response.data.items ?? [];
 };
 
 // fetch mini market data
 
-export const miniMarketService = async (): Promise<martItem[]> => {
-  const response = await api.get('');
+export const miniMarketService = async (params: {
+  query: string
+}): Promise<martItem[]> => {
+  const response = await api.get('market', {
+    params: {
+      martSearch: params.query
+    }
+  });
   return response.data?.items;
 };
 
-export const getMenuService = async (category: string): Promise<FoodProps[]> => {
+export const getMenuService = async (category: string, params?: {
+  query?: string
+}
+): Promise<FoodProps[]> => {
   const endpoint = category === "All"
     ? "/menu"
     : `/menu/category/${encodeURIComponent(category)}`;
 
-  const response = await api.get(endpoint);
+  const response = await api.get(endpoint, {
+    params: params?.query ?
+      {
+        search: params.query
+      } : undefined
+  });
   return response.data?.items ?? [];
 };
 

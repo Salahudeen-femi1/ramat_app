@@ -25,8 +25,8 @@ const CompletedOrder = ({ orders, isLoading, isError }: completeOrderProps) => {
       {isLoading ? (
         <ActivityIndicator
           size="large"
-          color="#0000ff"
-          className="my-3 self-center"
+          color="#2D5A27"
+          className="my-auto self-center"
         />
       ) : (
         <FlatList

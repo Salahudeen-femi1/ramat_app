@@ -1,17 +1,18 @@
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
+import { getMenuService } from "@/services/authServices";
+import { FoodProps } from "@/utility/interface";
 import { Ionicons } from '@expo/vector-icons';
+import { useQuery } from "@tanstack/react-query";
 import { router } from "expo-router";
 import React from "react";
-import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, FlatList, Pressable, RefreshControl, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PromoCarousel from "../Component/banner/PromoCarousel";
 import EmptyStateCard from "../Component/card/EmptyStateCard";
 import FoodCard from "../Component/card/FoodCard";
+import SearchBar from "../Component/search/SearchBar";
 import { image } from "../constants/image";
-import { useQuery } from "@tanstack/react-query";
-import { getMenuService } from "@/services/authServices";
-import { FoodProps } from "@/utility/interface";
 
 const promoImages = [
   {
@@ -30,14 +31,17 @@ const promoImages = [
 
 export default function Index() {
 
-  const [activeTab, setActiveTab] = React.useState('All')
+  const [activeTab, setActiveTab] = React.useState('All');
+  const [searchModal, setSearchModal] = React.useState(false);
+
   const { user } = useAuth()
   const { cartCount } = useCart()
 
-  const { data: foods = [], isLoading, isError } = useQuery<FoodProps[]>({
+  const { data: foods = [], isLoading, isError, refetch: refreshFoodItems } = useQuery<FoodProps[]>({
     queryKey: ["foods", activeTab],
     queryFn: () => getMenuService(activeTab),
   });
+  console.log(foods)
 
   const filteredFoods = React.useMemo(() => {
     if (activeTab === 'All') {
@@ -53,7 +57,11 @@ export default function Index() {
   }, [activeTab, foods]);
 
   if (isLoading) {
-    return (<ActivityIndicator size="large" />)
+    return (<ActivityIndicator
+      color="#2D5A27"
+      size="large"
+      className="my-auto self-center"
+    />)
   }
 
   if (isError) {
@@ -78,10 +86,14 @@ export default function Index() {
 
           <View className="flex-row items-center gap-4">
 
+            <Pressable onPress={() => setSearchModal(true)} className="mr-2">``
+              <Ionicons name="search-outline" size={24} color="#2D5A27" />
+            </Pressable>
+
             <Ionicons name="scan-outline" size={26} color="#2D5A27" />
 
             <TouchableOpacity
-              onPress={() => router.push('/Cart')}
+              onPress={() => router.push('/(pages)/(cart)/Cart')}
               activeOpacity={0.8}
             >
               <View className="relative">
@@ -109,10 +121,6 @@ export default function Index() {
           </Text>
         </View>
 
-        <View>
-
-        </View>
-
         {/* Tabs */}
         <View className="px-4 py-2">
           <View className="flex-row">
@@ -138,6 +146,12 @@ export default function Index() {
         renderItem={({ item }) => (
           <FoodCard {...item} />
         )}
+        refreshControl={
+          <RefreshControl 
+          onRefresh={refreshFoodItems}
+          refreshing={isLoading}
+          />
+        }
 
         ListHeaderComponent={
           <View>
@@ -168,6 +182,9 @@ export default function Index() {
           <Text className="text-white font-semibold">View cart</Text>
         </TouchableOpacity>
       )}
+      {/* Search modal component (controlled via props) */}
+      <SearchBar searchModal={searchModal} setSearchModal={setSearchModal} position="top" />
+
     </SafeAreaView>
   );
 }

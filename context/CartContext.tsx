@@ -17,7 +17,7 @@ export interface CartExtra {
 
 export interface CartItem {
   id: string;
-  title: string;
+  name: string;
   description: string;
   price: string | number;
   image: ImageSourcePropType;
@@ -81,7 +81,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     async (item: CartPayload) => {
       const normalizedItem: CartItem = {
         id: item.id,
-        title: item.title,
+        name: item.name,
         description: item.description,
         price: item.price,
         image: item.image,
