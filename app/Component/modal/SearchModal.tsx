@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#F4F6F1",
     width: "100%",
     maxWidth: 600,
-    maxHeight: "20%",
-    minHeight: "10%"
+    maxHeight: "85%",
+    minHeight: "50%",
   },
   containerTop: {
     borderBottomRightRadius: 0,

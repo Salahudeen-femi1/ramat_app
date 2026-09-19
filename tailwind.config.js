@@ -12,7 +12,18 @@ module.exports = {
         neutral: '#757872',
         backgroundPrimary: '#F9FAF2',
         button: '#ebf5ff'
-      }
+      },
+      fontFamily: {
+        poppinsThin: ["poppinsThin"],
+        poppinsExtraLight: ["poppinsExtraLight"],
+        poppinsLight: ["poppinsLight"],
+        poppinsRegular: ["poppinsRegular"],
+        poppinsMedium: ["poppinsMedium"],
+        poppinsSemiBold: ["poppinsSemiBold"],
+        poppinsBold: ["poppinsBold"],
+        poppinsExtraBold: ["poppinsExtraBold"],
+        poppinsBlack: ["poppinsBlack"],
+      },
     },
   },
   plugins: [],

@@ -1,11 +1,11 @@
 import { useCart } from '@/context/CartContext'
-import { cardType } from '@/utility/interface'
+import { MartCardType } from '@/utility/interface'
 import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
 import { Image, ImageSourcePropType, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import Modal from '../modal/Modal'
 
-export default function FoodCard({ id, name, description, price, image, extras = [] }: cardType) {
+export default function MartCard({ id, name, description, price, image, extras = [] }: MartCardType) {
 
     const [openModal, setOpenModal] = React.useState(false)
     const [showExtras, setShowExtras] = React.useState(false)
@@ -50,7 +50,7 @@ export default function FoodCard({ id, name, description, price, image, extras =
             if (!extra || count <= 0) return []
             return Array.from({ length: count }, () => ({
                 id: extra.id,
-                label: extra.name,
+                label: extra.label,
                 price: extra.price,
             }))
         })

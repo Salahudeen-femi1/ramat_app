@@ -111,7 +111,7 @@ export default function Login() {
                 value={formik.values.pin}
                 onChangeText={formik.handleChange("pin")}
                 onBlur={formik.handleBlur("pin")}
-                placeholder="0000"
+                placeholder="password"
                 keyboardType="number-pad"
                 secureTextEntry
                 maxLength={4}

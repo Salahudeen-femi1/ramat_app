@@ -30,7 +30,7 @@ export const getOrderService = async (status: StatusType, order_id: string) => {
 export const miniMarketService = async (params: {
   query: string
 }): Promise<martItem[]> => {
-  const response = await api.get('market', {
+  const response = await api.get('/market', {
     params: {
       martSearch: params.query
     }
@@ -70,6 +70,16 @@ export const logoutService = async (): Promise<void> => {
     // Even if logout fails, we'll clear local state
     console.error("Logout failed:", error);
   }
+};
+
+export const paymentService = async (data: { orderId: string; }) => {
+  const response = await api.post('/payments/initialize', data)
+  return response.data
+}
+
+export const verifyPayment = async (reference: string) => {
+  const response = await api.get(`/payments/verify/${reference}`);
+  return response.data;
 };
 
 /**

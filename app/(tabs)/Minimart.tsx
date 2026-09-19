@@ -1,18 +1,18 @@
-import { View, Text, TouchableOpacity, FlatList, Pressable } from 'react-native'
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { Ionicons } from '@expo/vector-icons'
-import { router } from 'expo-router'
-import FoodCard from '../Component/card/FoodCard'
-import PromoCarousel from '../Component/banner/PromoCarousel'
-import { image } from '../constants/image'
-import { useQuery } from '@tanstack/react-query'
 import { miniMarketService } from '@/services/authServices'
 import { martItem } from '@/utility/interface'
-import { ActivityIndicator } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
+import { useQuery } from '@tanstack/react-query'
+import { router } from 'expo-router'
+import React from 'react'
+import { ActivityIndicator, FlatList, Pressable, RefreshControl, Text, TouchableOpacity, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import PromoCarousel from '../Component/banner/PromoCarousel'
+import { image } from '../constants/image'
+
 import EmptyStateCard from '../Component/card/EmptyStateCard'
 import SearchBar from '../Component/search/SearchBar'
-import { RefreshControl } from 'react-native'
+
+import MartCard from '../Component/card/MartCard'
 
 const promoImages = [
   {
@@ -122,7 +122,7 @@ const Minimart = () => {
         data={filteredFoods}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <FoodCard {...item} />
+          <MartCard {...item} />
         )}
         refreshControl={
           <RefreshControl
@@ -147,7 +147,13 @@ const Minimart = () => {
       />
 
       {/* Search modal component (controlled via props) */}
-      <SearchBar searchModal={searchModal} setSearchModal={setSearchModal} position="top" />
+      <SearchBar
+        searchModal={searchModal}
+        setSearchModal={setSearchModal}
+        position="top"
+        searchType="market"
+        onSearchQueryChange={setMartSearch}
+      />
     </SafeAreaView>
   )
 }

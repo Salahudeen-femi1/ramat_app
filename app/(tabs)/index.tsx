@@ -41,7 +41,6 @@ export default function Index() {
     queryKey: ["foods", activeTab],
     queryFn: () => getMenuService(activeTab),
   });
-  console.log(foods)
 
   const filteredFoods = React.useMemo(() => {
     if (activeTab === 'All') {
@@ -86,7 +85,7 @@ export default function Index() {
 
           <View className="flex-row items-center gap-4">
 
-            <Pressable onPress={() => setSearchModal(true)} className="mr-2">``
+            <Pressable onPress={() => setSearchModal(true)} className="mr-2">
               <Ionicons name="search-outline" size={24} color="#2D5A27" />
             </Pressable>
 
@@ -108,7 +107,6 @@ export default function Index() {
           </View>
 
         </View>
-
 
         {/* Welcome */}
         <View className="px-4 py-2">
@@ -183,7 +181,12 @@ export default function Index() {
         </TouchableOpacity>
       )}
       {/* Search modal component (controlled via props) */}
-      <SearchBar searchModal={searchModal} setSearchModal={setSearchModal} position="top" />
+      <SearchBar
+        searchModal={searchModal}
+        setSearchModal={setSearchModal}
+        position="top"
+        searchType="food"
+      />
 
     </SafeAreaView>
   );

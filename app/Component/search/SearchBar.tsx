@@ -1,39 +1,55 @@
-import { getMenuService } from '@/services/authServices';
+import { getMenuService, miniMarketService } from '@/services/authServices';
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
 import FoodCard from '../card/FoodCard';
+import MartCard from '../card/MartCard';
 import SearchModal from '../modal/SearchModal';
 
 interface Props {
     searchModal: boolean;
     setSearchModal: React.Dispatch<React.SetStateAction<boolean>>;
     position?: "top" | "bottom";
+    searchType?: 'food' | 'market';
+    onSearchQueryChange?: (query: string) => void;
 }
 
-export default function SearchBar({ searchModal, setSearchModal, position = "bottom" }: Props) {
+export default function SearchBar({
+    searchModal,
+    setSearchModal,
+    position = "bottom",
+    searchType = 'food',
+    onSearchQueryChange,
+}: Props) {
 
     const [searchQuery, setSearchQuery] = React.useState('');
 
     const { data: searchResult = [] } = useQuery({
-        queryKey: ['searchResult', searchQuery],
-        queryFn: () => getMenuService("All", {
-            query: searchQuery,
-        }),
+        queryKey: ['searchResult', searchType, searchQuery],
+        queryFn: async () => {
+            if (searchType === 'market') {
+                return miniMarketService({ query: searchQuery });
+            }
+
+            return getMenuService('All', { query: searchQuery });
+        },
         enabled: searchQuery.trim().length > 0,
     });
 
-    const filteredSearrch = searchResult.filter((menu) =>
-        menu.title.toLocaleLowerCase().includes(searchQuery.toLowerCase())
-    )
+    const filteredSearrch = searchResult.filter((item: any) => {
+        const title = String(item?.title ?? item?.name ?? '').toLocaleLowerCase();
+        return title.includes(searchQuery.toLocaleLowerCase());
+    });
+
     return (
         <SearchModal
             visible={searchModal}
             position={position}
             onClose={() => {
                 setSearchModal(false);
-                setSearchQuery('')
+                setSearchQuery('');
+                onSearchQueryChange?.('');
             }}
         >
             <View style={styles.wrapper}>
@@ -47,23 +63,29 @@ export default function SearchBar({ searchModal, setSearchModal, position = "bot
 
                     <TextInput
                         value={searchQuery}
-                        onChangeText={setSearchQuery}
-                        placeholder="Search food..."
+                        onChangeText={(text) => {
+                            setSearchQuery(text);
+                            onSearchQueryChange?.(text);
+                        }}
+                        placeholder={searchType === 'market' ? 'Search mart items...' : 'Search food...'}
                         style={styles.searchInput}
                         placeholderTextColor="#9CA3AF"
                     />
                 </View>
 
-                {/* SCROLLABLE CONTENT */}
                 <FlatList
                     data={filteredSearrch}
-                    keyExtractor={(item) => item.id?.toString()}
-                    renderItem={({ item }) => (
-                        <FoodCard {...item} />
-                    )}
+                    keyExtractor={(item: any) => String(item.id ?? item.title ?? Math.random())}
+                    renderItem={({ item }) => {
+                        if (searchType === 'market') {
+                            return <MartCard {...item} />;
+                        }
+
+                        return <FoodCard {...item} />;
+                    }}
                     ListEmptyComponent={
                         <Text style={styles.emptyText}>
-                            Menu not found
+                            {searchType === 'market' ? 'Mart item not found' : 'Menu not found'}
                         </Text>
                     }
                     contentContainerStyle={{ paddingBottom: 120 }}
@@ -82,7 +104,6 @@ const styles = StyleSheet.create({
         height: 48,
         fontSize: 15,
         paddingHorizontal: 12,
-        // let the row/container handle spacing
         flex: 1,
     },
     wrapper: {

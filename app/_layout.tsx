@@ -125,7 +125,7 @@ export default function RootLayout() {
             translucent={true}
             animated={true}
           />
-          <RootLayoutContent />;
+          <RootLayoutContent />
           <Toast config={toastConfig} />
         </CartProvider>
       </AuthProvider>

@@ -2,13 +2,24 @@ import { ImageSourcePropType } from "react-native";
 
 export interface Extra {
   id: string;
-  label: string;
+  name: string;
   price: number | string;
 }
 
 export interface cardType {
   id: string;
-  name: string;
+  name?: string;
+  title?: string;
+  description: string;
+  price: number | string;
+  image: ImageSourcePropType;
+  extras?: Extra[];
+}
+
+export interface MartCardType {
+  id: string;
+  name?: string;
+  title?: string;
   description: string;
   price: number | string;
   image: ImageSourcePropType;
@@ -31,7 +42,8 @@ export interface Extras {
 
 export interface FoodProps {
   id: string;
-  title: string;
+  name?: string;
+  title?: string;
   description: string;
   category: string;
   price: string | number;
@@ -57,7 +69,8 @@ export interface OngoingOrderProps {
 
 export interface martItem {
   id: string;
-  title: string;
+  name?: string;
+  title?: string;
   description: string;
   price: string | number;
   category: string;

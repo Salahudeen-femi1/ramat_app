@@ -1,11 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, {
-    createContext,
-    useCallback,
-    useContext,
-    useEffect,
-    useMemo,
-    useState,
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
 } from "react";
 import { ImageSourcePropType } from "react-native";
 
@@ -90,26 +90,10 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       };
 
       setCartItems((prev) => {
-        const existingIndex = prev.findIndex((entry) => {
-          const sameItem = entry.id === normalizedItem.id;
-          const sameExtras =
-            JSON.stringify(entry.extras.map((extra) => extra.id).sort()) ===
-            JSON.stringify(normalizedItem.extras.map((extra) => extra.id).sort());
-          return sameItem && sameExtras;
-        });
-
-        const nextItems = existingIndex >= 0
-          ? prev.map((entry, index) =>
-              index === existingIndex
-                ? {
-                    ...entry,
-                    quantity: entry.quantity + normalizedItem.quantity,
-                  }
-                : entry
-            )
-          : [...prev, normalizedItem];
+        const nextItems = [...prev, normalizedItem];
 
         persistCart(nextItems).catch(console.error);
+
         return nextItems;
       });
     },
@@ -163,7 +147,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     [addToCart, cartCount, cartItems, clearCart, isHydrated, removeFromCart, updateQuantity]
   );
 
-  return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 };
 
 export const useCart = () => {
