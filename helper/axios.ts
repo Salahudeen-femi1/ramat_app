@@ -7,12 +7,12 @@ const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL;
 
 // api constructor
 const api = create({
-  baseURL: API_BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-  },
-  timeout: 30000,
+    baseURL: API_BASE_URL,
+    headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+    },
+    timeout: 30000,
 });
 
 // interceptor
@@ -31,6 +31,9 @@ export const setupInterceptors = (logout: () => void) => {
     requestInterceptor = api.interceptors.request.use(async (config) => {
         const token = await AsyncStorage.getItem(globals.AUTH_TOKEN_KEY);
 
+        console.log("🔑 INTERCEPTOR TOKEN:", token);
+        console.log("🌐 REQUEST:", config.method, config.url);
+
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
@@ -41,6 +44,12 @@ export const setupInterceptors = (logout: () => void) => {
     responseInterceptor = api.interceptors.response.use(
         (res) => res,
         async (error) => {
+
+
+            console.log("❌ API ERROR:", error.response?.status);
+            console.log("❌ API DATA:", error.response?.data);
+            console.log("❌ API URL:", error.config?.url);
+
             Sentry.captureException(error);
             console.log(error);
             if (error.code === "ERR_NETWORK") {

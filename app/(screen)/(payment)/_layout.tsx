@@ -17,8 +17,8 @@ export default function SettingsPagesLayout() {
       }}
     >
       <Stack.Screen
-        name="cart"
-        options={{ title: "Cart" }}
+        name="index"
+        options={{ title: "Payment" }}
       ></Stack.Screen>
     </Stack>
   );

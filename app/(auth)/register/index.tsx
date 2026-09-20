@@ -1,17 +1,16 @@
-import { Link, router } from 'expo-router'
-import { useFormik } from 'formik'
 import React from 'react'
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import * as Yup from 'yup'
+import { useFormik } from 'formik'
+import { Link, router } from 'expo-router'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
 import ActionButton from '@/app/Component/button/ActionButton'
 import { showErrorToast, showSuccessToast } from '@/helper/toast'
-import { UserProps } from '@/lib/interfaces'
 import { registerService } from '@/services/authServices'
 import { Ionicons } from '@expo/vector-icons'
 import { useMutation } from '@tanstack/react-query'
-import { RegisterFormValues } from '@/utility/interface'
+import { RegisterFormValues, UserProps } from '@/utility/interface'
 
 export default function Register() {
 

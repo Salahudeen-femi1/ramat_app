@@ -92,7 +92,7 @@ export default function Index() {
             <Ionicons name="scan-outline" size={26} color="#2D5A27" />
 
             <TouchableOpacity
-              onPress={() => router.push('/(pages)/(cart)/Cart')}
+              onPress={() => router.push('/(screen)/(cart)')}
               activeOpacity={0.8}
             >
               <View className="relative">
@@ -167,7 +167,7 @@ export default function Index() {
 
       {cartCount > 0 && (
         <TouchableOpacity
-          onPress={() => router.push('/Cart')}
+          onPress={() => router.push('/(screen)/(cart)')}
           activeOpacity={0.85}
           className="absolute bottom-4 left-4 right-4 mx-4 rounded-xl bg-primary px-4 py-3 flex-row items-center justify-between"
         >

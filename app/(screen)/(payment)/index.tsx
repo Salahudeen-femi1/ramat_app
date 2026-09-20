@@ -2,24 +2,51 @@ import { Pressable, Text, View } from "react-native";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { paymentService } from "@/services/authServices";
+import { useOrder, usePayment } from "@/services/hook";
+import { string } from "yup";
+import { useCart } from "@/context/CartContext";
 
 interface Props {
     orderId: string;
 }
 
-export default function PaymentMethod({orderId}: Props) {
+export default function PaymentMethod({ orderId }: Props) {
 
     const [selectedMethod, setSelectedMethod] = useState("moniepoint")
+    const [pickupTime, setPickupTime] = useState('')
 
-    const mutation = useMutation({
-        mutationFn: paymentService
-    })
-    const initiatePayment = () => {
+    const orderMutation = useOrder()
+    const paymentMutation = usePayment()
+    const { cartItems } = useCart()
 
-        mutation.mutate({
-            orderId: orderId
-        })
+    const initializePayment = async () => {
+
+        try {
+            const order = await orderMutation.mutateAsync({
+                pickupTime,
+                items: cartItems.map((item) => ({
+                    menuItem: item.id,
+                    itemType: "menu",
+                    quantity: item.quantity,
+                    selectedExtras: item.extras,
+                })),
+            });
+
+            const orderId = order.orderId;
+
+            const payment = await paymentMutation.mutateAsync({
+                orderId,
+                amount: String(totalAmount),
+            })
+
+            // await Linking.openURL(payment.paymentURL)
+
+        } catch (error) {
+            console.log("payment failed", error)
+        }
+
     }
+
     return (
         <View className="mt-6 p-5">
             {/* Payment Method */}
@@ -67,12 +94,12 @@ export default function PaymentMethod({orderId}: Props) {
 
             {/* Place Order */}
             <Pressable
-                onPress={initiatePayment}
-                disabled={mutation.isPending}
+                onPress={initializePayment}
+                disabled={orderMutation.isPending || paymentMutation.isPending}
                 className="bg-primary rounded-md items-center justify-center text-white font-semibold h-14 mt-6">
 
                 <Text className="text-white font-semibold text-base">
-                    {mutation.isPending ? "Processing" : "Place Order"}
+                    {orderMutation.isPending || paymentMutation ? "Processing" : "Place Order"}
                 </Text>
             </Pressable>
         </View>

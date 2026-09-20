@@ -6,14 +6,13 @@ import { Ionicons } from "@expo/vector-icons"
 import { useMutation } from '@tanstack/react-query'
 import { Link, router } from 'expo-router'
 import { useFormik } from 'formik'
-import React from 'react'
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import * as Yup from 'yup'
 
 export default function Login() {
 
-  const { signIn, completeOnboarding } = useAuth()
+  const { signIn } = useAuth()
 
   const mutation = useMutation<
     { token: string; user: { role: string } },
@@ -26,9 +25,11 @@ export default function Login() {
       console.log("login response", response);
 
       if (response?.user?.role === "user") {
-        await signIn(response.user as any, response.token, response.user.role);
-        await completeOnboarding();
-        router.push("/(tabs)");
+        await signIn(
+          response.user as any,
+          response.token,
+          response.user.role
+        );
       } else {
         showErrorToast("Try to log in via web");
       }
@@ -73,7 +74,7 @@ export default function Login() {
                 Welcome Back!
               </Text>
               <Text className='text-sm'>You can log back in to your account using your Email.</Text>
-               <Link href="/register" className='text-[#2D5A27] font-semibold text-center mb-10'>Already have an account? Login</Link>
+              <Link href="/register" className='text-[#2D5A27] font-semibold text-center mb-10'>Already have an account? Login</Link>
             </View>
           </View>
           <View>

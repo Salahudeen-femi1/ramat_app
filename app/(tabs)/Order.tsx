@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import CompletedOrder from "../(pages)/CompletedOrder";
-import OngoingOrder from "../(pages)/OngoingOrder";
+import CompletedOrder from "../(screen)/CompletedOrder";
+import OngoingOrder from "../(screen)/OngoingOrder";
 import { useQuery } from "@tanstack/react-query";
 import { getOrderService } from "@/services/authServices";
 
@@ -32,7 +32,7 @@ export default function TaskTabs({ order_id}: Props) {
     <SafeAreaView className="flex-1 bg-white">
 
       {/* Tabs */}
-      <View className="bg-gray-100 rounded-md m-4 px-2 py-4 flex-row items-center justify-center gap-3">
+      <View className=" m-4 flex-row items-center justify-center gap-3">
         {tabs.map((tab, index) => {
           const active = status === tab.value;
 

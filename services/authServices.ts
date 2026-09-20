@@ -1,12 +1,11 @@
 import api from "@/helper/axios";
-import { UserProps } from "@/lib/interfaces";
-import { FoodProps, martItem } from "@/utility/interface";
+import { FoodProps, martItem, UserProps } from "@/utility/interface";
 
 /**
  * Fetch the current authenticated user
  */
 export const getUserService = async (): Promise<{ data: UserProps; token: string; }> => {
-  const response = await api.get("/user");
+  const response = await api.get("/auth/me");
   return response.data;
 };
 
@@ -118,3 +117,27 @@ export const registerService = async (data: {
   const response = await api.post("/auth/register", data);
   return response.data;
 };
+
+export const createOrder = async (data: {
+  pickupTime: string;
+  items: {
+    menuItem: string;
+    itemType: string;
+    quantity: number;
+    selectedExtras: {
+      name: string;
+      price: number;
+    }[];
+  }[];
+}) => {
+  const response = await api.post("/orders", data);
+  return response.data;
+};
+
+export const paymentInitializer = async (data: {
+  orderId: string; amount: string;
+}) => {
+  const response = await api.post('/payments/initialize', data)
+
+  return response.data;
+}

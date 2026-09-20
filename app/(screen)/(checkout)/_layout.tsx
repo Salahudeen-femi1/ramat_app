@@ -12,13 +12,13 @@ export default function SettingsPagesLayout() {
             <Feather name="chevron-left" size={24} color="#201C1C" />
           </TouchableOpacity>
         ),
-        headerShadowVisible: false,
+        headerShadowVisible: true,
         headerTitleAlign: "center",
       }}
     >
       <Stack.Screen
-        name="cart"
-        options={{ title: "Payment" }}
+        name="index"
+        options={{ title: "Checkout" }}
       ></Stack.Screen>
     </Stack>
   );

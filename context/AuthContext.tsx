@@ -1,7 +1,8 @@
 
+import { setupInterceptors } from "@/helper/axios";
 import { globals } from "@/lib/constants";
-import { UserProps } from "@/lib/interfaces";
 import { getUserService, logoutService } from "@/services/authServices";
+import { UserProps } from "@/utility/interface";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React, {
@@ -52,7 +53,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   console.log("token", token);
-  const user = userResponse?.data ?? null;
+  const user = userResponse?.user ?? null;
   console.log("user:", user);
 
   // Bootstrap: Restore auth state from AsyncStorage on app start
@@ -105,36 +106,42 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     [queryClient]
   );
 
-  // const signOut = useCallback(async () => {
-  //   try {
-  //     // Call logout service to invalidate token on backend
-  //     await logoutService();
-  //   } catch (e) {
-  //     console.error("Logout service failed", e);
-  //   } finally {
-  //     // Clear local state regardless of backend response
-  //     await Promise.all([
-  //       AsyncStorage.removeItem(globals.AUTH_TOKEN_KEY),
-  //       AsyncStorage.removeItem(globals.CURRENT_ROLE_KEY),
-  //     ]);
-  //     setToken(null);
-  //     setRole(null);
-  //     queryClient.clear();
-  //   }
-  // }, [queryClient]);
+  const signOut = useCallback(async () => {
+    try {
+      // Call logout service to invalidate token on backend
+      await logoutService();
+    } catch (e) {
+      console.error("Logout service failed", e);
+    } finally {
+      // Clear local state regardless of backend response
+      await Promise.all([
+        AsyncStorage.removeItem(globals.AUTH_TOKEN_KEY),
+        AsyncStorage.removeItem(globals.CURRENT_ROLE_KEY),
+      ]);
+      setToken(null);
+      setRole(null);
+      queryClient.clear();
+    }
+  }, [queryClient]);
 
   const refreshUser = useCallback(async () => {
     await refetch();
   }, [refetch]);
 
   const completeOnboarding = useCallback(async () => {
+    if (!user?.id) return;
+
     try {
-      await AsyncStorage.setItem(globals.ONBOARDING_STATUS_KEY, "true");
+      await AsyncStorage.setItem(
+        `${globals.ONBOARDING_STATUS_KEY}_${user.id}`,
+        "true"
+      );
+
       setOnboardingStatus("complete");
     } catch (e) {
       console.error("Failed to save onboarding status", e);
     }
-  }, []);
+  }, [user]);
 
   const isLoading = isBootstrapLoading || (!!token && isUserLoading);
 
@@ -147,7 +154,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       isLoggedIn: !!user && !!token,
       onboardingStatus,
       signIn,
-      // signOut,
+      signOut,
       refreshUser,
       completeOnboarding,
     }),
@@ -158,7 +165,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       isLoading,
       onboardingStatus,
       signIn,
-      // signOut,
+      signOut,
       refreshUser,
       completeOnboarding,
     ],

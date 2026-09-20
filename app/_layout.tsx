@@ -69,7 +69,7 @@ useEffect(() => {
       />
 
       <Stack.Screen
-        name="(pages)/(cart)/Cart"
+        name="(screen)/(cart)"
         options={{
           headerShown: false,
         }}

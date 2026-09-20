@@ -61,6 +61,17 @@ export type ResponseProps = {
   
 // }
 
+export type UserProps =  {
+    id: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone: string;
+    message: string;
+    role: string;
+    user: string;
+}
+
 export interface OngoingOrderProps {
   status: string;
   orderName: string;
