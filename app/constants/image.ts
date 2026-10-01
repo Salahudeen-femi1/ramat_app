@@ -22,5 +22,8 @@ export const image = {
     banner5: require('../assets/images/banner5.png'),
     banner6: require('../assets/images/banner6.png'),
     banner7: require('../assets/images/banner7.png'),
+    onboard1: require('../assets/images/onboard1.png'),
+    onboard2: require('../assets/images/onboard2.png'),
+    onboard3: require('../assets/images/onboard3.png'),
     
 }

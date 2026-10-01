@@ -5,7 +5,7 @@ import React from 'react'
 import { Image, ImageSourcePropType, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import Modal from '../modal/Modal'
 
-export default function MartCard({ id, name, description, price, image, extras = [] }: MartCardType) {
+export default function MartCard({ id, _id, name, description, price, image, extras = [] }: MartCardType) {
 
     const [openModal, setOpenModal] = React.useState(false)
     const [showExtras, setShowExtras] = React.useState(false)
@@ -50,13 +50,13 @@ export default function MartCard({ id, name, description, price, image, extras =
             if (!extra || count <= 0) return []
             return Array.from({ length: count }, () => ({
                 id: extra.id,
-                label: extra.label,
+                name: extra.name,
                 price: extra.price,
             }))
         })
 
         await addToCart({
-            id,
+            id: id ?? _id,
             name,
             description,
             price,

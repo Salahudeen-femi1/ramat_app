@@ -6,7 +6,7 @@ import ActionButton from './button/ActionButton';
 
 interface OnboardingStructureProps {
     title1: string;
-    title2: string;
+    title2?: string;
     subText: string;
     position: number;
     imageUrl: ImageSourcePropType;

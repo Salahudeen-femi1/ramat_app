@@ -13,6 +13,7 @@ import EmptyStateCard from "../Component/card/EmptyStateCard";
 import FoodCard from "../Component/card/FoodCard";
 import SearchBar from "../Component/search/SearchBar";
 import { image } from "../constants/image";
+import { usePadding } from "@/context/PaddingProvider";
 
 const promoImages = [
   {
@@ -36,6 +37,8 @@ export default function Index() {
 
   const { user } = useAuth()
   const { cartCount } = useCart()
+  const padding = usePadding();
+
 
   const { data: foods = [], isLoading, isError, refetch: refreshFoodItems } = useQuery<FoodProps[]>({
     queryKey: ["foods", activeTab],
@@ -73,8 +76,11 @@ export default function Index() {
 
   return (
     <SafeAreaView className="flex-1 bg-white relative">
-      <View>
-
+      <View
+      style={{
+        padding: padding.screen
+      }}
+      >
         {/* FIXED HEADER */}
         <View className="px-4 pt-4 pb-3 flex-row justify-between items-center">
           <View className="flex-row items-center gap-1 bg-gray-100 w-40 px-4 py-2 rounded-md">
@@ -140,14 +146,14 @@ export default function Index() {
       {/* SCROLLABLE CONTENT */}
       <FlatList
         data={filteredFoods}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) => item.id || item._id || String(index)}
         renderItem={({ item }) => (
           <FoodCard {...item} />
         )}
         refreshControl={
-          <RefreshControl 
-          onRefresh={refreshFoodItems}
-          refreshing={isLoading}
+          <RefreshControl
+            onRefresh={refreshFoodItems}
+            refreshing={isLoading}
           />
         }
 

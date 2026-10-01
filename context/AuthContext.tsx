@@ -97,7 +97,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         ]);
         setToken(authToken);
         setRole(userRole);
-        queryClient.setQueryData(["user"], { data: userData });
+        queryClient.setQueryData(["user"], { user: userData });
+        await AsyncStorage.setItem(globals.ONBOARDING_STATUS_KEY, "true");
+        setOnboardingStatus("complete");
       } catch (e) {
         console.error("Failed to sign in", e);
         throw new Error("Login failed");
@@ -132,10 +134,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (!user?.id) return;
 
     try {
-      await AsyncStorage.setItem(
-        `${globals.ONBOARDING_STATUS_KEY}_${user.id}`,
-        "true"
-      );
+      await AsyncStorage.setItem(globals.ONBOARDING_STATUS_KEY, "true");
 
       setOnboardingStatus("complete");
     } catch (e) {

@@ -6,10 +6,10 @@ import { image } from '../constants/image'
 const stepOne = () => {
 
   const details = {
-    title1: "Your Property",
-    title2: "Our Promise.",
-    subText: "A seamless buyback experience built on trust, transparency and real value for you.",
-    imageUrl: image.image,
+    title1: "Your Favorite Meals",
+    title2: "One Tap away.",
+    subText: "Explore delicious food from Ramat Pickup and find exactly what you're craving without waiting in line.",
+    imageUrl: image.onboard1,
     position: 0,
   }
 

@@ -17,7 +17,8 @@ export interface cardType {
 }
 
 export interface MartCardType {
-  id: string;
+  id?: string;
+  _id?: string;
   name?: string;
   title?: string;
   description: string;
@@ -35,13 +36,16 @@ export interface CompletedorderProps {
 }
 
 export interface Extras {
-  id: string;
+  _id: string;
   label: string;
   price: string | number;
 }
 
+export type mobile = "andriod" | "ios"
+
 export interface FoodProps {
   id: string;
+  _id?: string;
   name?: string;
   title?: string;
   description: string;

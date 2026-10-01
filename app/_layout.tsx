@@ -1,11 +1,25 @@
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
+import { PaddingProvider } from "@/context/PaddingProvider";
 import { setupInterceptors } from "@/helper/axios";
 import { toastConfig } from "@/helper/toast";
+import {
+  Poppins_100Thin,
+  Poppins_200ExtraLight,
+  Poppins_300Light,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+  Poppins_800ExtraBold,
+  Poppins_900Black,
+  useFonts,
+} from "@expo-google-fonts/poppins";
 import { Feather } from "@expo/vector-icons";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { router, Stack } from "expo-router";
-import { useEffect } from "react";
+import * as SplashScreen from "expo-splash-screen";
+import { useCallback, useEffect } from "react";
 import { Pressable, StatusBar } from "react-native";
 import Toast from "react-native-toast-message";
 import './globals.css';
@@ -20,29 +34,45 @@ function RootLayoutContent() {
     setupInterceptors(signOut);
   }, [signOut]);
 
-  // Handle routing based on auth state
-useEffect(() => {
-  if (isLoading) return;
-
-  // if logged in -> onboarding status
-  if (isLoggedIn) {
-    if (onboardingStatus === "complete") {
-      router.replace("/(tabs)")
+  const checkAuth = useCallback(() => {
+    if (isLoggedIn) {
+      if (onboardingStatus === "complete") {
+        router.replace("/(tabs)")
+      } else {
+        router.replace("/(onboarding)/stepOne");
+      }
     } else {
-      router.replace("/(onboarding)/stepOne");
+      router.replace("/(auth)/login")
     }
-  } else {
-    router.replace("/(auth)/login")
-  }
+  }, [isLoggedIn, onboardingStatus])
 
-  // if (onboardingStatus === "incomplete") {
-  //   router.replace("/(onboarding)/stepOne");
-  // } else if (!isLoggedIn) {
-  //   router.replace("/(auth)/register");
-  // } else {
-  //   router.replace("/(tabs)");
-  // }
-}, [isLoading, isLoggedIn, onboardingStatus]);
+  // Handle routing based on auth state
+  useEffect(() => {
+    if (isLoading) return;
+    checkAuth()
+  }, [isLoading, checkAuth]);
+
+  const [fontsLoaded, error] = useFonts({
+    poppinsThin: Poppins_100Thin,
+    poppinsExtraLight: Poppins_200ExtraLight,
+    poppinsLight: Poppins_300Light,
+    poppinsRegular: Poppins_400Regular,
+    poppinsMedium: Poppins_500Medium,
+    poppinsSemiBold: Poppins_600SemiBold,
+    poppinsBold: Poppins_700Bold,
+    poppinsExtraBold: Poppins_800ExtraBold,
+    poppinsBlack: Poppins_900Black,
+  });
+
+  useEffect(() => {
+    if (fontsLoaded || error) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, error]);
+
+  if (!fontsLoaded && !error) {
+    return null;
+  }
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
@@ -119,15 +149,17 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <CartProvider>
-          <StatusBar
-            backgroundColor={"transparent"}
-            translucent={true}
-            animated={true}
-          />
-          <RootLayoutContent />
-          <Toast config={toastConfig} />
-        </CartProvider>
+        <PaddingProvider>
+          <CartProvider>
+            <StatusBar
+              backgroundColor={"transparent"}
+              translucent={true}
+              animated={true}
+            />
+            <RootLayoutContent />
+            <Toast config={toastConfig} />
+          </CartProvider>
+        </PaddingProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

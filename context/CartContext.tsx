@@ -10,8 +10,10 @@ import React, {
 import { ImageSourcePropType } from "react-native";
 
 export interface CartExtra {
-  id: string;
-  label: string;
+  _id?: string;
+  id?: string;
+  name?: string;
+  label?: string;
   price: string | number;
 }
 
@@ -25,7 +27,9 @@ export interface CartItem {
   extras: CartExtra[];
 }
 
-type CartPayload = Omit<CartItem, "quantity" | "extras"> & {
+type CartPayload = Omit<CartItem, "id" | "quantity" | "extras"> & {
+  id?: string;
+  _id?: string;
   quantity?: number;
   extras?: CartExtra[];
 };
@@ -46,8 +50,8 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 const normalizeExtras = (extras?: CartExtra[]) =>
   (extras ?? []).map((extra) => ({
-    id: extra.id,
-    label: extra.label,
+    _id: extra._id ?? extra.id,
+    name: extra.name ?? extra.label,
     price: extra.price,
   }));
 
@@ -63,7 +67,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const savedCart = await AsyncStorage.getItem(CART_STORAGE_KEY);
       if (savedCart) {
-        const parsedCart = JSON.parse(savedCart) as CartItem[];
+        const parsedCart = (JSON.parse(savedCart) as (CartItem & { _id?: string })[])
+          .map((item) => ({ ...item, id: item.id ?? item._id }))
+          .filter((item) => Boolean(item.id));
         setCartItems(parsedCart);
       }
     } catch (error) {
@@ -79,8 +85,14 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   const addToCart = useCallback(
     async (item: CartPayload) => {
+      const id = item.id ?? item._id;
+      if (!id) {
+        console.error("Cannot add cart item without a product ID", item);
+        return;
+      }
+
       const normalizedItem: CartItem = {
-        id: item.id,
+        id,
         name: item.name,
         description: item.description,
         price: item.price,
@@ -109,7 +121,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     async (itemId: string) => {
       setCartItems((prev) => {
         const nextItems = prev.filter((item) => item.id !== itemId);
+
         persistCart(nextItems).catch(console.error);
+
         return nextItems;
       });
     },
@@ -145,6 +159,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       updateQuantity,
     }),
     [addToCart, cartCount, cartItems, clearCart, isHydrated, removeFromCart, updateQuantity]
+    
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>

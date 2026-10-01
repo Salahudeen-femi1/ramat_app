@@ -4,9 +4,11 @@ import { FoodProps, martItem, UserProps } from "@/utility/interface";
 /**
  * Fetch the current authenticated user
  */
-export const getUserService = async (): Promise<{ data: UserProps; token: string; }> => {
+export const getUserService = async (): Promise<{ user: UserProps; token?: string }> => {
   const response = await api.get("/auth/me");
-  return response.data;
+  const responseData = response.data;
+  const user = responseData?.user ?? responseData?.data?.user ?? responseData?.data ?? responseData;
+  return { ...responseData, user };
 };
 
 // fetch user order
@@ -21,7 +23,7 @@ export const getOrderService = async (status: StatusType, order_id: string) => {
 
   const response = await api.get(endpoint);
 
-  return response.data.items ?? [];
+  return response.data.orders ?? [];
 };
 
 // fetch mini market data
@@ -51,7 +53,11 @@ export const getMenuService = async (category: string, params?: {
         search: params.query
       } : undefined
   });
-  return response.data?.items ?? [];
+  const items = (response.data?.items ?? []) as (FoodProps & { _id?: string })[];
+  return items.map((item) => ({
+    ...item,
+    id: item.id ?? item._id ?? "",
+  }));
 };
 
 export const verificationEmailService = async (data: { email: string; otp: string }) => {
@@ -131,13 +137,23 @@ export const createOrder = async (data: {
   }[];
 }) => {
   const response = await api.post("/orders", data);
-  return response.data;
+  const responseData = response.data;
+  const orderData = responseData?.order ?? responseData?.data?.order ?? responseData?.data ?? responseData;
+  const orderId = orderData?.orderId ?? orderData?._id ?? orderData?.id;
+
+  return {
+    ...responseData,
+    orderId,
+  };
 };
 
 export const paymentInitializer = async (data: {
   orderId: string; amount: string;
 }) => {
-  const response = await api.post('/payments/initialize', data)
+  if (!data.orderId) {
+    throw new Error("Cannot initialize payment: the created order response did not include an order ID.");
+  }
 
+  const response = await api.post('/payment/initialize', data)
   return response.data;
 }

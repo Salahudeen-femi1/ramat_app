@@ -7,6 +7,8 @@ import EmptyStateCard from '../../Component/card/EmptyStateCard'
 
 const Cart = () => {
   const { cartItems, clearCart, updateQuantity, removeFromCart } = useCart()
+  console.log("ITEM RECEIVED BY CART:", cartItems);
+  // console.log("ITEM ID:", item._id);
 
   const subtotal = cartItems.reduce((sum, item) => {
     const base = Number(String(item.price).replace(/,/g, '')) || 0
@@ -19,12 +21,12 @@ const Cart = () => {
       <>
         <FlatList
           data={cartItems}
-          keyExtractor={(item) => `${item.id}-${item.extras.map((extra) => extra.id).join('-')}`}
+          keyExtractor={(item) => `${item._id}-${item.extras.map((extra) => extra._id).join('-')}`}
           renderItem={({ item }) => (
             <OrderCard
               {...item}
-              onRemove={() => removeFromCart(item.id)}
-              onQuantityChange={(nextQuantity: number) => updateQuantity(item.id, nextQuantity)}
+              onRemove={() => removeFromCart(item._id)}
+              onQuantityChange={(nextQuantity: number) => updateQuantity(item._id, nextQuantity)}
             />
           )}
           ListEmptyComponent={

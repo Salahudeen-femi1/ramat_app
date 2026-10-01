@@ -1,9 +1,6 @@
-import { Pressable, Text, View } from "react-native";
+import { Linking, Pressable, Text, View } from "react-native";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { paymentService } from "@/services/authServices";
 import { useOrder, usePayment } from "@/services/hook";
-import { string } from "yup";
 import { useCart } from "@/context/CartContext";
 
 interface Props {
@@ -19,27 +16,55 @@ export default function PaymentMethod({ orderId }: Props) {
     const paymentMutation = usePayment()
     const { cartItems } = useCart()
 
+    const paymentURL ="" 
+
+    const totalAmount = cartItems.reduce((total, item) => {
+        const itemPrice = Number(String(item.price).replace(/,/g, "")) || 0
+        const extrasPrice = item.extras.reduce(
+            (sum, extra) => sum + (Number(String(extra.price).replace(/,/g, "")) || 0),
+            0
+        )
+        return total + (itemPrice + extrasPrice) * item.quantity
+    }, 0)
+
     const initializePayment = async () => {
 
         try {
-            const order = await orderMutation.mutateAsync({
-                pickupTime,
-                items: cartItems.map((item) => ({
+            if (cartItems.length === 0) {
+                throw new Error("Your cart is empty.")
+            }
+            const items = cartItems.map((item) => {
+                if (!item.id) {
+                    throw new Error(`Product ID is missing for ${item.name}. Remove it and add it to your cart again.`)
+                }
+                return {
                     menuItem: item.id,
                     itemType: "menu",
                     quantity: item.quantity,
-                    selectedExtras: item.extras,
-                })),
+                    selectedExtras: item.extras.map((extra) => ({
+                        name: extra.name ?? extra.label ?? "",
+                        price: Number(extra.price),
+                    })),
+                }
+            })
+
+            const order = await orderMutation.mutateAsync({
+                pickupTime,
+                items,
             });
 
             const orderId = order.orderId;
+            if (!orderId) {
+                throw new Error("Order was created, but the server response did not include an order ID.")
+            }
 
             const payment = await paymentMutation.mutateAsync({
                 orderId,
                 amount: String(totalAmount),
             })
 
-            // await Linking.openURL(payment.paymentURL)
+            await Linking.openURL(payment.checkoutUrl)
+            console.log("PAYMENT RESPONSE:", payment);
 
         } catch (error) {
             console.log("payment failed", error)
@@ -99,7 +124,7 @@ export default function PaymentMethod({ orderId }: Props) {
                 className="bg-primary rounded-md items-center justify-center text-white font-semibold h-14 mt-6">
 
                 <Text className="text-white font-semibold text-base">
-                    {orderMutation.isPending || paymentMutation ? "Processing" : "Place Order"}
+                    {orderMutation.isPending || paymentMutation.isPending ? "Processing" : "Place Order"}
                 </Text>
             </Pressable>
         </View>
