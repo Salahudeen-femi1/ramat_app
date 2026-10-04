@@ -35,12 +35,12 @@ const CompletedOrder = ({ orders, isLoading, isError }: completeOrderProps) => {
           renderItem={({ item }) => (
             <View className='flex-row justify-between items-center p-3 border-b border-gray-100 mb-3'>
               <View>
-                <Text className='text-base font-semibold'>{item.label}</Text>
-                <Text>{item.date}</Text>
+                <Text className='text-base font-poppinsRegular'>{item.label}</Text>
+                <Text className='font-poppinsLight'>{item.date}</Text>
               </View>
               <View className='align-items-start '>
-                <Text>{item.ordertag}</Text>
-                <Text>{item.time}</Text>
+                <Text className='font-poppinsLight'>{item.ordertag}</Text>
+                <Text className='font-poppinsLight'>{item.time}</Text>
               </View>
             </View>
           )}

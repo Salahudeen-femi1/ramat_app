@@ -1,5 +1,14 @@
 import api from "@/helper/axios";
-import { FoodProps, martItem, UserProps } from "@/utility/interface";
+import { Extra, FoodProps, martItem, UserProps } from "@/utility/interface";
+
+type ApiExtra = Partial<Extra> & { _id?: string; label?: string };
+
+const normalizeExtras = (extras?: ApiExtra[]): Extra[] =>
+  (extras ?? []).map((extra, index) => ({
+    id: extra.id ?? extra._id ?? `extra-${index}`,
+    name: extra.name ?? extra.label ?? "Extra",
+    price: extra.price ?? 0,
+  }));
 
 /**
  * Fetch the current authenticated user
@@ -36,7 +45,19 @@ export const miniMarketService = async (params: {
       martSearch: params.query
     }
   });
-  return response.data?.items;
+  const items = (response.data?.items ?? []) as Array<
+    Omit<martItem, "id" | "extras"> & {
+      id?: string;
+      _id?: string;
+      extras?: ApiExtra[];
+    }
+  >;
+
+  return items.map((item) => ({
+    ...item,
+    id: item.id ?? item._id ?? "",
+    extras: normalizeExtras(item.extras),
+  }));
 };
 
 export const getMenuService = async (category: string, params?: {
@@ -53,10 +74,17 @@ export const getMenuService = async (category: string, params?: {
         search: params.query
       } : undefined
   });
-  const items = (response.data?.items ?? []) as (FoodProps & { _id?: string })[];
+  const items = (response.data?.items ?? []) as Array<
+    Omit<FoodProps, "id" | "extras"> & {
+      id?: string;
+      _id?: string;
+      extras?: ApiExtra[];
+    }
+  >;
   return items.map((item) => ({
     ...item,
     id: item.id ?? item._id ?? "",
+    extras: normalizeExtras(item.extras),
   }));
 };
 

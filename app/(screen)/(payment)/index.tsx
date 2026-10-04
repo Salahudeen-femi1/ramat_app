@@ -1,16 +1,13 @@
 import { Linking, Pressable, Text, View } from "react-native";
 import { useState } from "react";
+import { useLocalSearchParams } from "expo-router";
 import { useOrder, usePayment } from "@/services/hook";
 import { useCart } from "@/context/CartContext";
 
-interface Props {
-    orderId: string;
-}
-
-export default function PaymentMethod({ orderId }: Props) {
+export default function PaymentMethod() {
 
     const [selectedMethod, setSelectedMethod] = useState("moniepoint")
-    const [pickupTime, setPickupTime] = useState('')
+    const { pickupTime: routePickupTime } = useLocalSearchParams<{ pickupTime?: string }>()
 
     const orderMutation = useOrder()
     const paymentMutation = usePayment()
@@ -30,6 +27,10 @@ export default function PaymentMethod({ orderId }: Props) {
     const initializePayment = async () => {
 
         try {
+            const pickupTime = typeof routePickupTime === "string" ? routePickupTime.trim() : "";
+            if (!pickupTime) {
+                throw new Error("Pickup time is missing. Return to checkout and try again.")
+            }
             if (cartItems.length === 0) {
                 throw new Error("Your cart is empty.")
             }

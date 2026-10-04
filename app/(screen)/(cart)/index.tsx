@@ -21,12 +21,12 @@ const Cart = () => {
       <>
         <FlatList
           data={cartItems}
-          keyExtractor={(item) => `${item._id}-${item.extras.map((extra) => extra._id).join('-')}`}
+          keyExtractor={(item) => `${item.id}-${item.extras.map((extra) => extra.id ?? extra._id ?? '').join('-')}`}
           renderItem={({ item }) => (
             <OrderCard
               {...item}
-              onRemove={() => removeFromCart(item._id)}
-              onQuantityChange={(nextQuantity: number) => updateQuantity(item._id, nextQuantity)}
+              onRemove={() => removeFromCart(item.id)}
+              onQuantityChange={(nextQuantity: number) => updateQuantity(item.id, nextQuantity)}
             />
           )}
           ListEmptyComponent={

@@ -22,7 +22,7 @@ export interface CartItem {
   name: string;
   description: string;
   price: string | number;
-  image: ImageSourcePropType;
+  image: ImageSourcePropType | string;
   quantity: number;
   extras: CartExtra[];
 }

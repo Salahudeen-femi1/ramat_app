@@ -14,7 +14,7 @@ export default function OngoingOrder({ orders, isLoading, isError }: onGoingProp
   if (isError) {
     return (
       <View className="flex-1 justify-center items-center">
-        <Text className="font-medium">Something went wrong. Please try again.
+        <Text className="font-poppinsLight">Something went wrong. Please try again.
         </Text>
       </View>
     )
@@ -32,16 +32,18 @@ export default function OngoingOrder({ orders, isLoading, isError }: onGoingProp
       ) : (
         <FlatList
           data={orders}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item, index) => String(item.id ?? item._id ?? item.orderId ?? index)}
           renderItem={({ item }) => (
             <View className='flex-row justify-between items-center p-3 border-b border-gray-100 mb-3'>
               <View>
-                <Text className='text-base font-semibold'>{item}</Text>
-                <Text>{item}</Text>
+                <Text className='text-base font-semibold'>{item.orderName ?? item.name ?? 'Order'}</Text>
+                <Text>{item.status ?? 'Status unavailable'}</Text>
               </View>
               <View className='align-items-start '>
-                <Text>{item.ordertag}</Text>
-                <Text>{item.time}</Text>
+                {item.amount != null && <Text>{String(item.amount)}</Text>}
+                {(item.id ?? item._id ?? item.orderId) != null && (
+                  <Text>#{String(item.id ?? item._id ?? item.orderId)}</Text>
+                )}
               </View>
             </View>
           )}

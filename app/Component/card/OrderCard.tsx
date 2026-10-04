@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
+import { getImageSource } from '@/utility/imageSource'
 import React from 'react'
-import { Image, ImageSourcePropType, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
 
 interface OrderCardProps {
   image: any
@@ -28,7 +29,7 @@ export default function OrderCard({
   return (
     <View className='flex-row gap-2 items-center border-b border-gray-100 px-4 py-4'>
       <Image
-         source={{ uri: image as ImageSourcePropType }}
+         source={getImageSource(image)}
         resizeMode="cover"
         className="w-[90px] h-[100px] rounded-md  "
       />

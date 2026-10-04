@@ -1,11 +1,12 @@
 import { useCart } from '@/context/CartContext'
 import { cardType } from '@/utility/interface'
+import { getImageSource } from '@/utility/imageSource'
 import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
-import { Image, ImageSourcePropType, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import Modal from '../modal/Modal'
 
-export default function FoodCard({ id, name, description, price, image, extras = [] }: cardType) {
+export default function FoodCard({ id, name, title, description, price, image, extras = [] }: cardType) {
 
     const [openModal, setOpenModal] = React.useState(false)
     const [showExtras, setShowExtras] = React.useState(false)
@@ -57,7 +58,7 @@ export default function FoodCard({ id, name, description, price, image, extras =
 
         await addToCart({
             id,
-            name,
+            name: name ?? title ?? 'Menu item',
             description,
             price,
             image,
@@ -74,10 +75,10 @@ export default function FoodCard({ id, name, description, price, image, extras =
 
             <View className="flex-row justify-between mx-5 border-b border-gray-100 px-4 py-4">
                 <View className="flex-1 pr-4">
-                    <Text className="font-semibold text-[16px] ">{name}</Text>
-                    <Text className="text-gray-500 mt-1">{description}</Text>
+                    <Text className="font-semibold text-[16px] font-poppinsMedium ">{name}</Text>
+                    <Text className="text-gray-500 mt-1 font-poppinsLight">{description}</Text>
 
-                    <Text className="font-bold text-primary mt-3">
+                    <Text className="font-bold text-primary mt-3 font-poppinsExtraBold">
                         ₦{price}
                     </Text>
                 </View>
@@ -85,8 +86,7 @@ export default function FoodCard({ id, name, description, price, image, extras =
                 <View>
 
                     <Image
-                        // source={image}
-                        source={{ uri: image as ImageSourcePropType }}
+                        source={getImageSource(image)}
                         resizeMode="cover"
                         className="w-[100px] h-[90px] rounded-t-md"
                     />
@@ -105,7 +105,7 @@ export default function FoodCard({ id, name, description, price, image, extras =
             <Modal visible={openModal} onClose={() => setOpenModal(false)}>
                 <View className="flex-1">
                     <Image
-                        source={{ uri: image as ImageSourcePropType }}
+                        source={getImageSource(image)}
                         resizeMode="cover"
                         className="w-full h-[200px] rounded-t-[20px]"
                     />

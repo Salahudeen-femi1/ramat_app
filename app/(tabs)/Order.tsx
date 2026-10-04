@@ -5,13 +5,13 @@ import CompletedOrder from "../(screen)/CompletedOrder";
 import OngoingOrder from "../(screen)/OngoingOrder";
 import { useQuery } from "@tanstack/react-query";
 import { getOrderService } from "@/services/authServices";
+import { useLocalSearchParams } from "expo-router";
 
 type StatusType = "ongoing" | "completed";
-type Props ={
-  order_id: string
-}
 
-export default function TaskTabs({ order_id}: Props) {
+export default function TaskTabs() {
+  const { order_id: routeOrderId } = useLocalSearchParams<{ order_id?: string }>();
+  const order_id = typeof routeOrderId === "string" ? routeOrderId : "";
 
   const [status, setStatus] = useState<StatusType>("ongoing");
 
@@ -25,7 +25,7 @@ export default function TaskTabs({ order_id}: Props) {
     queryFn: () => getOrderService(
       status, order_id
     ),
-    enabled: !order_id
+    enabled: status === "completed" || Boolean(order_id),
   })
 
   return (

@@ -12,7 +12,7 @@ export interface cardType {
   title?: string;
   description: string;
   price: number | string;
-  image: ImageSourcePropType;
+  image: ImageSourcePropType | string;
   extras?: Extra[];
 }
 
@@ -23,7 +23,7 @@ export interface MartCardType {
   title?: string;
   description: string;
   price: number | string;
-  image: ImageSourcePropType;
+  image: ImageSourcePropType | string;
   extras?: Extra[];
 }
 
@@ -51,8 +51,8 @@ export interface FoodProps {
   description: string;
   category: string;
   price: string | number;
-  extras?: Extras[];
-  image: ImageSourcePropType;
+  extras?: Extra[];
+  image: ImageSourcePropType | string;
 }
 
 export type ResponseProps = {
@@ -77,9 +77,13 @@ export type UserProps =  {
 }
 
 export interface OngoingOrderProps {
-  status: string;
-  orderName: string;
-  amount: string;
+  id?: string | number;
+  _id?: string;
+  orderId?: string;
+  status?: string;
+  orderName?: string;
+  name?: string;
+  amount?: string | number;
 }
 
 export interface martItem {
@@ -89,8 +93,8 @@ export interface martItem {
   description: string;
   price: string | number;
   category: string;
-  image: ImageSourcePropType;
-  extras?: Extras[]
+  image: ImageSourcePropType | string;
+  extras?: Extra[]
 }
 
 export interface RegisterFormValues {

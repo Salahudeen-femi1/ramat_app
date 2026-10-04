@@ -19,12 +19,12 @@ export default function EmptyStateCard({
       <Image source={image.emptybox} className="" style={{ width: 200, height: 170 }} resizeMode="cover" />
       
 
-      <Text className="text-lg text-center font-medium mt-6 text-gray-400">
+      <Text className="text-lg text-center font-poppinsRegular mt-6 text-gray-400">
         {title}
       </Text>
 
       {description && (
-        <Text className="text-center text-gray-500 mt-2">
+        <Text className="text-center text-gray-500 mt-2 font-poppinsLight">
           {description}
         </Text>
       )}

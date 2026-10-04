@@ -65,7 +65,7 @@ const Minimart = () => {
 
   if (isError) {
     return (
-      <View className="flex-1 justify-center items-center">
+      <View className="flex-1 justify-center items-center font-poppinsRegular">
         <Text className="font-medium">Something went wrong. Please try again.</Text>
       </View>
     )
@@ -93,7 +93,7 @@ const Minimart = () => {
           <Ionicons name="scan-outline" size={26} color="#2D5A27" />
 
           <TouchableOpacity
-            onPress={() => router.push('/Cart')}
+            onPress={() => router.push('/(screen)/(cart)')}
             activeOpacity={0.8}
           >
             <Ionicons name="cart-outline" size={26} color="#2D5A27" />
@@ -108,7 +108,7 @@ const Minimart = () => {
             <TouchableOpacity
               key={tab}
               onPress={() => setActiveTab(tab)}
-              className={`px-4 py-2 rounded-md mr-2 ${activeTab === tab ? 'bg-[#2D5A27] text-white' : 'bg-gray-100'
+              className={`px-4 py-2 rounded-md mr-2 font-poppinsRegular ${activeTab === tab ? 'bg-[#2D5A27] text-white' : 'bg-gray-100'
                 }`}
             >
               <Text className={activeTab === tab ? 'text-white' : 'text-black'}>{tab}</Text>

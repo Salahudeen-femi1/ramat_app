@@ -173,7 +173,10 @@ export default function Checkout() {
           </View>
 
           <TouchableOpacity
-            onPress={() => router.push('/(screen)/(payment)')}
+            onPress={() => router.push({
+              pathname: '/(screen)/(payment)',
+              params: { pickupTime },
+            })}
             activeOpacity={0.8}
             className='flex bg-primary rounded-md items-center justify-center text-white font-semibold h-14 mt-6'>
             <Text className='text-white text-lg font-semibold text-center'>Make payment</Text>

@@ -86,7 +86,7 @@ export default function Index() {
           <View className="flex-row items-center gap-1 bg-gray-100 w-40 px-4 py-2 rounded-md">
             <Ionicons name="location-outline" size={22} color="#2D5A27" />
 
-            <Text className="text-sm">Saki west...</Text>
+            <Text className="text-sm font-poppinsRegular">Saki west...</Text>
           </View>
 
           <View className="flex-row items-center gap-4">
@@ -116,11 +116,11 @@ export default function Index() {
 
         {/* Welcome */}
         <View className="px-4 py-2">
-          <Text className="text-xl font-bold">
+          <Text className="text-xl font-poppinsMedium">
             Welcome, {user?.first_name}
           </Text>
 
-          <Text className="text-sm text-gray-500">
+          <Text className="text-sm text-gray-500 font-poppinsRegular">
             What would you like to eat today?
           </Text>
         </View>
