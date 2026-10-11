@@ -9,7 +9,7 @@ const stepTwo = () => {
     title1: "Order easily, Anytime",
     subText: "Choose your meal, customize your order and pay securely and pay securely without the hassle.",
     imageUrl: image.onboard2,
-    position: 0,
+    position: 1,
   }
 
   return (

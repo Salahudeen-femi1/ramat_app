@@ -20,7 +20,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { router, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect } from "react";
-import { Pressable, StatusBar } from "react-native";
+import { ActivityIndicator, Pressable, StatusBar, Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import './globals.css';
 
@@ -35,16 +35,17 @@ function RootLayoutContent() {
   }, [signOut]);
 
   const checkAuth = useCallback(() => {
-    if (isLoggedIn) {
-      if (onboardingStatus === "complete") {
-        router.replace("/(tabs)")
-      } else {
-        router.replace("/(onboarding)/stepOne");
-      }
-    } else {
-      router.replace("/(auth)/login")
+    if (onboardingStatus !== "complete") {
+      router.replace("/(onboarding)/stepOne");
+      return;
     }
-  }, [isLoggedIn, onboardingStatus])
+
+    if (isLoggedIn) {
+      router.replace("/(tabs)");
+    } else {
+      router.replace("/(auth)/(login)");
+    }
+  }, [isLoggedIn, onboardingStatus]);
 
   // Handle routing based on auth state
   useEffect(() => {
@@ -71,8 +72,10 @@ function RootLayoutContent() {
   }, [fontsLoaded, error]);
 
   if (!fontsLoaded && !error) {
-    return null;
+    return <SessionLoadingScreen />;
   }
+
+  if (isLoading) return <SessionLoadingScreen />;
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
@@ -142,6 +145,21 @@ function RootLayoutContent() {
       />
 
     </Stack>
+  );
+}
+
+function SessionLoadingScreen() {
+  return (
+    <View className="flex-1 items-center justify-center bg-primary px-8">
+      <StatusBar barStyle="light-content" backgroundColor="#2D5A27" />
+      <Text className="text-center text-3xl font-poppinsBold text-white">
+        Ramat Pickup
+      </Text>
+      <ActivityIndicator className="mt-6" size="small" color="#FFFFFF" />
+      <Text className="mt-3 text-center text-white/80">
+        Getting things ready...
+      </Text>
+    </View>
   );
 }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { router } from 'expo-router';
+import { useAuth } from '@/context/AuthContext';
 import ActionButton from './button/ActionButton';
 
 interface OnboardingStructureProps {
@@ -21,6 +22,7 @@ export const OnboardingStructure: React.FC<OnboardingStructureProps> = ({
     imageUrl,
     resizeType
 }) => {
+    const { completeOnboarding } = useAuth();
 
     const onboardingNavigations: { path: any }[] = [
         { path: "/(onboarding)/stepOne" },
@@ -29,10 +31,14 @@ export const OnboardingStructure: React.FC<OnboardingStructureProps> = ({
         { path: "/(auth)/register" }
     ];
 
+    const finishOnboarding = async () => {
+        await completeOnboarding();
+        router.replace('/(tabs)');
+    };
+
     const handleAction = () => {
         if (position === 2) {
-            // await completeOnboarding();
-            router.replace("/(auth)/register");
+            void finishOnboarding();
             return;
         }
         const nextRoute = onboardingNavigations[position + 1]?.path;
@@ -41,10 +47,7 @@ export const OnboardingStructure: React.FC<OnboardingStructureProps> = ({
         }
     };
 
-    const handleSkip = () => {
-        // await completeOnboarding();
-        router.replace("/(auth)/register");
-    };
+    const handleSkip = () => void finishOnboarding();
 
     return (
         <View>

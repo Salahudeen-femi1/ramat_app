@@ -11,10 +11,13 @@ import { registerService } from '@/services/authServices'
 import { Ionicons } from '@expo/vector-icons'
 import { useMutation } from '@tanstack/react-query'
 import { RegisterFormValues, UserProps } from '@/utility/interface'
+import { usePadding } from '@/context/PaddingProvider'
 
 export default function Register() {
 
   const [marketing, setMarketing] = React.useState(true);
+
+  const padding = usePadding()
 
   const mutation = useMutation<
     { message?: string; token?: string; user?: UserProps; role?: string },
@@ -66,7 +69,11 @@ export default function Register() {
           <Text className='text-center text-[17px] w-80 font-medium'>We just need a bit more information. Please enter your details to get started.</Text>
         </View>
 
-        <View className='flex flex-col gap-4 p-3'>
+        <View className='flex flex-col gap-4 p-3'
+           style={{
+        padding: padding.screen
+      }}
+        >
 
           <View className="flex-row gap-3 mb-2">
             <View className="flex-1">
@@ -282,7 +289,6 @@ export default function Register() {
               Privacy Policy
             </Text>
           </Text>
-          <Link href="/(auth)/login" className='text-[#2D5A27] font-semibold text-center mb-10'>Already have an account? Login</Link>
 
         </View>
 

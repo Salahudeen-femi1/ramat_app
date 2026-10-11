@@ -9,7 +9,7 @@ const stepThree = () => {
     title1: "Order. Pay. Pickup",
     subText: "Get you pickup code and collect your freshly prepared meal directly from Ramat pickup",
     imageUrl: image.onboard3,
-    position: 0,
+    position: 2,
   }
 
   return (

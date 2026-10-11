@@ -87,7 +87,7 @@ export default function ProfileScreen() {
           <View className="w-[170px] h-[170px] rounded-full border-[10px] border-[#E8E8E8] items-center justify-center overflow-hidden">
             <Image
               source={{
-                uri: "https://i.pinimg.com/736x/b8/d4/9b/b8d49b88ebb79c9187d82cc8f0fe4e3a.jpg",
+                uri: "https://i.pinimg.com/1200x/97/bb/06/97bb067e30ff6b89f4fbb7b9141025ca.jpg",
               }}
               style={{ width: 250, height:250 }}
               alt={user?.first_name}
@@ -95,13 +95,13 @@ export default function ProfileScreen() {
           </View>
 
           {/* Name */}
-          <Text className="text-primary text-[30px] font-medium uppercase mt-6"
+          <Text className="text-primary text-[20px] font-medium uppercase mt-6"
           >
             {displayName}
           </Text>
 
           {/* Email */}
-          <Text className="text-[#787878] text-[18px] mt-2 font-medium">
+          <Text className="text-[#787878] text-[18px] italic font-medium">
             {displayEmail}
           </Text>
         </View>

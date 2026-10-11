@@ -131,8 +131,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, [refetch]);
 
   const completeOnboarding = useCallback(async () => {
-    if (!user?.id) return;
-
     try {
       await AsyncStorage.setItem(globals.ONBOARDING_STATUS_KEY, "true");
 
@@ -140,7 +138,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (e) {
       console.error("Failed to save onboarding status", e);
     }
-  }, [user]);
+  }, []);
 
   const isLoading = isBootstrapLoading || (!!token && isUserLoading);
 

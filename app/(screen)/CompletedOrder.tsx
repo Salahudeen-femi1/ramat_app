@@ -31,7 +31,9 @@ const CompletedOrder = ({ orders, isLoading, isError }: completeOrderProps) => {
       ) : (
         <FlatList
           data={orders}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item, index) =>
+            String(item.id ?? item._id ?? item.orderId ?? `completed-order-${index}`)
+          }
           renderItem={({ item }) => (
             <View className='flex-row justify-between items-center p-3 border-b border-gray-100 mb-3'>
               <View>

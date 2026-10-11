@@ -28,7 +28,9 @@ export interface MartCardType {
 }
 
 export interface CompletedorderProps {
-  id: number;
+  id?: number | string;
+  _id?: string;
+  orderId?: string;
   label: string;
   ordertag: string;
   date: string;

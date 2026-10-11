@@ -17,7 +17,7 @@ const padding = {
 
   bottom: Platform.select({
     android: 16,
-    ios: 20,
+    ios: 18,
     default: 16,
   }),
 
