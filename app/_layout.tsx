@@ -94,12 +94,12 @@ function RootLayoutContent() {
         options={{ headerShown: false }}
       />
 
-      <Stack.Screen
+      {/* <Stack.Screen
         name="movie/[id]"
         options={{
           headerShown: false,
         }}
-      />
+      /> */}
 
       <Stack.Screen
         name="(screen)/(cart)"

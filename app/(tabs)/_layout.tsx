@@ -9,7 +9,7 @@ const TabIcon = ({ focused, icon, title }: any) => {
         <View style={{ width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center' }}>
             <Ionicons
                 name={icon}
-                size={26}
+                size={22}
                 color={focused ? "#2D5A27" : "#757872"}
             />
 
@@ -17,6 +17,7 @@ const TabIcon = ({ focused, icon, title }: any) => {
                 style={{
                     fontSize: 12,
                     fontWeight: '600',
+                    fontFamily: 'PoppinsLight',
                     color: focused ? '#2D5A27' : '#757872'
                 }}
             >
@@ -66,13 +67,13 @@ const _layout = () => {
             <Tabs.Screen
                 name='Minimart'
                 options={{
-                    title: 'minimart',
+                    title: 'Minimarket',
                     headerShown: false,
                     tabBarIcon: ({ focused }) => (
                         <TabIcon
                             focused={focused}
                             icon='storefront-sharp'
-                            title="Minim"
+                            title="Mini"
                         />
                     )
                 }}
@@ -80,7 +81,7 @@ const _layout = () => {
             <Tabs.Screen
                 name='Order'
                 options={{
-                    title: 'Order',
+                    title: 'Orders',
                     headerShown: false,
                     tabBarIcon: ({ focused }) => (
                         <TabIcon

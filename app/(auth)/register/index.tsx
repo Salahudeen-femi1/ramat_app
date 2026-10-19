@@ -62,7 +62,11 @@ export default function Register() {
     },
   });
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-white"
+    style={{
+      padding: padding.register
+    }}
+    >
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className=' flex-1 items-center text-center p-7'>
           <Text className='text-center font-medium text-3xl mb-3'>Let&apos;s get Started</Text>

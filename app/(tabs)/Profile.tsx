@@ -16,18 +16,18 @@ import Toast from "react-native-toast-message";
 import ConfirmDialog from "../Component/modal/ConfirmDialog";
 import { useAuth } from "@/context/AuthContext";
 
-const menuItems = [
+const profilePage = [
   {
     id: 1,
     title: "Profile Details",
     icon: "person-circle-outline",
-    route: "/pages/ProfileDetails",
+    route: "/(screen)/(profile)",
   },
   {
     id: 2,
     title: "Legal",
     icon: "wallet-outline",
-    route: "/pages/Legal",
+    route: "/(screen)/(legal)",
   }
 ];
 
@@ -95,13 +95,13 @@ export default function ProfileScreen() {
           </View>
 
           {/* Name */}
-          <Text className="text-primary text-[20px] font-medium uppercase mt-6"
+          <Text className="text-primary text-[20px] font-poppinsMedium uppercase mt-6"
           >
             {displayName}
           </Text>
 
           {/* Email */}
-          <Text className="text-[#787878] text-[18px] italic font-medium">
+          <Text className="text-[#787878] text-[18px] italic font-poppinsMedium">
             {displayEmail}
           </Text>
         </View>
@@ -109,7 +109,7 @@ export default function ProfileScreen() {
         {/* White Main Content */}
         <View className="mt-10 px-5 pt-7 pb-10">
 
-          {menuItems.map((item, index) => (
+          {profilePage.map((item, index) => (
             <View key={item.id}>
 
               <TouchableOpacity
@@ -133,7 +133,7 @@ export default function ProfileScreen() {
                   </View>
 
                   {/* Title */}
-                  <Text className="text-18px] text-black font-medium">
+                  <Text className="text-18px] text-black font-poppinsMedium">
                     {item.title}
                   </Text>
                 </View>
@@ -145,7 +145,7 @@ export default function ProfileScreen() {
                 />
               </TouchableOpacity>
 
-              {index !== menuItems.length - 1 && (
+              {index !== profilePage.length - 1 && (
                 <View className="h-[1px] bg-[#ECECE7]" />
               )}
             </View>
@@ -167,7 +167,7 @@ export default function ProfileScreen() {
               />
             </View>
 
-            <Text className="text-[#C62828] text-[18px] font-semibold">
+            <Text className="text-[#C62828] text-[18px] font-poppinsMedium">
               Logout
             </Text>
           </TouchableOpacity>

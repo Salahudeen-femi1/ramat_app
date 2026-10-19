@@ -18,7 +18,7 @@ export default function SettingsPagesLayout() {
     >
       <Stack.Screen
         name="index"
-        options={{ title: "Profile" }}
+        options={{ title: "Profile Details" }}
       ></Stack.Screen>
     </Stack>
   );

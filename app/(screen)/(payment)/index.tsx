@@ -13,7 +13,7 @@ export default function PaymentMethod() {
     const paymentMutation = usePayment()
     const { cartItems } = useCart()
 
-    const paymentURL ="" 
+    // const paymentURL ="" 
 
     const totalAmount = cartItems.reduce((total, item) => {
         const itemPrice = Number(String(item.price).replace(/,/g, "")) || 0
@@ -122,7 +122,10 @@ export default function PaymentMethod() {
             <Pressable
                 onPress={initializePayment}
                 disabled={orderMutation.isPending || paymentMutation.isPending}
-                className="bg-primary rounded-md items-center justify-center text-white font-semibold h-14 mt-6">
+                className={`bg-primary rounded-md items-center justify-center h-14 mt-6 ${orderMutation.isPending || paymentMutation.isPending
+                        ? "opacity-60"
+                        : ""
+                    }`}>
 
                 <Text className="text-white font-semibold text-base">
                     {orderMutation.isPending || paymentMutation.isPending ? "Processing" : "Place Order"}

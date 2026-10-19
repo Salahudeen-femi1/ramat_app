@@ -175,7 +175,7 @@ export default function Index() {
         <TouchableOpacity
           onPress={() => router.push('/(screen)/(cart)')}
           activeOpacity={0.85}
-          className="absolute bottom-4 left-4 right-4 mx-4 rounded-xl bg-primary px-4 py-3 flex-row items-center justify-between"
+          className="absolute bottom-4 left-4 right-2 mx-4 rounded-t-2xl bg-primary px-4 py-3 flex-row items-center justify-between"
         >
           <View>
             <Text className="text-white font-semibold">Proceed to order</Text>

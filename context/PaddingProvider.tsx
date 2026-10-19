@@ -5,7 +5,13 @@ import { Platform } from "react-native";
 const padding = {
   screen: Platform.select({
     android: 16,
-    ios: 16,
+    ios: 3,
+    default: 16,
+  }),
+
+  register: Platform.select({
+    android: 16,
+    ios: 10,
     default: 16,
   }),
 

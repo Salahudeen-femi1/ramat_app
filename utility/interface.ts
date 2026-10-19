@@ -76,6 +76,7 @@ export type UserProps =  {
     message: string;
     role: string;
     user: string;
+    gender?: string; 
 }
 
 export interface OngoingOrderProps {
