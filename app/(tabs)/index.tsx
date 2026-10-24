@@ -14,6 +14,7 @@ import FoodCard from "../Component/card/FoodCard";
 import SearchBar from "../Component/search/SearchBar";
 import { image } from "../constants/image";
 import { usePadding } from "@/context/PaddingProvider";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const promoImages = [
   {
@@ -74,12 +75,21 @@ export default function Index() {
     )
   }
 
+  const handleResetOnboarding = async () => {
+    try {
+      await AsyncStorage.clear();
+      router.replace("/(onboarding)/stepOne");
+    } catch (error) {
+      console.error("Failed to clear AsyncStorage:", error);
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-white relative">
       <View
-      style={{
-        padding: padding.screen
-      }}
+        style={{
+          padding: padding.screen
+        }}
       >
         {/* FIXED HEADER */}
         <View className="px-4 pt-4 pb-3 flex-row justify-between items-center">
@@ -119,6 +129,9 @@ export default function Index() {
           <Text className="text-xl font-poppinsMedium">
             Welcome, {user?.first_name}
           </Text>
+          <Pressable onPress={handleResetOnboarding}>
+            <Text className="text-blue-500 underline">Onboarding</Text>
+          </Pressable>
 
           <Text className="text-sm text-gray-500 font-poppinsRegular">
             What would you like to eat today?

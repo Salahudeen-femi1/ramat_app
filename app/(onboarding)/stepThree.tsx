@@ -1,22 +1,21 @@
 import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { OnboardingStructure } from '../Component/OnboardingStructure'
 import { image } from '../constants/image'
 
 const stepThree = () => {
 
   const details = {
-    title1: "Order. Pay. Pickup",
-    subText: "Get you pickup code and collect your freshly prepared meal directly from Ramat pickup",
+    title1: "Order. Pay.",
+    title2: "Pick Up.",
+    subText: "Get your pickup code and collect your freshly prepared meal at Ramat Pickup.",
     imageUrl: image.onboard3,
     position: 2,
+    resizeType: "cover",
+    badgeTitle: "Pickup ready",
+    badgeSubtitle: "Collect your order",
   }
 
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <OnboardingStructure {...details} />
-    </SafeAreaView>
-  )
+  return <OnboardingStructure {...details} />
 }
 
 export default stepThree;

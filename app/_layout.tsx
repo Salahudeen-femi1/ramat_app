@@ -39,10 +39,10 @@ function RootLayoutContent() {
       router.replace("/(onboarding)/stepOne");
       return;
     }
-
     if (isLoggedIn) {
       router.replace("/(tabs)");
-    } else {
+    }
+    else {
       router.replace("/(auth)/(login)");
     }
   }, [isLoggedIn, onboardingStatus]);
@@ -93,13 +93,6 @@ function RootLayoutContent() {
         name="(onboarding)"
         options={{ headerShown: false }}
       />
-
-      {/* <Stack.Screen
-        name="movie/[id]"
-        options={{
-          headerShown: false,
-        }}
-      /> */}
 
       <Stack.Screen
         name="(screen)/(cart)"

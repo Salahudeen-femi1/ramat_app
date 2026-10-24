@@ -1,5 +1,4 @@
 import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { OnboardingStructure } from '../Component/OnboardingStructure'
 import { image } from '../constants/image'
 
@@ -7,17 +6,16 @@ const stepOne = () => {
 
   const details = {
     title1: "Your Favorite Meals",
-    title2: "One Tap away.",
-    subText: "Explore delicious food from Ramat Pickup and find exactly what you're craving without waiting in line.",
+    title2: "One Tap Away",
+    subText: "Discover delicious meals from Ramat Pickup and find something you'll love, without waiting in line.",
     imageUrl: image.onboard1,
     position: 0,
+    resizeType: "cover",
+    badgeTitle: "Skip the queue",
+    badgeSubtitle: "Walk in, collect",
   }
 
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <OnboardingStructure {...details} />
-    </SafeAreaView>
-  )
+  return <OnboardingStructure {...details} />
 }
 
 export default stepOne
