@@ -75,10 +75,10 @@ export default function MartCard({ id, _id, name, title, description, price, ima
 
             <View className="flex-row justify-between mx-5 border-b border-gray-100 px-4 py-4">
                 <View className="flex-1 pr-4">
-                    <Text className="font-semibold text-[16px] font-poppinsMedium">{name}</Text>
-                    <Text className="text-gray-500 mt-1 font-poppinsLight">{description}</Text>
+                    <Text className="font-semibold text-[17px] font-poppinsMedium">{name}</Text>
+                    <Text className="text-gray-500 mt-1 font-poppinsMedium">{description}</Text>
 
-                    <Text className="font-bold text-primary mt-3 font-poppinsExtraBold">
+                    <Text className="font-bold text-primary mt-2 font-poppinsBold">
                         ₦{price}
                     </Text>
                 </View>

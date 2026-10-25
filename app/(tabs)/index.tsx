@@ -93,26 +93,29 @@ export default function Index() {
       >
         {/* FIXED HEADER */}
         <View className="px-4 pt-4 pb-3 flex-row justify-between items-center">
-          <View className="flex-row items-center gap-1 bg-gray-100 w-40 px-4 py-2 rounded-md">
-            <Ionicons name="location-outline" size={22} color="#2D5A27" />
+          <View className="flex-row items-center gap-1 bg-gray-100 w-40 px-4 py-2 rounded-full ">
+            <Ionicons name="location" size={22} color="#2D5A27" />
 
-            <Text className="text-sm font-poppinsRegular">Saki west...</Text>
+            <Text className="text-lg font-poppinsMedium">Saki west...</Text>
           </View>
 
           <View className="flex-row items-center gap-4">
 
-            <Pressable onPress={() => setSearchModal(true)} className="mr-2">
-              <Ionicons name="search-outline" size={24} color="#2D5A27" />
+            <Pressable onPress={() => setSearchModal(true)} className="mr-1 w-20 h-20 p-2 rounded-full bg-gray-100 items-center justify-center">
+              <Ionicons name="search" size={24} color="#2D5A27" />
             </Pressable>
 
-            <Ionicons name="scan-outline" size={26} color="#2D5A27" />
+            <Pressable onPress={() => setSearchModal(true)} className="mr-1 w-20 h-20 p-2 rounded-full bg-gray-100 items-center justify-center">
+            <Ionicons name="scan" size={26} color="#2D5A27" />
+            </Pressable>
 
             <TouchableOpacity
               onPress={() => router.push('/(screen)/(cart)')}
               activeOpacity={0.8}
+              className="mr-1 w-20 h-20 p-2 rounded-full bg-gray-100 items-center justify-center"
             >
               <View className="relative">
-                <Ionicons name="cart-outline" size={26} color="#2D5A27" />
+                <Ionicons name="cart" size={26} color="#2D5A27" />
                 {cartCount > 0 && (
                   <View className="absolute -top-2 -right-2 min-w-5 h-5 rounded-full bg-red-500 items-center justify-center px-1">
                     <Text className="text-[10px] text-white font-bold">{cartCount}</Text>
@@ -129,9 +132,9 @@ export default function Index() {
           <Text className="text-xl font-poppinsMedium">
             Welcome, {user?.first_name}
           </Text>
-          <Pressable onPress={handleResetOnboarding}>
+          {/* <Pressable onPress={handleResetOnboarding}>
             <Text className="text-blue-500 underline">Onboarding</Text>
-          </Pressable>
+          </Pressable> */}
 
           <Text className="text-sm text-gray-500 font-poppinsRegular">
             What would you like to eat today?
@@ -145,7 +148,7 @@ export default function Index() {
               <TouchableOpacity
                 key={tab}
                 onPress={() => setActiveTab(tab)}
-                className={`px-4 py-2 rounded-md mr-2 ${activeTab === tab ? 'bg-[#2D5A27] text-white' : 'bg-gray-100'
+                className={`px-4 py-2 font-poppinsMedium rounded-full mr-2 ${activeTab === tab ? 'bg-primary text-white' : 'bg-gray-100'
                   }`}
               >
                 <Text className={activeTab === tab ? 'text-white' : 'text-black'}>{tab}</Text>
@@ -188,7 +191,7 @@ export default function Index() {
         <TouchableOpacity
           onPress={() => router.push('/(screen)/(cart)')}
           activeOpacity={0.85}
-          className="absolute bottom-4 left-4 right-2 mx-4 rounded-t-2xl bg-primary px-4 py-3 flex-row items-center justify-between"
+          className="absolute bottom-4 left-4 right-2 rounded-t-2xl bg-primary px-4 py-3 flex-row items-center justify-between"
         >
           <View>
             <Text className="text-white font-semibold">Proceed to order</Text>

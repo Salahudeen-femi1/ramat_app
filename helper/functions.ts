@@ -12,7 +12,7 @@ export const useAuthCheck = () => {
         }
         return "authenticated"
     } else {
-        router.replace("/(auth)/login")
+        router.replace("/(auth)/(login)")
         return "unauthenticated"
     }
 }

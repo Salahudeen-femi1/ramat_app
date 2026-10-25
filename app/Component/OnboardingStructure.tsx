@@ -120,7 +120,7 @@ export const OnboardingStructure: React.FC<
                     </View>
 
                     {/* Floating freshness badge */}
-                    {badgeTitle && (
+                    {/* {badgeTitle && (
                         <View style={styles.badgeCard}>
                             <View style={styles.badgeIconWrap}>
                                 <Ionicons
@@ -140,7 +140,7 @@ export const OnboardingStructure: React.FC<
                                 </Text>
                             </View>
                         </View>
-                    )}
+                    )} */}
                 </View>
 
                 {/* Overlapping bottom content panel */}
@@ -459,9 +459,10 @@ const styles = StyleSheet.create({
         paddingLeft: 27,
         paddingVertical: 10,
         paddingRight: 8,
-        marginTop: 8,
+        marginTop: 40,
         elevation: 4,
         shadowOpacity: 0.08,
+        shadowColor: '#000000',
         shadowRadius: 10,
         shadowOffset: { width: 0, height: 4 },
     },

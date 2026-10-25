@@ -18,7 +18,9 @@ const TabIcon = ({ focused, icon, title }: any) => {
                     fontSize: 12,
                     fontWeight: '600',
                     fontFamily: 'PoppinsLight',
-                    color: focused ? '#2D5A27' : '#757872'
+                    color: focused ? '#2D5A27' : '#757872',
+                    width: '150%',
+                    textAlign: 'center',
                 }}
             >
                 {title}
@@ -73,7 +75,7 @@ const _layout = () => {
                         <TabIcon
                             focused={focused}
                             icon='storefront-sharp'
-                            title="Mini"
+                            title="Minimart"
                         />
                     )
                 }}

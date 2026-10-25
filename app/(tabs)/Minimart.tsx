@@ -86,17 +86,21 @@ const Minimart = () => {
         <View className="flex-row items-center gap-4">
           <Pressable
             onPress={() => setSearchModal(true)}
-            className="mr-2">
-            <Ionicons name="search-outline" size={24} color="#2D5A27" />
+            className="mr-1 w-20 h-20 p-2 rounded-full bg-gray-100 items-center justify-center">
+            <Ionicons name="search" size={24} color="#2D5A27" />
           </Pressable>
 
-          <Ionicons name="scan-outline" size={26} color="#2D5A27" />
+          <Pressable
+            className="mr-1 w-20 h-20 p-2 rounded-full bg-gray-100 items-center justify-center">
+            <Ionicons name="scan" size={26} color="#2D5A27" />
+          </Pressable>
 
           <TouchableOpacity
             onPress={() => router.push('/(screen)/(cart)')}
             activeOpacity={0.8}
+            className="w-20 h-20 p-2 rounded-full bg-gray-100 items-center justify-center"
           >
-            <Ionicons name="cart-outline" size={26} color="#2D5A27" />
+            <Ionicons name="cart" size={26} color="#2D5A27" />
           </TouchableOpacity>
         </View>
       </View>
@@ -108,7 +112,7 @@ const Minimart = () => {
             <TouchableOpacity
               key={tab}
               onPress={() => setActiveTab(tab)}
-              className={`px-4 py-2 rounded-md mr-2 font-poppinsRegular ${activeTab === tab ? 'bg-[#2D5A27] text-white' : 'bg-gray-100'
+              className={`px-4 py-2 rounded-full mr-2 font-poppinsMMedium ${activeTab === tab ? 'bg-[#2D5A27] text-white' : 'bg-gray-100'
                 }`}
             >
               <Text className={activeTab === tab ? 'text-white' : 'text-black'}>{tab}</Text>

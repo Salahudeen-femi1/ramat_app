@@ -31,7 +31,7 @@ export default function Register() {
         data.message || `${<p className='text-xs'>Registration successful. Please verify your email.</p>}`
       );
       console.log("register response", data);
-      router.push("/(auth)/login");
+      router.push("/(auth)/(login)");
     },                                        
     onError: (err: any) => {
       console.log("full err", err)

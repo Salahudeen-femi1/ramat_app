@@ -14,14 +14,14 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 const EmailVerification = () => {
 
     const { email } = useLocalSearchParams<{ email: string }>()
-    const inputRef = useRef<TextInput>(null)
+    const inputRef = useRef<any>(null)
 
     const mutation = useMutation({
         mutationFn: verificationEmailService,
         onSuccess: (data) => {
             console.log(data)
             showSuccessToast(data.message || "Email verified successfully. Please login.");
-            router.replace("/(auth)/login");
+            router.replace("/(auth)/(login)");
         },
         onError: (error: any) => {
             showErrorToast(error.response?.data?.message || "Verification failed. Invalid code.");
