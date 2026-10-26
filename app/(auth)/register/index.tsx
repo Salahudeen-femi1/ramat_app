@@ -3,7 +3,7 @@ import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { Link, router } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
 import ActionButton from '@/app/Component/button/ActionButton'
 import { showErrorToast, showSuccessToast } from '@/helper/toast'
@@ -32,7 +32,7 @@ export default function Register() {
       );
       console.log("register response", data);
       router.push("/(auth)/(login)");
-    },                                        
+    },
     onError: (err: any) => {
       console.log("full err", err)
       const errMessage = err.response?.data?.message || err.message || 'Registration failed. Please try again.';
@@ -63,9 +63,9 @@ export default function Register() {
   });
   return (
     <SafeAreaView className="flex-1 bg-white"
-    style={{
-      padding: padding.register
-    }}
+      style={{
+        padding: padding.register
+      }}
     >
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className=' flex-1 items-center text-center p-7'>
@@ -74,9 +74,9 @@ export default function Register() {
         </View>
 
         <View className='flex flex-col gap-4 p-3'
-           style={{
-        padding: padding.screen
-      }}
+          style={{
+            padding: padding.screen
+          }}
         >
 
           <View className="flex-row gap-3 mb-2">
@@ -285,11 +285,17 @@ export default function Register() {
 
           <Text className="text-center text-gray-400 leading-7 mb-10">
             By signing up, you agree to our{" "}
-            <Text className="text-[#0B6E4F] font-semibold">
+            <Text
+              onPress={() => router.push("/(screen)/(termOfUSe)")}
+              className="text-[#0B6E4F] font-semibold"
+            >
               Terms of Use
-            </Text>{" "}
-            and{" "}
-            <Text className="text-[#0B6E4F] font-semibold">
+            </Text>
+            {" "}and{" "}
+            <Text
+              onPress={() => router.push("/(screen)/(privacyPolicy)")}
+              className="text-[#0B6E4F] font-semibold"
+            >
               Privacy Policy
             </Text>
           </Text>

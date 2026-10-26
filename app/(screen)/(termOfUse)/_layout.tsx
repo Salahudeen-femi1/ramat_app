@@ -18,7 +18,7 @@ export default function SettingsPagesLayout() {
     >
       <Stack.Screen
         name="index"
-        options={{ title: "Terms of use" }}
+        options={{ title: "Terms of Use" }}
       ></Stack.Screen>
     </Stack>
   );
