@@ -77,10 +77,10 @@ const ConfirmDialog = ({
             transform: [{ scale }],
           }}
         >
-          <Text className="text-xl font-semibold mb-4 text-center">{title}</Text>
+          <Text className="text-xl font-poppinsSemiBold mb-4 text-center">{title}</Text>
           <View className="mb-6">
             {typeof message === "string" ? (
-              <Text className="text-pryClr text-center">{message}</Text>
+              <Text className="text-primary font-poppinsMedium text-center">{message}</Text>
             ) : (
               message
             )}
@@ -92,12 +92,12 @@ const ConfirmDialog = ({
                 className="w-full md:w-1/2 h-[50px] rounded-lg flex justify-center items-center font-medium disabled:opacity-50"
                 disabled={isLoading}
               >
-                <Text className="text-gray-600">{cancelText}</Text>
+                <Text className="text-gray-600 font-poppinsRegular">{cancelText}</Text>
               </TouchableOpacity>
             )}
             <TouchableOpacity
               onPress={onConfirm}
-              className="w-full md:w-1/2 h-[50px] bg-red-600 text-medium flex justify-center items-center rounded-lg disabled:opacity-50"
+              className="w-full md:w-1/2 h-[50px] bg-red-600 text-medium flex justify-center items-center rounded-lg font-poppinsRegular disabled:opacity-50"
               disabled={isLoading}
             >
               <Text className="text-white">

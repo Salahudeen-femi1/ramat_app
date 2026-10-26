@@ -110,7 +110,7 @@ export default function Index() {
             </Pressable>
 
             <TouchableOpacity
-              onPress={() => router.push('/(screen)/(cart)')}
+              onPress={() => router.push('/(screen)/(cartc)')}
               activeOpacity={0.8}
               className="mr-1 w-19 h-19 p-2 rounded-full bg-gray-100 items-center justify-center"
             >

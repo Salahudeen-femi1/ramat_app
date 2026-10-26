@@ -283,8 +283,11 @@ export default function Login() {
 
           <View style={styles.footer}>
             <Text style={styles.footerText}>New to Ramat Pickup?</Text>
-            <Pressable accessibilityRole="button" onPress={() => { }} style={styles.createHit}>
-              <Text style={styles.createText}>Create account</Text>
+            <Pressable accessibilityRole="button" onPress={() => router.push("/(auth)/register")} style={styles.createHit}>
+              <Text 
+              className='font-poppinsMedium'
+              style={styles.createText}
+              >Create account</Text>
             </Pressable>
           </View>
         </ScrollView>
@@ -371,7 +374,7 @@ const styles = StyleSheet.create({
   sheetWrap: { position: 'absolute', left: 0, right: 0, top: 262, bottom: 0, zIndex: 1, elevation: 12 },
   sheet: {
     flex: 1,
-    backgroundColor: C.background,
+    backgroundColor: "white",
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     shadowColor: '#0A1808',
@@ -445,7 +448,7 @@ const styles = StyleSheet.create({
   socialText: { fontFamily: F.semibold, fontSize: 14.5, color: C.text },
 
   footer: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 8, gap: 2 },
-  footerText: { fontFamily: F.regular, fontSize: 14, color: C.muted },
+  footerText: { fontFamily: "poppinsRegular", fontSize: 14, color: C.muted },
   createHit: { height: 44, justifyContent: 'center', paddingHorizontal: 4 },
-  createText: { fontFamily: F.bold, fontSize: 14, color: C.primary },
+  createText: { fontSize: 14, color: C.primary },
 });

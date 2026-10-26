@@ -7,6 +7,7 @@ import { router } from "expo-router";
 import React from "react";
 import {
   Image,
+  Pressable,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -34,20 +35,19 @@ const profilePage = [
 export default function ProfileScreen() {
   const { user, signOut } = useAuth();
   const [openModal, setOpenModal] = React.useState(false);
+  const [opemDeleteModal, setOpenDeleteModal] = React.useState(false)
 
   const handleMenuPress = (route: string) => {
-    Toast.show({
-      type: "success",
-      text1: "Opening",
-      text2: `Navigating to ${route}`,
-    });
-
     router.push(route as any);
   };
 
   const handleLogout = () => {
     setOpenModal(true);
   };
+
+  const handleDeleteAccount = () => {
+    setOpenDeleteModal(true)
+  }
 
   const handleEditProfile = () => {
     Toast.show({
@@ -68,6 +68,10 @@ export default function ProfileScreen() {
       Toast.show({ type: 'error', text1: 'Error', text2: 'Failed to logout' });
     }
   };
+
+  const handleConfirmDelete = () => {
+
+  }
 
   const displayName = user ? `${user.first_name} ${user.last_name}` : "User";
   const displayEmail = user?.email || "user@example.com";
@@ -113,7 +117,7 @@ export default function ProfileScreen() {
         </View>
 
         {/* White Main Content */}
-        <View className="mx-5 my-10 rounded-[30px] p-7 bg-gray-100 ">
+        <View className="mx-5 my-10 rounded-[30px] p-4 bg-gray-100 ">
 
           {profilePage.map((item, index) => (
             <View key={item.id}>
@@ -129,7 +133,7 @@ export default function ProfileScreen() {
                 <View className="flex-row items-center gap-5">
 
                   {/* Icon Circle */}
-                  <View className="w-16 h-16 rounded-full bg-[#EEF1E8] items-center justify-center">
+                  <View className="w-16 h-16 rounded-full bg-white items-center justify-center">
 
                     <Ionicons
                       name={item.icon as any}
@@ -176,8 +180,24 @@ export default function ProfileScreen() {
             <Text className="text-[#C62828] text-[18px] font-poppinsMedium">
               Logout
             </Text>
+
           </TouchableOpacity>
         </View>
+
+        <Pressable
+        onPress={handleDeleteAccount}
+        className="flex-row items-center justify-center"
+        >
+          <Ionicons
+            name="trash-outline"
+            size={18}
+            color="#14532D"
+          />
+
+          <Text className="text-black text-[13px] font-poppinsMedium">
+            Delete Account
+          </Text>
+        </Pressable>
       </ScrollView>
 
       <ConfirmDialog
@@ -188,6 +208,17 @@ export default function ProfileScreen() {
         cancelText="Cancel"
         onCancel={() => setOpenModal(false)}
         onConfirm={handleConfirmLogout}
+        isLoading={false}
+      />
+
+      <ConfirmDialog
+        isOpen={opemDeleteModal}
+        title="Are you sure you want to delete your Account?"
+        message="This action cannot be undone."
+        confirmText="Yes, Confirm"
+        cancelText="Cancel"
+        onCancel={() => setOpenDeleteModal(false)}
+        onConfirm={handleConfirmDelete}
         isLoading={false}
       />
 
