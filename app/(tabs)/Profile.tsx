@@ -81,33 +81,39 @@ export default function ProfileScreen() {
       >
 
         {/* Profile Section */}
-        <View className="items-center pt-28">
+        <View className="items-center pt-28 bg-primary rounded-b-[50px] h-[350px] relative overflow-hidden">
 
           {/* Avatar */}
-          <View className="w-[170px] h-[170px] rounded-full border-[10px] border-[#E8E8E8] items-center justify-center overflow-hidden">
+          <View className="w-[150px] h-[150px] rounded-full border-[10px] border-[#E8E8E8] items-center justify-center fixed z-10 overflow-hidden">
             <Image
               source={{
                 uri: "https://i.pinimg.com/1200x/97/bb/06/97bb067e30ff6b89f4fbb7b9141025ca.jpg",
               }}
-              style={{ width: 250, height:250 }}
+              style={{ width: 150, height: 150 }}
               alt={user?.first_name}
             />
           </View>
 
+          <View className="bg-white/10 h-60 w-60 rounded-full absolute -left-20 top-3" />
+          <View className="bg-white/10 h-60 w-60 rounded-full absolute -right-10 bottom-0" />
           {/* Name */}
-          <Text className="text-primary text-[20px] font-poppinsMedium uppercase mt-6"
+          <Text className="text-white text-[25px] font-poppinsMedium uppercase mt-3"
           >
             {displayName}
           </Text>
 
           {/* Email */}
-          <Text className="text-[#787878] text-[18px] italic font-poppinsMedium">
-            {displayEmail}
-          </Text>
+          <View className="flex-row items-center gap-2 px-6 py-2 rounded-full bg-white/20 mt-1">
+            <Ionicons name="mail-outline" size={22} color="white" />
+            <Text className="text-white text-[18px] font-poppinsMedium">
+              {displayEmail}
+            </Text>
+          </View>
+
         </View>
 
         {/* White Main Content */}
-        <View className="mt-10 px-5 pt-7 pb-10">
+        <View className="mx-5 my-10 rounded-[30px] p-7 bg-gray-100 ">
 
           {profilePage.map((item, index) => (
             <View key={item.id}>

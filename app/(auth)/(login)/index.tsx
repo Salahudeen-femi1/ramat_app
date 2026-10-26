@@ -36,6 +36,7 @@ export default function Login() {
   const { height } = useWindowDimensions()
   const { signIn } = useAuth()
   const padding = usePadding()
+  const pinInputRef = useRef<TextInput>(null)
 
   const mutation = useMutation<
     { token: string; user: { role: string } },
@@ -194,7 +195,13 @@ export default function Login() {
                 placeholder="Email address"
                 placeholderTextColor={C.placeholder}
                 keyboardType="email-address"
+                textContentType="emailAddress"
+                autoComplete="email"
                 autoCapitalize="none"
+                autoCorrect={false}
+                spellCheck={false}
+                returnKeyType="next"
+                onSubmitEditing={() => pinInputRef.current?.focus()}
                 value={formik.values.email}
                 onChangeText={formik.handleChange('email')}
                 onBlur={(event) => {
@@ -212,6 +219,7 @@ export default function Login() {
             <View style={fieldStyle('pin')}>
               <Ionicons name="lock-closed-outline" size={20} color={C.subtle} />
               <TextInput
+                ref={pinInputRef}
                 style={styles.input}
                 placeholder="PIN"
                 placeholderTextColor={C.placeholder}

@@ -99,20 +99,20 @@ export default function Index() {
             <Text className="text-lg font-poppinsMedium">Saki west...</Text>
           </View>
 
-          <View className="flex-row items-center gap-4">
+          <View className="flex-row items-center gap-2">
 
-            <Pressable onPress={() => setSearchModal(true)} className="mr-1 w-20 h-20 p-2 rounded-full bg-gray-100 items-center justify-center">
+            <Pressable onPress={() => setSearchModal(true)} className="mr-1 w-19 h-19 p-2 rounded-full bg-gray-100 items-center justify-center">
               <Ionicons name="search" size={24} color="#2D5A27" />
             </Pressable>
 
-            <Pressable onPress={() => setSearchModal(true)} className="mr-1 w-20 h-20 p-2 rounded-full bg-gray-100 items-center justify-center">
+            <Pressable onPress={() => setSearchModal(true)} className="mr-1 w-19 h-19 p-2 rounded-full bg-gray-100 items-center justify-center">
             <Ionicons name="scan" size={26} color="#2D5A27" />
             </Pressable>
 
             <TouchableOpacity
               onPress={() => router.push('/(screen)/(cart)')}
               activeOpacity={0.8}
-              className="mr-1 w-20 h-20 p-2 rounded-full bg-gray-100 items-center justify-center"
+              className="mr-1 w-19 h-19 p-2 rounded-full bg-gray-100 items-center justify-center"
             >
               <View className="relative">
                 <Ionicons name="cart" size={26} color="#2D5A27" />

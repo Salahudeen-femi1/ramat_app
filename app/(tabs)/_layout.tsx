@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons'
 
 const TabIcon = ({ focused, icon, title }: any) => {
     return (
-        <View style={{ width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
             <Ionicons
                 name={icon}
                 size={22}
@@ -74,7 +74,7 @@ const _layout = () => {
                     tabBarIcon: ({ focused }) => (
                         <TabIcon
                             focused={focused}
-                            icon='storefront-sharp'
+                            icon='storefront-outline'
                             title="Minimart"
                         />
                     )
@@ -88,7 +88,7 @@ const _layout = () => {
                     tabBarIcon: ({ focused }) => (
                         <TabIcon
                             focused={focused}
-                            icon='cart'
+                            icon='cart-outline'
                             title="Order"
                         />
                     )
@@ -102,8 +102,8 @@ const _layout = () => {
                     tabBarIcon: ({ focused }) => (
                         <TabIcon
                             focused={focused}
-                            icon='person'
-                            title="Profil"
+                            icon='person-outline'
+                            title="Profile"
                         />
                     )
                 }}
