@@ -1,6 +1,5 @@
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -11,46 +10,46 @@ const Legal = () => {
       id: 1,
       title: "Privacy Policy",
       icon: "lock-closed-outline",
-      route: "/(screen)/(privacyPolicy)",
+      route: "/(screen)/(legal)/(pages)/PrivacyPolicyScreen",
     },
     {
       id: 2,
-      title: "TermsOfUse",
+      title: "Terms of Use",
       icon: "bulb-outline",
-      route: "/(screen)/(termOfUse)",
+      route: "/(screen)/(legal)/(pages)/TermOfUse",
     },
     {
-      id: 2,
+      id: 3,
       title: "Help Center",
       icon: "help-circle-outline",
-      route: "/(screen)/(helpCenter)",
+      route: "/(screen)/(legal)/(pages)/HelpCenterScreen",
     },
     {
-      id: 2,
-      title: "Contact Suport",
+      id: 4,
+      title: "Contact Support",
       icon: "chatbubbles-outline",
-      route: "/(screen)/(contactSupport)",
+      route: "/(screen)/(legal)/(pages)/ContactSupportScreen",
+    },
+    {
+      id: 5,
+      title: "Rate Our App",
+      icon: "star-outline",
+      route: "/(screen)/(legal)/(pages)/RateScreen",
     }
-  ];
-
-  const handleMenuPress = (route: string) => {
-    router.push(route as any);
-  };
+  ] as const;
 
   return (
     <View className="flex-1 bg-white">
       <ScrollView
       showsVerticalScrollIndicator={false}
-      className="bg-red-700 p-3">
+      className="bg-white p-3">
 
         {legalPage.map((item, index) => (
           <View key={item.id}>
 
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={() =>
-                handleMenuPress(item.route)
-              }
+              onPress={() => router.push(item.route)}
               className="flex-row items-center justify-between py-6"
             >
 

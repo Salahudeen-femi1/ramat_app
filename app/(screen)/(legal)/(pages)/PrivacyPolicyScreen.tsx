@@ -13,7 +13,7 @@ interface PolicyProps {
   subsections?: SubSection[];
 }
 
-const index = () => {
+const PrivacyPolicyScreen = () => {
 
   const policies: PolicyProps[] = [
     {
@@ -468,4 +468,4 @@ const index = () => {
   )
 }
 
-export default index
+export default PrivacyPolicyScreen;

@@ -20,6 +20,10 @@ export default function SettingsPagesLayout() {
         name="index"
         options={{ title: "Legal" }}
       ></Stack.Screen>
+      <Stack.Screen
+        name="(pages)"
+        options={{ headerShown: false }}
+      ></Stack.Screen>
     </Stack>
   );
 }

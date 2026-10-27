@@ -110,7 +110,7 @@ export default function Index() {
             </Pressable>
 
             <TouchableOpacity
-              onPress={() => router.push('/(screen)/(cartc)')}
+              onPress={() => router.push('/(screen)/(cart)')}
               activeOpacity={0.8}
               className="mr-1 w-19 h-19 p-2 rounded-full bg-gray-100 items-center justify-center"
             >
@@ -132,9 +132,9 @@ export default function Index() {
           <Text className="text-xl font-poppinsMedium">
             Welcome, {user?.first_name}
           </Text>
-          {/* <Pressable onPress={handleResetOnboarding}>
+          <Pressable onPress={handleResetOnboarding}>
             <Text className="text-blue-500 underline">Onboarding</Text>
-          </Pressable> */}
+          </Pressable>
 
           <Text className="text-sm text-gray-500 font-poppinsRegular">
             What would you like to eat today?
